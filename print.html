@@ -1,0 +1,794 @@
+<!DOCTYPE HTML>
+<html lang="hu" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Prog2_Jegyzet</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">1.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">2.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">3.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">4.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">5.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">6.</strong> Osztályok, RAII</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Prog2_Jegyzet</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="alapvető-különbségek-a-c-nyelvtől"><a class="header" href="#alapvető-különbségek-a-c-nyelvtől">Alapvető különbségek a C nyelvtől</a></h1>
+<h2 id="a-bool-mint-nyelvi-elem"><a class="header" href="#a-bool-mint-nyelvi-elem">A <code>bool</code>, mint nyelvi elem</a></h2>
+<p>A <code>bool</code> típus, habár a C nyelv újabb verzióiban nyelvi elemként szerepel, a Prog1 még nem tanítja. A C++ nyelvnek szerencsére része a <code>bool</code> típus, nem kell ehhez a legújabb verziókat használni.</p>
+<pre><code class="language-cpp">bool x = true; //nem kell semmilyen include
+</code></pre>
+<h2 id="struktúra-és-typedef"><a class="header" href="#struktúra-és-typedef">Struktúra és typedef</a></h2>
+<p>A C nyelvben a struktúrák önmagukban nem, csak a <code>struct</code> előtaggal voltak egyéni típusnevek. Ez C++ -ban másképp van, itt a struktúra neve <code>typedef</code> nélkül is egyéni típusnév.</p>
+<pre><code class="language-cpp">struct foo{
+    int a;
+};
+
+int main(){
+    foo f;
+    f.a = 5;
+}
+</code></pre>
+<h2 id="c-standard-library-headerek"><a class="header" href="#c-standard-library-headerek">C Standard Library headerek</a></h2>
+<p>A C standard library header-jei a C++ nyelvben is léteznek, viszont a <code>.h</code> kiterjesztést elvesztették, és egy <code>c</code> előtagot kaptak. Pl.</p>
+<pre><code>#include &lt;stdio.h&gt; -&gt; #include &lt;cstdio&gt;
+</code></pre>
+<h2 id="névtereknamespace"><a class="header" href="#névtereknamespace">Névterek(namespace)</a></h2>
+<p>C-ben gyakori az, hogy egy név már használva van például egy header file-ban ezért bárhol, ahol ez a header include-olva van, ez a név "foglalt" lesz. Ezt sok könyvtár a név prefixelésével oldja meg, pl. <code>SDL_Texture</code>.</p>
+<p>Erre a C++ -nak beépített nyelvi eleme van, ezek pedig a névterek.</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+
+namespace foo{
+    void f(){
+        std::printf("foo");
+    }
+
+    namespace bar{
+        void f(){
+            std::printf("bar");
+        }
+    }
+}
+
+int main(){
+    foo::f();
+    foo::bar::f();
+}
+</code></pre>
+<p>A névtereken belüli neveket a <code>::</code> operátorral érhetjük el. A <code>printf</code> előtti <code>std</code> névtér a standard library névtere, ez tartalmazza az összes standard library által tartalmazott szimbólumot(függvények, struktúrák, stb.), éppen azért, hogy az stdlib által használt gyakori nevek(pl. vector) ne ütközzenek más kóddal.</p>
+<h2 id="function-overloading"><a class="header" href="#function-overloading">Function overloading</a></h2>
+<p>C++ -ban ugyanazon nevű függvény többféle paramétereket vehet át.</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+
+void foo(double x){
+    std::printf("%lf double", x);
+}
+
+void foo(int x){
+    std::printf("%d int", x);
+}
+
+int main(){
+    foo(5); // 5 int
+    foo(3.2); // 3.2 double
+}
+</code></pre>
+<h2 id="referenciák"><a class="header" href="#referenciák">Referenciák</a></h2>
+<p>C-ből ismert a pointerek fogalma. Ezt sokszor arra használjuk, hogy egy függvényben a paraméterként kapott eredeti objektumot módosítsuk, vagy hogy egy másolást elkerüljünk.
+Erre valók C++ban a <em>referenciák</em></p>
+<pre><code class="language-cpp">//swap függvény C-ben
+
+void c_swap(int* x, int* y){
+    int tmp = *x;
+    *x = *y;
+    *y = tmp;
+}
+
+//swap C++ -ban
+void cpp_swap(int&amp; x, int&amp; y){
+    int tmp = x;
+    x = y;
+    y = tmp;
+}
+</code></pre>
+<p>A referenciák konstansok, azaz egy referencia az élettartama alatt nem tud hirtelen másik objektumra mutatni.</p>
+<pre><code class="language-cpp">int x = 5;
+int y = 1;
+int&amp; xr = x;
+xr = y; //ugyan az, mint x = y;
+</code></pre>
+<p>Gondolhatunk a referenciára úgy, mint egy 'alias' -ra (alternatív név). Megmondjuk, minek az alias-a, majd utána az eredeti változó helyett használjuk.</p>
+<p>Fontos megjegyezni, hogy ugyan úgy mint a pointereknél, lokális változóra mutató referenciával <em>tilos</em> visszatérni.</p>
+<h2 id="a-const-kulcsszó"><a class="header" href="#a-const-kulcsszó">A const kulcsszó</a></h2>
+<p>A <code>const</code> kulcsszó a C nyelvnek is része, viszont C++ban egy sokkal fontosabb szerepe van, amivel később találkozunk még.</p>
+<p>Jelentése nevéből adódik, egy <code>const</code> objektumot "nem lehet megváltoztatni". A kulcsszó mindig a tőle azonnal balra található dologra vonatkozik, kivéve ha a <code>const</code> az első, akkor a tőle azonnal jobbra található elemre vonatkozik.
+Fontos azt megemlíteni, hogy a <code>const</code> nem fordításidejű konstans értéket jelöl, inkább a programozó felé jelzés. Régebben a fordítók optimalizálásra is használták, viszont ennek a jelentősége ma már elenyésző, viszont a kulcsszó használata ettől még esszenciális marad.</p>
+<p>Pélák:</p>
+<pre><code class="language-cpp">int x; // sima, változtatható egész
+int const pi = 3.14; //konstans egész
+const int pi = 3.14; //ugyanaz, mint az előző
+
+const int* p = &amp;pi; // pointer egy konstans egészre
+int const * p = &amp;pi; //ugyanaz, mint az előző
+
+const int&amp; p = pi; //referencia konstans egészre
+int const&amp; p = pi; //ugyanaz, mint az előző
+
+//most jön a lényeg
+
+const int* const c = &amp;pi; //konstans pointer konstans egészre
+int const * const c = &amp;pi; //ugyanaz, mint az előző
+
+int* const c = &amp;x; // konstans pointer változtatható egészre
+
+/*!!!---!!!*/
+//az alábbi kódrészletek pedig nem működnek, mivel konstans objektumra csak pointer-to-const és reference-to-const mutathat
+
+//mivel pi const, ezért csak pointer-to-const mutathat rá
+int* const c = &amp;pi; 
+
+//mivel pi const, ezért csak reference-to-const referálhat rá
+int&amp; r = pi; 
+</code></pre>
+<h2 id="null-pointer"><a class="header" href="#null-pointer">Null pointer</a></h2>
+<p>A régebbi(prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <code>nullptr</code> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
+<pre><code class="language-cpp">int* a = nullptr;
+
+if(a) {
+
+}
+</code></pre>
+<p>kódrészletek.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="standard-io"><a class="header" href="#standard-io">Standard IO</a></h1>
+<h2 id="problémák-a-c-standard-io-val"><a class="header" href="#problémák-a-c-standard-io-val">Problémák a C standard IO-val</a></h2>
+<p>A <code>printf</code> és <code>scanf</code> fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A <code>scanf</code> függvénynél ezen felül nem szabad elfelejteni a címképző operátort(<code>&amp;</code>) sem, a <code>printf</code> pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.</p>
+<h2 id="c-alternatívák"><a class="header" href="#c-alternatívák">C++ alternatívák</a></h2>
+<p>C++ban a standard input és output két fő globális objektum(<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként(<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
+<p>Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main(){
+    int x;
+    std::cin &gt;&gt; x;
+    std::cout &lt;&lt; x;
+}
+
+</code></pre>
+<p>A beolvasásokat és kiírásokat láncolhatjuk is:</p>
+<pre><code class="language-cpp">int x;
+double d;
+char c;
+
+std::cin &gt;&gt; x &gt;&gt; d &gt;&gt; c;
+std::cout &lt;&lt; "int: " &lt;&lt; x &lt;&lt; " double: " &lt;&lt; d &lt;&lt; " char: " &lt;&lt; c;
+</code></pre>
+<p>Ez a "szintaktika" operátorok túltöltésén(overload) alapul.
+Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy <code>operator&lt;&lt;</code> függvényt hívunk meg az <code>std::cout</code>(referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az <code>std::cout</code> -ot, így tudjuk őket láncolni is.
+Később azt is megtanuljuk, hogy pontosan hogyan működik az operátorok overload-olása és láncolása, valamint megtanítjuk majd a saját típusaink beolvasását és kiírását is.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kivételek-hibakezelés"><a class="header" href="#kivételek-hibakezelés">Kivételek, hibakezelés</a></h1>
+<h2 id="hibakezelés-c-ben"><a class="header" href="#hibakezelés-c-ben">Hibakezelés C-ben</a></h2>
+<pre><code class="language-c">
+double oszt(double x, double y){
+    if(y == 0){
+        //mit csináljunk? exit, vagy csak írjunk ki valamit? 
+    }else{
+        return x/y;
+    }
+}
+</code></pre>
+<h2 id="c--ban"><a class="header" href="#c--ban">C++ -ban</a></h2>
+<p>A C++ egy fontos nyelvi elemei a kivételek(exception). Ezek segítségével <em>kivétel</em>es esetekkor dobhatunk egy "hibát", amit a program elkaphat. Ez egy megosztó feature a közösségben(ld. "hidden control flow"), viszont sokszor hasznos lehet. Például nullával való osztás esetén valószínűleg nem nekünk, hanem a hívó kódnak kéne kezelnie a hibát.</p>
+<p>Kivételt a <code>throw</code> kulcsszóval dobhatunk, valamint a <code>try</code> kulcsszóval nyitott scope-ban dobott kivételeket a <code>catch</code> kulcsszóval kaphatunk el.</p>
+<p>Kivételként bármilyen típust dobhatunk(int, const char*, stb.), viszont érdemes az <code>std::exception</code> és a belőle leszármazó(később) típusú objekutmokat dobni. Ezekhez az <code>stdexcept</code> nevű header-re van szükség.</p>
+<pre><code class="language-cpp">double oszt(double x, double y){
+    if(y == 0){
+        throw std::runitme_error("0-val valo osztas!"); 
+        /*
+        lehetne:
+        throw "0-val valo osztas";
+        vagy
+        throw 0;
+        stb. viszont ezeket nem szép dobni.
+        */
+    }else{
+        return x/y;
+    }
+}
+
+int main(){
+    try{
+        oszt(5.0, 0.0);
+    }catch(std::exception&amp; e){ //referenciaként kapjuk el az exception-t
+        std::cout &lt;&lt; e.what(); //.what() : visszaadja az exception "üzenetét"
+        //egyéb hibakezelő kód...
+    }
+}
+</code></pre>
+<p>Később lesz szó arról, hogy hogyan készíthetünk saját kivétel típusokat amelyek az <code>std::exception</code> -ből származnak.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dinamikus-memóriakezelés"><a class="header" href="#dinamikus-memóriakezelés">Dinamikus memóriakezelés</a></h1>
+<h2 id="c-dinamikus-memóriakezelés"><a class="header" href="#c-dinamikus-memóriakezelés">C dinamikus memóriakezelés</a></h2>
+<p>A C dinamikus memóriakezelése a kőkorszakban jár. Megkérdezi hány bájtnyi memóriára van szükségünk, majd visszadob rá egy pointert.</p>
+<h2 id="c-memóriakezelés"><a class="header" href="#c-memóriakezelés">C++ memóriakezelés</a></h2>
+<p>A C++ <code>malloc</code> függvényét a <code>new</code> operátor(igen, ezek operátorok), a <code>free</code> függvényt pedig a <code>delete</code> és <code>delete[]</code> operátor váltotta fel.</p>
+<p>A <code>new</code> egy intelligens eszköz. Nem memóriamennyiséget, hanem egy típust és opcionálisan egy tömbméretet kap.
+Pl.</p>
+<pre><code class="language-cpp">
+int* x = new int; //egy darab dinamikusan foglalt int
+
+int* tomb = new int[5]; //egy dinamikusan foglalt 5 méretű tömb
+
+std::size_t tombMeret; //std::size_t : általában memóriafoglalások méretét vagy indexeket tároló előjel nélküli egész
+
+std::cin &gt;&gt; tombMeret;
+
+int* dinTomb = new int[tombMeret];
+</code></pre>
+<p>A <code>delete</code> operátor a <code>new</code> operátorral lefoglalt memóriát szabadítja fel. Ha tömböt szabadítunk fel, akkor a <code>delete[]</code> operátort kell használni.</p>
+<p>Az előbbi példa foglalások felszabadítása:</p>
+<pre><code class="language-cpp">delete x;
+delete[] tomb;
+delete[] dinTomb;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sablonok-template"><a class="header" href="#sablonok-template">Sablonok (template)</a></h1>
+<h2 id="sablon-alapok"><a class="header" href="#sablon-alapok">Sablon alapok</a></h2>
+<p>A C++ egyik legnagyobb előnye a C-vel szemben a generikus programozási lehetőségekben rejlik. A jegyzetben már szerepelt az alábbi függvény:</p>
+<pre><code class="language-cpp">//swap C++ -ban
+void cpp_swap(int&amp; x, int&amp; y){
+    int tmp = x;
+    x = y;
+    y = tmp;
+}
+</code></pre>
+<p>Ezt a függvényt szeretnénk megírni, hogy működjön mindenféle típusra. Természetesen ez lehetetlen küldetésnek tűnhet, azonban a C++ templatek fő felhasználási módja éppen ez.</p>
+<pre><code class="language-cpp">template &lt;typename T&gt; //sablondeklaráció, sablonparaméterek(itt T) felsorolása
+void cpp_swap(T&amp; x, T&amp;y){ //cpp_swap&lt;T&gt; függvénysablon
+    T tmp = x;
+    x = y;
+    y = tmp;
+}
+</code></pre>
+<p>A fent látható <code>cpp_swap</code> -ot <em>függvénysablon</em>nak hívjuk. Önmagában nem függvény, ahhoz "példányosítani" kell. Ez a gyakorlatban annyit jelent, hogy használjuk.</p>
+<p>pl.</p>
+<pre><code class="language-cpp">int x = 5;
+int y = 2;
+// cpp_swap&lt;T&gt; függvénysablon példányosítása T=int sablonparaméterekkel
+cpp_swap&lt;int&gt;(x, y); //&lt;int&gt; &lt;- sablonparaméter megadása
+
+double a = 5.2;
+double b = 1.2;
+cpp_swap&lt;double&gt;(a, b);
+</code></pre>
+<p>Amikor egy sablont példányosítunk adott sablonparaméterekkel, olyankor valójában fordításidőben kód generálódik az adott sablonparaméterek behelyettesítésével.
+Pl.</p>
+<pre><code class="language-cpp">cpp_swap&lt;int&gt;(x, y); //cpp_swap&lt;T&gt; függvénysablon példányosítása T=int sablonparaméterekkel
+</code></pre>
+<p>esetén a</p>
+<pre><code class="language-cpp">void cpp_swap(int&amp; x, int&amp; y){ 
+    int tmp = x;
+    x = y;
+    y = tmp;
+}
+</code></pre>
+<p>kód generálódik. A <code>T</code> helyére mindenhol <code>int</code> kerül. Ezt a generált kódot nekük természetesen nem kell látnunk, vagy foglalkoznunk vele.</p>
+<p>A sablonparamétereket a fordító néha ki tudja találni a kapott függvényparaméterekből(template parameter deduction).
+Például:</p>
+<pre><code class="language-cpp">double a = 5.2;
+double b = 1.2;
+cpp_swap(a, b); //nem kell megadni, hogy double típus, mivel a és b double típusúak
+
+cpp_swap&lt;double&gt;(a, x); //meg kell adni, hogy double típus, mivel a és x különböző típusúak, így a fordító nem tud dönteni
+</code></pre>
+<p>A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL).</p>
+<h2 id="duck-typing"><a class="header" href="#duck-typing">Duck typing</a></h2>
+<p>A sablonokkal felmerül egy újabb kérdés: milyen típusokat fogadunk el? A válasz erre egyszerű: mindent, amivel a függvény kódja lefordul.</p>
+<p>Ezt "duck typing" -nak hívjuk: <em>"If it walks like a duck and it quacks like a duck, then it must be a duck"</em></p>
+<p>Például nézzünk meg egy függvényt, ami megmondja két <em>valamiről</em>, hogy az első <em>valami</em> nagyobb-e, mint a második <em>valami</em>.</p>
+<pre><code class="language-cpp">template&lt;typename T&gt;
+bool nagyobbe(T elso, T masodik){
+    return elso &gt; masodik;
+}
+</code></pre>
+<p>Milyen típusokra működik ez a függvény?
+Hát azokra, amelyek ezeket a feltételeket teljesítik:</p>
+<ul>
+<li>lemásolhatók (hiszen másolatként vesszük át őket)</li>
+<li>összehasonlíthatók a <code>&gt;</code> operátorral</li>
+</ul>
+<p>A sablonok korlátozására léteznek további technikák(SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.</p>
+<h2 id="nem-típus-sablonparaméterek-nem-függvény-sablonok"><a class="header" href="#nem-típus-sablonparaméterek-nem-függvény-sablonok">Nem-típus sablonparaméterek, nem-függvény sablonok</a></h2>
+<p>Sablonparaméterként átadható nem csak típus, hanem gyakorlatilag bármilyen más objektum is. Pl. a standard library egy típusa az <code>std::array</code>, amely első függvényparamétere a tömbben tárolt típus, második függvényparamétere egy pozitív egész szám, a tömb mérete.</p>
+<pre><code class="language-cpp">std::array&lt;int, 5&gt; tomb; //5 méretű int-eket tároló tömb
+</code></pre>
+<p>Ezt kódban a következőként "replikálhatjuk":</p>
+<pre><code class="language-cpp">template&lt;typename T, std::size_t siz&gt;
+struct array{ // array&lt;T, siz&gt; "osztálysablon"(osztályok később)
+    T belso_tomb[siz];
+    //array implementáció...
+};
+
+template &lt;int N&gt;
+void print_template_int(){
+    std::cout &lt;&lt; N &lt;&lt; '\n';
+}
+</code></pre>
+<p>Fontos azt megjegyezni, hogy a sablonok fordításidőben példanyosodnak, szóval minden függvényparaméternek fordításidőben konstansnak kell lennie.
+pl.</p>
+<pre><code class="language-cpp">print_template_int&lt;5&gt;(); //ok
+int x = 5;
+print_template_int&lt;x&gt;(); //hiba, x nem fordításidejű konstans(const sem oldaná meg)
+</code></pre>
+<h2 id="részleges-specializáció"><a class="header" href="#részleges-specializáció">Részleges specializáció</a></h2>
+<p>Tegyük fel, hogy szeretnénk ha egy adott sablon egy speciális módon működjön, ha egy adott típust kap.
+Például ha a swap függvényünk int-et kap, akkor írja ki, hogy "int", különben működjön normális módon.</p>
+<pre><code class="language-cpp">template &lt;typename T&gt; 
+void cpp_swap(T&amp; x, T&amp;y){ 
+    T tmp = x;
+    x = y;
+    y = tmp;
+}
+
+template &lt;&gt; 
+void cpp_swap&lt;int&gt;(int&amp; x, int&amp;y){ //specializáció a T=int esetre
+    std::cout &lt;&lt; "int";
+    T tmp = x;
+    x = y;
+    y = tmp;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="osztályok-objektumok"><a class="header" href="#osztályok-objektumok">Osztályok, objektumok</a></h1>
+<p><strong>Ez egy viszonylag hosszú fejezet, azonban a nyelv megértéséhez gyakorlatilag esszenciális!</strong></p>
+<h2 id="osztály-objektum"><a class="header" href="#osztály-objektum">Osztály, objektum</a></h2>
+<p>A C nyelvben már megismerhettük a <code>struct</code> kulcsszót, ami azonos dologhoz tartozó adatokat tárolt. Valószínűleg sok olyan függvényt írtunk ekkor, hogy</p>
+<pre><code class="language-c">struct foo {};
+
+void foo_szamol(struct foo f) {}
+</code></pre>
+<p>és társai.</p>
+<p>Az osztályok ezt a problémát oldják meg, valamint néhány nagyon hasznos utility-t adnak a programozó kezébe.</p>
+<p>Egy osztályt a <code>class</code> vagy a <code>struct</code> kulcsszóval(különbség később) tudunk definiálni, <code>typedef</code> használatára egyáltalán nincs szükség.</p>
+<p>Egy osztályból "példányokat" hozhatunk létre, ez gyakorlatilag azt jelenti, hogy az adott osztály típusú változót hozunk létre a C struktúrákhoz hasonlóan.</p>
+<pre><code class="language-cpp">class Foo {};
+
+int main(){
+    Foo f;
+}
+</code></pre>
+<h2 id="publikus-és-privát-elérés"><a class="header" href="#publikus-és-privát-elérés">Publikus és privát elérés</a></h2>
+<p>Egy osztály tartalmazhat "member"-eket(tagokat), amelyeknek különböző láthatóságai lehetnek.
+Ezt a <code>public</code>, <code>private</code> és <code>protected</code> (később) szavakkal állíthatjuk be. Ezeket a kulcsszavakat <em>access specifier</em>-nek hívjuk.
+A privát tagokat csak az osztályon belülről, a public-okat kívülről is elérhetjük. Egy osztályban alapból minden private, amíg ezt meg nem változtatjuk.</p>
+<pre><code class="language-cpp">class Foo {
+public: //ez után a következő access-specifier -ig minden public.
+    int x;
+private: //ez után a következő access-specifier -ig minden private.
+    double y;
+};
+
+int main(){
+    Foo f;
+    f.x = 5;
+    f.y = 2.3; //nem ok, y private
+</code></pre>
+<h2 id="tagfüggvények-member-functions"><a class="header" href="#tagfüggvények-member-functions">Tagfüggvények (member functions)</a></h2>
+<p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton(state) operálnak.</p>
+<p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.</p>
+<p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.</p>
+<p>A szintaxis a következő:</p>
+<pre><code class="language-cpp">class Square{
+private:
+    double side_length; //privát, írunk rá publikus set és get függvényt.
+
+public:
+    //"Setter" függvény, nagyon hasznos ha nem triviális egy érték beállítása(pl. itt side_length &gt; 0 check miatt)
+    void set_side_length(double side_length){
+        if(side_length &lt;= 0) { 
+            throw std::runtime_error("side length &lt;= 0 is not allowed");
+        }
+
+    //this-&gt;side_length: az adott példány oldalhossza,
+    //side_length: a tagfüggvény paramétere
+        this-&gt;side_length = side_length; 
+    }
+
+    double get_side_length() const { //const, mivel nem változtatja a példányt.
+        return side_length; //nem kell this-&gt; mivel nincs név konfliktus.
+    }
+
+    double calculate_area() const { //const, mivel csak számol, ez sem változtat semmit
+        return side_length * side_length;
+    }
+};
+</code></pre>
+<h2 id="konstruktor-destruktor-és-raii"><a class="header" href="#konstruktor-destruktor-és-raii">Konstruktor, destruktor és RAII</a></h2>
+<p>Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization) módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
+<p>A C++ nyelvben a "konstruktor"(constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.</p>
+<p>A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig <code>~osztaly_neve</code>.</p>
+<pre><code class="language-cpp">class Foo{
+    Foo() {
+        std::cout &lt;&lt; "Foo ctor\n";
+    }
+
+    ~Foo() {
+        std::cout &lt;&lt; "Foo dtor\n";
+    }
+};
+
+int main(){
+    Foo f; //foo ctor lefut
+    /*
+    ...
+    */
+
+    return 0; //foo dtor lefut
+}
+</code></pre>
+<p>Azt a konstruktort, amely paraméter nélkül hívható, <em>defualt konstruktor</em>nak nevezzük. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor.</p>
+<p>A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van.
+Vegyük újra példának a <code>Square</code> osztályt.</p>
+<pre><code class="language-cpp">class Square{
+private:
+    double side_length; //privát, írunk rá publikus set és get függvényt.
+    std::string name; //std::string : egy dinamikusan növő karakter tömb, modern nyelvektől elvárt string típus
+public:
+    // : side_length(side_length) -&gt; a side_length nevű tagváltozót inicializáljuk a side_length nevű paraméterrel
+    // vesszővel választjuk el a tagokat
+    Square(double side_length, const std::string&amp; name) : side_length(side_length), name(name) {
+    } 
+
+    //"Setter" függvény, nagyon hasznos ha nem triviális egy érték beállítása(pl. itt side_length &gt; 0 check miatt)
+    void set_side_length(double side_length){
+        if(side_length &lt;= 0) { 
+            throw std::runtime_error("side length &lt;= 0 is not allowed");
+        }
+
+        this-&gt;side_length = side_length; //this-&gt;side_length: az adott példány oldalhossza, side_length: a tagfüggvény paramétere
+    }
+
+    double get_side_length() const { //const, mivel nem változtatja a példányt.
+        return side_length; //nem kell this-&gt; mivel nincs név konfliktus.
+    }
+};
+
+int main(){
+    Square square(5.3, "foo"); //konstruktor hívás
+    Square square; //ez most nem működik, mert Square-nek nincs default konstruktora. 
+}
+</code></pre>
+<h2 id="osztálysablonok"><a class="header" href="#osztálysablonok">Osztálysablonok</a></h2>
+<p>Mint ahogyan a függvények, az osztályokhoz is lehet sablonokat készítnei.
+pl.</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class Foo{
+public:
+    T x;
+};
+</code></pre>
+<p>Nagyon hasonlóan működik a függvényparaméterekhez, szimpla kódgenerálásról van szó.</p>
+<h2 id="komolyabb-raii-példa"><a class="header" href="#komolyabb-raii-példa">Komolyabb RAII példa</a></h2>
+<p>Most pedig nézzünk egy komolyabb RAII példát.
+A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
+Ezt a példát sokáig fogjuk használni.</p>
+<p>Szóval szükségünk lesz egy <code>typename</code> sablonparaméterre, egy pointerre, ami a tömbre mutat, valamint tárolni kell a tömb méretét</p>
+<pre><code class="language-cpp">#include &lt;cstdint&gt;
+
+template &lt;typename T&gt;
+class DinTomb{
+    std::size_t meret; //dinamikus tömb méretét tárolja
+    T* tomb; //T* -&gt; T-re mutató pointer, ez fog mutatni a tömbre.
+
+public:
+    DinTomb() : meret(0), tomb(nullptr) {} //default ctor, 0-ra inicializalunk mindent
+
+    //ez fog beilleszteni, gyakorlatilag ugyanaz, mint C-ben, csak new és delete van malloc&amp;free helyett
+    void push_back(const T&amp; elem) { 
+        T* uj_tomb = new T[meret + 1];
+        for(std::size_t i = 0; i &lt; meret; ++i){
+            uj_tomb[i] = tomb[i];
+        }
+        uj_tomb[meret] = elem;
+        delete[] tomb; // delete[], mert tömböt szabadítunk fel.
+        tomb = uj_tomb;
+        ++meret;
+    }
+
+    std::size_t size() const { return meret; }
+
+    //visszaad egy referenciát az adott tömbindexre
+    T&amp; at(std::size_t idx) {
+        return tomb[idx];
+    }
+
+    ~DinTomb() {
+        delete[] tomb; // a destruktor felszabadítja az objektum által használt erőforrást az élettartam végén
+    }
+};
+
+int main(){
+    DinTomb&lt;double&gt; tomb; //valos szamokat tartalmazo dinamikus tomb
+
+    tomb.push_back(4.3);
+    tomb.push_back(3.2);
+    tomb.at(0) = 5.8; //függvény az egyenlőség bal oldalán, mivel referenciát ad vissza!
+    return 0; // nem kell semmi manuális memóriakezelés, mert a destruktor automatikusan felszabadítja amit kell, mert egyszer megírtuk
+}
+</code></pre>
+<p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Ezt teszi a C++ Standard Library nagyrésze, pl. <code>std::vector</code>, a Standard Library dinamikus tömb típusa.</p>
+<h2 id="class-vs-struct"><a class="header" href="#class-vs-struct">class vs struct</a></h2>
+<p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne(C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
+<h2 id="operátorok-túltöltése"><a class="header" href="#operátorok-túltöltése">Operátorok túltöltése</a></h2>
+<p>Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni.</p>
+<p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
+<p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
+A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
+<p>Nézzünk egy példát:</p>
+<pre><code class="language-cpp">class DinTomb{
+    /* 
+        ...
+    */
+
+    void operator+=(const T&amp; elem){
+        push_back(elem); //delegáljuk a beillesztést a push_back függvénynek, nem duplikálunk kódot.
+    }
+};
+
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+
+    return 0;
+}
+</code></pre>
+<p>Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az <code>operator&lt;&lt;</code> (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni.
+A <code>friend</code> kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class DinTomb{
+    /* 
+        ...
+    */
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb);
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb){
+    for(std::size_t i = 0; i &lt; dtomb.meret; ++i){
+        out &lt;&lt; dtomb.tomb[i] &lt;&lt; ' ';
+    }
+
+    return out;
+}
+
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+    tomb += 2.3;
+    tomb.push_back(8.7);
+
+    std::cout &lt;&lt; tomb;
+    return 0;
+}
+</code></pre>
+<p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
+<p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
