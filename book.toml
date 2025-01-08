@@ -1,0 +1,6 @@
+[book]
+authors = ["Nevemlaci"]
+language = "hu"
+multilingual = false
+src = "src"
+title = "Prog2_Jegyzet"
