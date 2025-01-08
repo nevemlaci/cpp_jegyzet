@@ -1,5 +1,5 @@
 # Summary
-
+- [Kezdőoldal](./#-Inspiracio.md)
 - [Alapvető különbségek a C nyelvtől](./0-alapveto-kulonbsegek.md)
 - [Standard IO](./1-standard-io.md)
 - [Kivételek](./2-kivetelek.md)
