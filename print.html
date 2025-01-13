@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -177,6 +177,7 @@
                         <h1 id="a-jegyzetről"><a class="header" href="#a-jegyzetről">A jegyzetről</a></h1>
 <p>A jegyzet A Programozás Alapjai 2 című tárgyhoz készült, viszont egyes esetekben kitérőket tesz, hogy az esetleges C++ nyelv iránt érdeklődő hallgatókat elmélyítse a nyelv szépségeiben.</p>
 <p>A jegyzetben próbáltam a tananyag menetéhez alkalmazkodni, csak akkor változtattam, amikor a tananyagban esetleg érdemesebbnek láttam egyes fogalmakat hamarabb bevezetni.</p>
+<p>A legtöbb anyaghoz találhatóak külső linkek hasznos oldalakhoz, azonban egyesek(pl. cppreference) kicsit bővebben elmagyaráznak egyes aspektusokat, mint ami a tárgyhoz szükséges. Ezen felül fontos azt megjegyezni, hogy a tárgy C++ verzióban inkonzisztens, néhány laboron működni fog az, ami a másikon nem. Viszont a házi feladatban <em>elvileg</em> C++17 verzióval fordul minden.</p>
 <h1 id="inspiráció"><a class="header" href="#inspiráció">Inspiráció</a></h1>
 <p>A jegyzet inspirációt merít az <a href="https://infocpp.iit.bme.hu">infocpp</a>(hivatalos tárgyhonlap, tananyag), <a href="https://prog2.cppftw.org">CPPFTW</a>(hallgatók által készített majdnem kész jegyzet) és a <a href="https://en.cppreference.com/w/">cppreference</a> weboldal tartalmából.</p>
 <p>Köszönöm a <a href="https://discord.gg/tccpp">TCCPP</a> Discord szerver tapasztalt(gcc közreműködők, C++ ISO tanács tagok) tagjainak az esetleges szakmai kérdések megválaszolását.</p>
@@ -185,10 +186,12 @@
 <li>Mr. Σ</li>
 <li>Eisenwave</li>
 <li>dot</li>
+<li>DXPower</li>
 </ul>
 <p>Az "Alapvető különbségek a C nyelvtől" fejezet alcímeit a CPPFTW oldal inspirálta.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="alapvető-különbségek-a-c-nyelvtől"><a class="header" href="#alapvető-különbségek-a-c-nyelvtől">Alapvető különbségek a C nyelvtől</a></h1>
 <h2 id="a-bool-mint-nyelvi-elem"><a class="header" href="#a-bool-mint-nyelvi-elem">A <code>bool</code>, mint nyelvi elem</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/types#Boolean_type">https://en.cppreference.com/w/cpp/language/types#Boolean_type</a></p>
 <p>A <code>bool</code> típus, habár a C nyelv újabb verzióiban nyelvi elemként szerepel, a Prog1 még nem tanítja. A C++ nyelvnek szerencsére része a <code>bool</code> típus, nem kell ehhez a legújabb verziókat használni.</p>
 <pre><code class="language-cpp">bool x = true; //nem kell semmilyen include
 </code></pre>
@@ -208,6 +211,7 @@ int main(){
 <pre><code>#include &lt;stdio.h&gt; -&gt; #include &lt;cstdio&gt;
 </code></pre>
 <h2 id="névtereknamespace"><a class="header" href="#névtereknamespace">Névterek(namespace)</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/namespace">https://en.cppreference.com/w/cpp/language/namespace</a></p>
 <p>C-ben gyakori az, hogy egy név már használva van például egy header file-ban ezért bárhol, ahol ez a header include-olva van, ez a név "foglalt" lesz. Ezt sok könyvtár a név prefixelésével oldja meg, pl. <code>SDL_Texture</code>.</p>
 <p>Erre a C++ -nak beépített nyelvi eleme van, ezek pedig a névterek.</p>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
@@ -274,6 +278,8 @@ xr = y; //ugyan az, mint x = y;
 <p>Gondolhatunk a referenciára úgy, mint egy 'alias' -ra (alternatív név). Megmondjuk, minek az alias-a, majd utána az eredeti változó helyett használjuk.</p>
 <p>Fontos megjegyezni, hogy ugyan úgy mint a pointereknél, lokális változóra mutató referenciával <em>tilos</em> visszatérni.</p>
 <h2 id="a-const-kulcsszó"><a class="header" href="#a-const-kulcsszó">A const kulcsszó</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/cv">https://en.cppreference.com/w/cpp/language/cv</a></p>
+<p>Most a <code>const</code> <em>type qualifier</em>-ről van szó.</p>
 <p>A <code>const</code> kulcsszó a C nyelvnek is része, viszont C++ban egy sokkal fontosabb szerepe van, amivel később találkozunk még.</p>
 <p>Jelentése nevéből adódik, egy <code>const</code> objektumot "nem lehet megváltoztatni". A kulcsszó mindig a tőle azonnal balra található dologra vonatkozik, kivéve ha a <code>const</code> az első, akkor a tőle azonnal jobbra található elemre vonatkozik.
 Fontos azt megemlíteni, hogy a <code>const</code> nem fordításidejű konstans értéket jelöl, inkább a programozó felé jelzés. Régebben a fordítók optimalizálásra is használták, viszont ennek a jelentősége ma már elenyésző, viszont a kulcsszó használata ettől még esszenciális marad.</p>
@@ -305,7 +311,8 @@ int* const c = &amp;pi;
 int&amp; r = pi; 
 </code></pre>
 <h2 id="null-pointer"><a class="header" href="#null-pointer">Null pointer</a></h2>
-<p>A régebbi(prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <code>nullptr</code> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
+<p><a href="https://en.cppreference.com/w/cpp/language/nullptr">https://en.cppreference.com/w/cpp/language/nullptr</a></p>
+<p>A régebbi(prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <a href=""><code>nullptr</code></a> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
 <pre><code class="language-cpp">int* a = nullptr;
 
 if(a) {
@@ -313,10 +320,41 @@ if(a) {
 }
 </code></pre>
 <p>kódrészletek.</p>
+<h2 id="stdstring"><a class="header" href="#stdstring">std::string</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/string/basic_string">https://en.cppreference.com/w/cpp/string/basic_string</a></p>
+<p>Egy egyszerű string típus dinamikus mérettel és alap elvárt string funkcionalitással.</p>
+<pre><code class="language-cpp">#include &lt;string&gt;
+/* ... */
+std::string str = "foo";
+std::string str2 = str;
+
+str = str.substr(0, 1);
+// ...
+</code></pre>
+<h2 id="scoped-enumc11"><a class="header" href="#scoped-enumc11">Scoped enum(C++11)</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/enum">https://en.cppreference.com/w/cpp/language/enum</a></p>
+<p>A C <code>enum</code> típusai nagyon furcsán viselkednek, egésszé változnak ha kicsit féloldalasan nézzük őket, pedig nem igazán erre valók. C++ban az <code>enum class</code> ezt oldja meg.
+Definíciós szintaxisuk a C enumokhoz hasonló, viszont a scoped enum-ok nem konvertálódnak automatikusan egész számokká, valamint nem valami mágikus globális konstansként próbálnak viselkedni.</p>
+<pre><code class="language-cpp">enum class Direction{
+    UP=0, DOWN=1, LEFT=2, RIGHT=3
+};
+
+int main(){
+    Direction d = Direction::UP; //typename::enumname szintaxis
+    int x = d; //error
+}
+</code></pre>
+<p>Még egy nagyon jó tulajdonságuk, hogy megadhatjuk az underlying típusukat. Például ha tudjuk hogy max 1 bytera lesz szükségünk, akkor megmondhatjuk neki, hogy valójában egy speckó <code>char</code> legyen.</p>
+<pre><code class="language-cpp">enum class Direction : char{
+    UP=0, DOWN=1, LEFT=2, RIGHT=3
+};
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="standard-io"><a class="header" href="#standard-io">Standard IO</a></h1>
 <h2 id="problémák-a-c-standard-io-val"><a class="header" href="#problémák-a-c-standard-io-val">Problémák a C standard IO-val</a></h2>
 <p>A <code>printf</code> és <code>scanf</code> fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A <code>scanf</code> függvénynél ezen felül nem szabad elfelejteni a címképző operátort(<code>&amp;</code>) sem, a <code>printf</code> pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.</p>
 <h2 id="c-alternatívák"><a class="header" href="#c-alternatívák">C++ alternatívák</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/io/cout">https://en.cppreference.com/w/cpp/io/cout</a></p>
+<p><a href="https://en.cppreference.com/w/cpp/io/cin">https://en.cppreference.com/w/cpp/io/cin</a></p>
 <p>C++ban a standard input és output két fő globális objektum(<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként(<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
 <p>Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
@@ -339,6 +377,47 @@ std::cout &lt;&lt; "int: " &lt;&lt; x &lt;&lt; " double: " &lt;&lt; d &lt;&lt; "
 <p>Ez a "szintaktika" operátorok túltöltésén(overload) alapul.
 Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy <code>operator&lt;&lt;</code> függvényt hívunk meg az <code>std::cout</code>(referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az <code>std::cout</code> -ot, így tudjuk őket láncolni is.
 Később azt is megtanuljuk, hogy pontosan hogyan működik az operátorok overload-olása és láncolása, valamint megtanítjuk majd a saját típusaink beolvasását és kiírását is.</p>
+<h3 id="get"><a class="header" href="#get">Get</a></h3>
+<p><a href="https://en.cppreference.com/w/cpp/io/basic_istream/get">https://en.cppreference.com/w/cpp/io/basic_istream/get</a></p>
+<pre><code class="language-cpp">char k = std::cin.get(); //bekérünk 1 karaktert
+
+char k2;
+std::cin.get(k2); //ugyanaz mint az előző, csak máshogy, itt out parameter van return helyett
+
+char k3[6];
+std::cin.get(k3, 5); //5 karaktert olvasunk egy 5 méretű tömbbe. Ez a függvény tesz lezáró 0-t
+
+</code></pre>
+<h2 id="stdgetline"><a class="header" href="#stdgetline">std::getline</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/string/basic_string/getline">https://en.cppreference.com/w/cpp/string/basic_string/getline</a>
+Az std::getline függvény alapértelmezetten egy egész sort olvas be egy input streamről, viszont saját elválasztót is megadhatunk neki.</p>
+<pre><code class="language-cpp">std::string line;
+std::getline(std::cin, line);
+std::getline(std::cin, line, ','); // ',' karakterig olvasunk
+</code></pre>
+<h2 id="ignore"><a class="header" href="#ignore">Ignore</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/io/basic_istream/ignore">https://en.cppreference.com/w/cpp/io/basic_istream/ignore</a></p>
+<p>A bemeneti streameknek van egy <code>ignore</code> tagfüggvénye, amellyel eldobhatunk("ignorálhatunk") karaktereket.</p>
+<pre><code class="language-cpp">std::cin.ignore(x); // x karaktert ignorál, vagy amíg eof-t nem kap
+std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max()); //ignorál mindent ami a bemeneten van
+std::cin.ignore(x, c); //ignorál x karakter, vagy amíg nem kap c-vel azonos karaktert
+</code></pre>
+<p><code>std::numeric_limits&lt;T&gt;::max()</code> : adott <code>T</code> típusú numerikus típus maximum értékét adja vissza. (pl. <code>std::numeric_limits&lt;std::size_t&gt;::max()</code>)</p>
+<pre><code class="language-cpp">int a;
+int b;
+std::cin &gt;&gt; a;
+std::cin.ignore(5);
+std::cin &gt;&gt; b;
+
+char c1;
+char c2;
+
+std::cin &gt;&gt; c1;
+//ignorálunk addig amíg ';' -t nem kapunk. Ignorálja a ; -t is!
+std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), ';'); 
+std::cin &gt;&gt; c2;
+</code></pre>
+<p><em>Nem összekeverendő a teljesen más jelentésű <code>std::ignore</code>-al.</em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kivételek-hibakezelés"><a class="header" href="#kivételek-hibakezelés">Kivételek, hibakezelés</a></h1>
 <h2 id="hibakezelés-c-ben"><a class="header" href="#hibakezelés-c-ben">Hibakezelés C-ben</a></h2>
 <pre><code class="language-c">
@@ -351,9 +430,11 @@ double oszt(double x, double y){
 }
 </code></pre>
 <h2 id="c--ban"><a class="header" href="#c--ban">C++ -ban</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/exceptions">https://en.cppreference.com/w/cpp/language/exceptions</a></p>
 <p>A C++ egy fontos nyelvi elemei a kivételek(exception). Ezek segítségével <em>kivétel</em>es esetekkor dobhatunk egy "hibát", amit a program elkaphat. Ez egy megosztó feature a közösségben(ld. "hidden control flow"), viszont sokszor hasznos lehet. Például nullával való osztás esetén valószínűleg nem nekünk, hanem a hívó kódnak kéne kezelnie a hibát.</p>
 <p>Kivételt a <code>throw</code> kulcsszóval dobhatunk, valamint a <code>try</code> kulcsszóval nyitott scope-ban dobott kivételeket a <code>catch</code> kulcsszóval kaphatunk el.</p>
 <p>Kivételként bármilyen típust dobhatunk(int, const char*, stb.), viszont érdemes az <code>std::exception</code> és a belőle leszármazó(később) típusú objekutmokat dobni. Ezekhez az <code>stdexcept</code> nevű header-re van szükség.</p>
+<p><a href="https://en.cppreference.com/w/cpp/error/exception">https://en.cppreference.com/w/cpp/error/exception</a></p>
 <pre><code class="language-cpp">double oszt(double x, double y){
     if(y == 0){
         throw std::runitme_error("0-val valo osztas!"); 
@@ -545,8 +626,10 @@ int main(){
 </code></pre>
 <h2 id="tagfüggvények-member-functions"><a class="header" href="#tagfüggvények-member-functions">Tagfüggvények (member functions)</a></h2>
 <p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton(state) operálnak.</p>
-<p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.</p>
-<p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.</p>
+<p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.<br>
+<em><strong>FONTOS</strong></em> egy tagfüggvény túltölthető az alapján, hogy <code>const</code> -e, vagy nem, így a <code>const</code> qualifier része a függvény fejlécének! (signature)</p>
+<p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
+A tagfüggvények gyakorlatilag speciális függvények, amelyek első paramétere a rejtett <code>this</code> pointer.</p>
 <p>A szintaxis a következő:</p>
 <pre><code class="language-cpp">class Square{
 private:
@@ -638,6 +721,35 @@ public:
 };
 </code></pre>
 <p>Nagyon hasonlóan működik a függvényparaméterekhez, szimpla kódgenerálásról van szó.</p>
+<h2 id="gyakori-félreértések-static-tagfüggvények"><a class="header" href="#gyakori-félreértések-static-tagfüggvények">Gyakori félreértések, static tagfüggvények</a></h2>
+<p>Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy <em>valami</em> leírása. Ez az objektumorientált programozás alapelve. A való világ(vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre <em>példányokat</em>. Egy osztály egy példányát nevezzük általában objektumnak.</p>
+<p>Pl.</p>
+<pre><code class="language-cpp">class foo{};
+
+int main(){
+    foo f; // f a foo osztály egy példánya
+}
+</code></pre>
+<p>Amikor egy osztályban egy tagváltozót érünk el, az az adott példány tagváltozójára vonatkozik. Emlékezzünk vissza, a tagváltozók elérése (még ha implicit módon is) a <code>this</code> pointeren keresztül történik, azaz a példányunkra mutató pointeren keresztül.</p>
+<p>Vannak azonban esetek amikor valamilyen állapotot nem egy példányhoz, hanem az osztályhoz szeretnénk kötni. Nos erre való a <code>static</code> kulcsszó. Egy statikus tagváltozó nem a példányokhoz, hanem az osztályhoz tartozik, a statikus tagfüggvény ugyanígy az osztályhoz tartozik. Természetesen ez azt is jelenti, hogy statikus tagváltozót nem érhetünk el példányon keresztül, valamint <code>non static</code> tagváltozókat és tagfüggvényeket nem érhetünk el statikus tagfüggvényekből.</p>
+<p>Statikus tagváltozókat a <code>::</code> operátorral érhetünk el:
+<code>foo::bar();</code></p>
+<pre><code class="language-cpp">class foo{
+    public:
+        static void s_bar() {}
+        void m_bar() {}
+        int s_x;
+        int m_x;
+};
+
+int main(){
+    foo f;
+    f.m_bar(); //ok
+    f.m_x = 4; //ok
+    f.s_bar; //nem ok
+    foo::s_bar(); //ok
+}
+</code></pre>
 <h2 id="komolyabb-raii-példa"><a class="header" href="#komolyabb-raii-példa">Komolyabb RAII példa</a></h2>
 <p>Most pedig nézzünk egy komolyabb RAII példát.
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
@@ -689,8 +801,52 @@ int main(){
 <p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Ezt teszi a C++ Standard Library nagyrésze, pl. <code>std::vector</code>, a Standard Library dinamikus tömb típusa.</p>
 <h2 id="class-vs-struct"><a class="header" href="#class-vs-struct">class vs struct</a></h2>
 <p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne(C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
-<h2 id="operátorok-túltöltése"><a class="header" href="#operátorok-túltöltése">Operátorok túltöltése</a></h2>
+<h2 id="osztályok-tagfüggvényei-többmodulos-programokban"><a class="header" href="#osztályok-tagfüggvényei-többmodulos-programokban">Osztályok tagfüggvényei többmodulos programokban</a></h2>
+<p>Ha egy osztálynak saját header és cpp file-t dezignálunk, akkor azt a következő szintaxissal tehetjük meg:</p>
+<p><code>foo.hpp</code> (a .hpp kiterjesztés gyakori c++ header fileokhoz, de természetesen a .h ugyanígy gyakori, a kiterjesztések egyébként sem számítanak)</p>
+<pre><code class="language-cpp">class foo{
+    int x;
+    static int y;
+    public:
+    foo(int x);
+    void set_x(int x);
+    int get_x() const;
+
+    static void something();
+
+
+    //
+    template &lt;typename T&gt;
+    void print_with_x(T thing) const {
+        std::cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; thing;
+    }
+};
+</code></pre>
+<p><em><strong>FONTOS!</strong></em> A template definíciókat (explicit specializációkat kivéve) header fileokban kell megírni!</p>
+<p>A .cpp fileban a <code>returntype classname::functionname(params...)</code> szintaktikát használjuk.<br>
+Statikus tagváltozókat itt kell definiálni, itt a <code>type classname::variablename = somevalue;</code> szintaktikát használjuk. Osztálydefiníción kívül a <code>static</code> mást jelent, így kiírni nagy hiba.
+<code>foo.cpp</code></p>
+<pre><code class="language-cpp">
+int foo::y = 1; //statikus tagváltozó definíciója
+
+foo::foo(int x) : x(x) {} //konstruktor definíciója
+
+void foo::set_x(int x){
+    this-&gt;x = x;
+}
+
+int foo::get_x() const { //fontos! a const része a függvény fejécének(signature), itt is ki kell írni.
+    return x;
+}
+
+void foo::something(){
+    y*=2;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="operator-overloading"><a class="header" href="#operator-overloading">Operator overloading</a></h1>
+<h2 id="mik-az-operátorok-valójában"><a class="header" href="#mik-az-operátorok-valójában">Mik az operátorok valójában?</a></h2>
 <p>Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni.</p>
+<h2 id="operátorok-és-osztályok"><a class="header" href="#operátorok-és-osztályok">Operátorok és osztályok</a></h2>
 <p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
 <p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
 A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
@@ -712,6 +868,7 @@ int main(){
     return 0;
 }
 </code></pre>
+<h2 id="friend"><a class="header" href="#friend">Friend</a></h2>
 <p>Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az <code>operator&lt;&lt;</code> (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni.
 A <code>friend</code> kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
@@ -744,6 +901,197 @@ int main(){
 </code></pre>
 <p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
 <p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="objektumorientált-idióma"><a class="header" href="#objektumorientált-idióma">Objektumorientált idióma</a></h1>
+<p>Senkit sem szeretnék a sablonszöveggel untatni, ha szép és kerek leírást keresünk arra itt a <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">wikipédia</a>.</p>
+<h4 id="a-lényeg"><a class="header" href="#a-lényeg">A lényeg</a></h4>
+<p>Az objektumorientált programozás alapja, hogy minden <em>dolog</em> ami a programunkban létezik egy objektum.</p>
+<p><em>Encapsulation</em>
+Az objektumok valamilyen blueprintek(C++ban classok) példányai. Az osztályok valamilyen állapotot és az azokon elvégezhető műveleteket írják le(tagváltozó ~ állapot, tagfüggvény ~ művelet).</p>
+<p><em>Inheritance</em> (leszármaztatás)
+Van olyan eset, amikor egy adott dolog egyben egy másik dolog, csak kicsit kiegészítve, megváltoztatva. Pl. a Hallgató egy egyetemi polgár, viszont képes vizsgát felvenni és van kreditindexe.
+Ekkor az egyetemi polgár a <em>"base class"</em> a hallgató pedig a "<em>subclass</em>" nevet kapja.</p>
+<p><em>Polymorphism</em>
+Kéz a kézben jár a leszármaztatással. A fő lényege, hogy egy base class -ra mutató dolog kaphat subclass objektumot, és ezen a mutatón keresztül való viselkedés a subclass viselkedését mutatja.</p>
+<p><em>Abstraction</em>
+A legtöbb esetben nem érdekel minket, hogy egy adott függvény vagy típus pontosan hogy működik, csak az, hogy mit csinál. Pl. az <code>std::string</code> <code>push_back()</code> tagfüggvénye beilleszt egy karaktert a sztring végére, de az hogy ezt hogy tesz az az átlag programozó számára(a típus felhasználója) nem érdekes.
+Ezt az elvet a jegyzet is alkalmazni fogja, nem lesznek definiálva tagfüggvények, ha azok implementációja jelentéktelen.</p>
+<h2 id="leszármazás"><a class="header" href="#leszármazás">Leszármazás</a></h2>
+<p>A leszármazás szintaktikája viszonylag egyszerű:</p>
+<pre><code class="language-cpp">class polgar{
+public:
+    std::string name;
+    std::string neptun;
+    std::string get_decorated_name() const {
+        return name + std::string(" ") + neptun;
+    }
+};
+
+class hallgato : public polgar {
+public:
+    double calculate_kreditindex();
+    std::vector&lt;Targy&gt; targyak;
+};
+</code></pre>
+<p>Egy adott leszármazott példány memóriaképét ekkor valahogy így kell elképzelni:<br>
+<img src="image-2.png" alt="&quot;&quot;" /></p>
+<p>Egyszerre több osztályból is le lehet származni, valamint leszármazottból is lehet tovább származtatni:</p>
+<pre><code class="language-cpp">class A {};
+class B {};
+class C : public A, public B {}
+
+class D : public A {};
+class E : public D {};
+</code></pre>
+<h2 id="polimorfizmus"><a class="header" href="#polimorfizmus">Polimorfizmus</a></h2>
+<p>Ha <code>hallgato</code> a <code>polgar</code> leszármazottja, akkor <code>polgar</code> -ra mutató pointerek már képesek <code>hallgato</code> -ra mutatni, valamit <code>polgar</code> referencia tud <code>hallgato</code> objektumot alias-olni.
+<em><strong>FONTOS!</strong></em> Az inverz nem igaz.</p>
+<pre><code class="language-cpp">hallgato* h = new polgar;
+</code></pre>
+<p>hiszen itt a <code>h</code> egy olyan objektumra mutat amiben nincs meg a teljes <code>hallgato</code> rész.</p>
+<p><em><strong>FONTOS!</strong></em>
+<code>polgar</code> típusú változóban <code>hallgato</code> objektumot tárolni és fordítva hiba! <code>polgar</code> típusú változóba <code>halgato</code> típusú objektumot rakva az objektum <code>hallgató</code> része levágódik és csak a <code>polgar</code> része marad meg. Ezt <em>object slicing</em>-nak hívjuk.</p>
+<h2 id="protected-tagok"><a class="header" href="#protected-tagok">Protected tagok</a></h2>
+<p>A <code>private</code> tagok nem láthatók a leszármazottakból sem. A <code>protected</code> tagok a leszármazottból látszanak, az osztályon kívülről viszont nem.</p>
+<h2 id="inheritance-access-specifiers"><a class="header" href="#inheritance-access-specifiers">Inheritance access specifiers</a></h2>
+<p>Mint ahogyan tagokból, leszármazásból is létezik publikus, protected és private.</p>
+<p>Ezt a következőképp kell érteni:</p>
+<p><strong>public</strong>: a subclass és a külső kód is tud a leszármazásról, a leszármazotton keresztül a subclass és a külső kód is eléri a base class <code>public</code> tagjait, a <code>private</code> és <code>protected</code> tagokat viszont nem
+<strong>protected</strong>: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class <code>public</code> tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
+<strong>private</strong>: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.</p>
+<p><em><strong>Fontos, zhn szokott lenni</strong></em>: a <code>struct</code>-al definiált osztályoknál a leszármazásnál is <code>public</code> a default, míg a <code>class</code>-al definiáltaknál <code>private</code>.</p>
+<h2 id="virtual-tagfüggvények"><a class="header" href="#virtual-tagfüggvények">Virtual tagfüggvények</a></h2>
+<p>Tegyük fel, hogy a hallgatók dekorált nevéhez hozzá szeretnénk adni, hogy "hallgató". Ehhez valahogyan "felül kell írnunk" a base class <code>get_decorated_name</code> függvényét. Azokat a függvényeket amelyeket felül lehet írni virtuális tagfüggvényeknek hívunk és a <code>virtual</code> keyworddel jelezzük őket.
+A base class-ra mutató pointeren keresztül tárolt subbclassnak a saját tagfüggvény verziója hívódik majd.</p>
+<p>Az <code>ovverride</code> keyword opcionálisan a felülíró függvény fejléce után kerül, hasznos kiírni.</p>
+<pre><code class="language-cpp">class polgar{
+public:
+    std::string name;
+    std::string neptun;
+    virtual std::string get_decorated_name() const {
+        return name + std::string(" ") + neptun;
+    }
+};
+
+class hallgato : polgar {
+public:
+    double calculate_kreditindex();
+    std::vector&lt;Targy&gt; targyak;
+
+    virtual std::string get_decorated_name() const override {
+        return std::string("hallgato ") + name + std::string(" ") + neptun;
+    }
+};
+
+int main(){
+    polgar* p = new hallgato("Gipsz Jakab", "ABC123");
+    std::string name = p-&gt;get_decorated_name(); //hallgato tagfüggvényét hívja
+    std::cout &lt;&lt; name; //hallgato Gipsz Jakab ABC123
+}
+</code></pre>
+<h3 id="vtable"><a class="header" href="#vtable">Vtable</a></h3>
+<p>A virtuális függvényhívások egy speciális, vtable -nek nevezett adatstruktúrán keresztül történik. Amikor virtuális függvényt adunk egy osztályhoz, akkor az osztály kap egy rejtett tömböt, amely függvénypointereket("függvényeket") tárol. Ez a tömb tárolja az adott osztály implementációját a virtuális függvényekre.</p>
+<p><em>Miért szükséges ez?</em><br>
+Mivel base class pointer mutathat subclass objektumra, így fordításidőben nem tudhatjuk, hogy melyik függvényt kell hívni, ezért futásidőben ezt a tömböt használjuk, hogy a helyes függvényt hívjuk.</p>
+<p><em>Mekkora overheaddel jár ez?</em><br>
+A válasz: depends. Gyakorlatilag semekkorával, persze ez sok tényezőtől függ. Gyenge hardveren(pl. mikrokontrollerek) problémát jelenthet, azonban egy asztali számítógépen valószínűleg nem ez lesz a szűk keresztmetszet.</p>
+<h3 id="pure-virtual-function"><a class="header" href="#pure-virtual-function">Pure virtual function</a></h3>
+<p>Néha szeretnénk azt, hogy a base class ne legyen valóban példányosítható, hanem valamilyen függvényét implementálja minden subclass. Az ilyen függvényeket pure virtual functionnak, az osztály t pedig absztrakt osztálynak nevezzük. Pure virtual function-t az <code>=0</code> postfix-el deklarálhatunk.</p>
+<pre><code class="language-cpp">struct base {
+    virtual void foo() = 0;
+};
+
+struct derived : base {
+    virtual void foo() override {
+        std::cout &lt;&lt; "pog\n";
+    }
+}
+
+int main(){
+    base b; //error, cannot instantiate abstract class
+    derived d; //ok
+    base* p = new derived; //ok, base* mutat derived objektumra
+    base* p2 = new base; //error, cannot instantiate abstract class
+
+}
+</code></pre>
+<p><em>Vegyük észre</em>: az <code>=0</code> szintaxis onnan jön, hogy a vtable-ben a függvény helyén egy 0 érték, "null pointer" lesz.</p>
+<h2 id="base-class-konstruktor-és-virtuális-destruktor"><a class="header" href="#base-class-konstruktor-és-virtuális-destruktor">Base class konstruktor és virtuális destruktor</a></h2>
+<p>Amikor egy leszármazott objektumot készítünk, akkor inicializálni kell annak base class "részét" is. Ehhez meg kell hívni a base class destruktorát(ha nincs neki default konstruktora).
+Ezt a már jól ismert member initializer list-ről tehetjük meg.</p>
+<pre><code class="language-cpp">class polgar{
+    std::string name;
+    std::string neptun;
+    virtual std::string get_decorated_name() const {
+        return name + std::string(" ") + neptun;
+    }
+
+public:
+    polgar(const std::string&amp; name, const std::string&amp; neptun) : name(name), neptun(neptun) {}
+};
+
+class hallgato : polgar {
+    std::vector&lt;Targy&gt; targyak;
+public:
+    hallgato(const std::string&amp; name, const std::string&amp; neptun) : polgar(name, neptun) //a polgar konstruktorát hívjuk a name és neptun paraméterekkel
+    {}
+
+    double calculate_kreditindex();
+
+    virtual std::string get_decorated_name() const override {
+        return std::string("hallgato ") + name + std::string(" ") + neptun;
+    }
+};
+</code></pre>
+<pre><code class="language-cpp">polgar* p = new hallgato("Gipsz Jakab", "ABC123");
+</code></pre>
+<p>Azonban van egy kis baj... A következő sor undefined behavior:</p>
+<pre><code class="language-cpp">delete p;
+</code></pre>
+<p>A probléma a destruktor kérdése. Ha a base classra mutató pointerre hívunk <code>delete</code> -t, akkor az a base class destruktorát fogja meghívni. Ez probléma, ha a subclass destruktora valamilyen erőforrást szabadít fel, viszont nem hívódik meg.</p>
+<p>Erre a problémára nyújtanak megoldást a virtuális destruktorok. Amikor egy base-re mutató pointerre <code>delete</code>-t hívunk, akkor a láncon felfelé(legalsó leszármazott-&gt;legfelső leszármazott) meghívódik az összes destruktor.</p>
+<pre><code class="language-cpp">struct base {
+    base() = default; //explicit default: "im okay with what the compiler gives me"
+    virtual ~base() {
+        std::cout &lt;&lt; "base dtor\n";
+    }
+};
+
+struct derived : base {
+    derived() = default;
+    virtual ~derived() {
+        std::cout &lt;&lt; "derived dtor\n";
+    }
+};
+
+int main(){
+    base* p = new derived;
+    delete p;
+}
+</code></pre>
+<p>Output:</p>
+<pre><code>derived dtor
+base dtor
+</code></pre>
+<h2 id="final-keyword"><a class="header" href="#final-keyword">'final' keyword</a></h2>
+<p>A <code>final</code> keyword azt jelzi, hogy egy osztályból már nem lehet leszármazni.</p>
+<pre><code class="language-cpp">struct something final {};
+
+struct something_else : something {}; //error, 'something' is final
+</code></pre>
+<h2 id="virtual-inheritance"><a class="header" href="#virtual-inheritance">Virtual inheritance</a></h2>
+<p>A gyémánt probléma az OOP egyik legnagyobb kérdése.</p>
+<pre><code class="language-cpp">struct A {
+    int x;
+};
+struct B : A {};
+struct C : A {};
+struct D : B, C {};
+</code></pre>
+<p>Ekkor a leszármazási gráf egy "gyémánt" alakot alkot, amely a következő problémát veti fel: <br>
+Amikor a <code>D</code> -n keresztül <code>A</code> beli tagokat érünk el, akkor azt a <code>D</code> osztály <code>B</code> vagy <code>C</code> részén tesszük -e meg?<br>
+Ez akkora dilemma, hogy sok nyelv (pl Java) szimplán nem enged egyszerre több osztályból való származást.</p>
+<p>C++ -ban ezt a problémát a virtuális leszármazással oldották meg.</p>
+<h1 id="todo"><a class="header" href="#todo">TODO</a></h1>
 
                     </main>
 
@@ -762,6 +1110,22 @@ int main(){
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

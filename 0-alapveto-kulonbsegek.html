@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html" class="active"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html" class="active"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -175,6 +175,7 @@
                     <main>
                         <h1 id="alapvető-különbségek-a-c-nyelvtől"><a class="header" href="#alapvető-különbségek-a-c-nyelvtől">Alapvető különbségek a C nyelvtől</a></h1>
 <h2 id="a-bool-mint-nyelvi-elem"><a class="header" href="#a-bool-mint-nyelvi-elem">A <code>bool</code>, mint nyelvi elem</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/types#Boolean_type">https://en.cppreference.com/w/cpp/language/types#Boolean_type</a></p>
 <p>A <code>bool</code> típus, habár a C nyelv újabb verzióiban nyelvi elemként szerepel, a Prog1 még nem tanítja. A C++ nyelvnek szerencsére része a <code>bool</code> típus, nem kell ehhez a legújabb verziókat használni.</p>
 <pre><code class="language-cpp">bool x = true; //nem kell semmilyen include
 </code></pre>
@@ -194,6 +195,7 @@ int main(){
 <pre><code>#include &lt;stdio.h&gt; -&gt; #include &lt;cstdio&gt;
 </code></pre>
 <h2 id="névtereknamespace"><a class="header" href="#névtereknamespace">Névterek(namespace)</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/namespace">https://en.cppreference.com/w/cpp/language/namespace</a></p>
 <p>C-ben gyakori az, hogy egy név már használva van például egy header file-ban ezért bárhol, ahol ez a header include-olva van, ez a név "foglalt" lesz. Ezt sok könyvtár a név prefixelésével oldja meg, pl. <code>SDL_Texture</code>.</p>
 <p>Erre a C++ -nak beépített nyelvi eleme van, ezek pedig a névterek.</p>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
@@ -260,6 +262,8 @@ xr = y; //ugyan az, mint x = y;
 <p>Gondolhatunk a referenciára úgy, mint egy 'alias' -ra (alternatív név). Megmondjuk, minek az alias-a, majd utána az eredeti változó helyett használjuk.</p>
 <p>Fontos megjegyezni, hogy ugyan úgy mint a pointereknél, lokális változóra mutató referenciával <em>tilos</em> visszatérni.</p>
 <h2 id="a-const-kulcsszó"><a class="header" href="#a-const-kulcsszó">A const kulcsszó</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/cv">https://en.cppreference.com/w/cpp/language/cv</a></p>
+<p>Most a <code>const</code> <em>type qualifier</em>-ről van szó.</p>
 <p>A <code>const</code> kulcsszó a C nyelvnek is része, viszont C++ban egy sokkal fontosabb szerepe van, amivel később találkozunk még.</p>
 <p>Jelentése nevéből adódik, egy <code>const</code> objektumot "nem lehet megváltoztatni". A kulcsszó mindig a tőle azonnal balra található dologra vonatkozik, kivéve ha a <code>const</code> az első, akkor a tőle azonnal jobbra található elemre vonatkozik.
 Fontos azt megemlíteni, hogy a <code>const</code> nem fordításidejű konstans értéket jelöl, inkább a programozó felé jelzés. Régebben a fordítók optimalizálásra is használták, viszont ennek a jelentősége ma már elenyésző, viszont a kulcsszó használata ettől még esszenciális marad.</p>
@@ -291,7 +295,8 @@ int* const c = &amp;pi;
 int&amp; r = pi; 
 </code></pre>
 <h2 id="null-pointer"><a class="header" href="#null-pointer">Null pointer</a></h2>
-<p>A régebbi(prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <code>nullptr</code> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
+<p><a href="https://en.cppreference.com/w/cpp/language/nullptr">https://en.cppreference.com/w/cpp/language/nullptr</a></p>
+<p>A régebbi(prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <a href=""><code>nullptr</code></a> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
 <pre><code class="language-cpp">int* a = nullptr;
 
 if(a) {
@@ -299,6 +304,35 @@ if(a) {
 }
 </code></pre>
 <p>kódrészletek.</p>
+<h2 id="stdstring"><a class="header" href="#stdstring">std::string</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/string/basic_string">https://en.cppreference.com/w/cpp/string/basic_string</a></p>
+<p>Egy egyszerű string típus dinamikus mérettel és alap elvárt string funkcionalitással.</p>
+<pre><code class="language-cpp">#include &lt;string&gt;
+/* ... */
+std::string str = "foo";
+std::string str2 = str;
+
+str = str.substr(0, 1);
+// ...
+</code></pre>
+<h2 id="scoped-enumc11"><a class="header" href="#scoped-enumc11">Scoped enum(C++11)</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/enum">https://en.cppreference.com/w/cpp/language/enum</a></p>
+<p>A C <code>enum</code> típusai nagyon furcsán viselkednek, egésszé változnak ha kicsit féloldalasan nézzük őket, pedig nem igazán erre valók. C++ban az <code>enum class</code> ezt oldja meg.
+Definíciós szintaxisuk a C enumokhoz hasonló, viszont a scoped enum-ok nem konvertálódnak automatikusan egész számokká, valamint nem valami mágikus globális konstansként próbálnak viselkedni.</p>
+<pre><code class="language-cpp">enum class Direction{
+    UP=0, DOWN=1, LEFT=2, RIGHT=3
+};
+
+int main(){
+    Direction d = Direction::UP; //typename::enumname szintaxis
+    int x = d; //error
+}
+</code></pre>
+<p>Még egy nagyon jó tulajdonságuk, hogy megadhatjuk az underlying típusukat. Például ha tudjuk hogy max 1 bytera lesz szükségünk, akkor megmondhatjuk neki, hogy valójában egy speckó <code>char</code> legyen.</p>
+<pre><code class="language-cpp">enum class Direction : char{
+    UP=0, DOWN=1, LEFT=2, RIGHT=3
+};
+</code></pre>
 
                     </main>
 
@@ -329,6 +363,22 @@ if(a) {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
