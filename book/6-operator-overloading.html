@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Sablonok - Prog2_Jegyzet</title>
+        <title>Operator overloading - Prog2_Jegyzet</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html" class="active"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html" class="active"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,122 +173,74 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="sablonok-template"><a class="header" href="#sablonok-template">Sablonok (template)</a></h1>
-<h2 id="sablon-alapok"><a class="header" href="#sablon-alapok">Sablon alapok</a></h2>
-<p>A C++ egyik legnagyobb előnye a C-vel szemben a generikus programozási lehetőségekben rejlik. A jegyzetben már szerepelt az alábbi függvény:</p>
-<pre><code class="language-cpp">//swap C++ -ban
-void cpp_swap(int&amp; x, int&amp; y){
-    int tmp = x;
-    x = y;
-    y = tmp;
-}
-</code></pre>
-<p>Ezt a függvényt szeretnénk megírni, hogy működjön mindenféle típusra. Természetesen ez lehetetlen küldetésnek tűnhet, azonban a C++ templatek fő felhasználási módja éppen ez.</p>
-<pre><code class="language-cpp">template &lt;typename T&gt; //sablondeklaráció, sablonparaméterek(itt T) felsorolása
-void cpp_swap(T&amp; x, T&amp;y){ //cpp_swap&lt;T&gt; függvénysablon
-    T tmp = x;
-    x = y;
-    y = tmp;
-}
-</code></pre>
-<p>A fent látható <code>cpp_swap</code> -ot <em>függvénysablon</em>nak hívjuk. Önmagában nem függvény, ahhoz "példányosítani" kell. Ez a gyakorlatban annyit jelent, hogy használjuk.</p>
-<p>pl.</p>
-<pre><code class="language-cpp">int x = 5;
-int y = 2;
-// cpp_swap&lt;T&gt; függvénysablon példányosítása T=int sablonparaméterekkel
-cpp_swap&lt;int&gt;(x, y); //&lt;int&gt; &lt;- sablonparaméter megadása
+                        <h1 id="operator-overloading"><a class="header" href="#operator-overloading">Operator overloading</a></h1>
+<h2 id="mik-az-operátorok-valójában"><a class="header" href="#mik-az-operátorok-valójában">Mik az operátorok valójában?</a></h2>
+<p>Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni.</p>
+<h2 id="operátorok-és-osztályok"><a class="header" href="#operátorok-és-osztályok">Operátorok és osztályok</a></h2>
+<p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
+<p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
+A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
+<p>Nézzünk egy példát:</p>
+<pre><code class="language-cpp">class DinTomb{
+    /* 
+        ...
+    */
 
-double a = 5.2;
-double b = 1.2;
-cpp_swap&lt;double&gt;(a, b);
-</code></pre>
-<p>Amikor egy sablont példányosítunk adott sablonparaméterekkel, olyankor valójában fordításidőben kód generálódik az adott sablonparaméterek behelyettesítésével.
-Pl.</p>
-<pre><code class="language-cpp">cpp_swap&lt;int&gt;(x, y); //cpp_swap&lt;T&gt; függvénysablon példányosítása T=int sablonparaméterekkel
-</code></pre>
-<p>esetén a</p>
-<pre><code class="language-cpp">void cpp_swap(int&amp; x, int&amp; y){ 
-    int tmp = x;
-    x = y;
-    y = tmp;
-}
-</code></pre>
-<p>kód generálódik. A <code>T</code> helyére mindenhol <code>int</code> kerül. Ezt a generált kódot nekük természetesen nem kell látnunk, vagy foglalkoznunk vele.</p>
-<p>A sablonparamétereket a fordító néha ki tudja találni a kapott függvényparaméterekből(template parameter deduction).
-Például:</p>
-<pre><code class="language-cpp">double a = 5.2;
-double b = 1.2;
-cpp_swap(a, b); //nem kell megadni, hogy double típus, mivel a és b double típusúak
-
-cpp_swap&lt;double&gt;(a, x); //meg kell adni, hogy double típus, mivel a és x különböző típusúak, így a fordító nem tud dönteni
-</code></pre>
-<p>A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL).</p>
-<h2 id="duck-typing"><a class="header" href="#duck-typing">Duck typing</a></h2>
-<p>A sablonokkal felmerül egy újabb kérdés: milyen típusokat fogadunk el? A válasz erre egyszerű: mindent, amivel a függvény kódja lefordul.</p>
-<p>Ezt "duck typing" -nak hívjuk: <em>"If it walks like a duck and it quacks like a duck, then it must be a duck"</em></p>
-<p>Például nézzünk meg egy függvényt, ami megmondja két <em>valamiről</em>, hogy az első <em>valami</em> nagyobb-e, mint a második <em>valami</em>.</p>
-<pre><code class="language-cpp">template&lt;typename T&gt;
-bool nagyobbe(T elso, T masodik){
-    return elso &gt; masodik;
-}
-</code></pre>
-<p>Milyen típusokra működik ez a függvény?
-Hát azokra, amelyek ezeket a feltételeket teljesítik:</p>
-<ul>
-<li>lemásolhatók (hiszen másolatként vesszük át őket)</li>
-<li>összehasonlíthatók a <code>&gt;</code> operátorral</li>
-</ul>
-<p>A sablonok korlátozására léteznek további technikák(SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.</p>
-<h2 id="nem-típus-sablonparaméterek-nem-függvény-sablonok"><a class="header" href="#nem-típus-sablonparaméterek-nem-függvény-sablonok">Nem-típus sablonparaméterek, nem-függvény sablonok</a></h2>
-<p>Sablonparaméterként átadható nem csak típus, hanem gyakorlatilag bármilyen más objektum is. Pl. a standard library egy típusa az <code>std::array</code>, amely első függvényparamétere a tömbben tárolt típus, második függvényparamétere egy pozitív egész szám, a tömb mérete.</p>
-<pre><code class="language-cpp">std::array&lt;int, 5&gt; tomb; //5 méretű int-eket tároló tömb
-</code></pre>
-<p>Ezt kódban a következőként "replikálhatjuk":</p>
-<pre><code class="language-cpp">template&lt;typename T, std::size_t siz&gt;
-struct array{ // array&lt;T, siz&gt; "osztálysablon"(osztályok később)
-    T belso_tomb[siz];
-    //array implementáció...
+    void operator+=(const T&amp; elem){
+        push_back(elem); //delegáljuk a beillesztést a push_back függvénynek, nem duplikálunk kódot.
+    }
 };
 
-template &lt;int N&gt;
-void print_template_int(){
-    std::cout &lt;&lt; N &lt;&lt; '\n';
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+
+    return 0;
 }
 </code></pre>
-<p>Fontos azt megjegyezni, hogy a sablonok fordításidőben példanyosodnak, szóval minden függvényparaméternek fordításidőben konstansnak kell lennie.
-pl.</p>
-<pre><code class="language-cpp">print_template_int&lt;5&gt;(); //ok
-int x = 5;
-print_template_int&lt;x&gt;(); //hiba, x nem fordításidejű konstans(const sem oldaná meg)
-</code></pre>
-<h2 id="részleges-specializáció"><a class="header" href="#részleges-specializáció">Részleges specializáció</a></h2>
-<p>Tegyük fel, hogy szeretnénk ha egy adott sablon egy speciális módon működjön, ha egy adott típust kap.
-Például ha a swap függvényünk int-et kap, akkor írja ki, hogy "int", különben működjön normális módon.</p>
-<pre><code class="language-cpp">template &lt;typename T&gt; 
-void cpp_swap(T&amp; x, T&amp;y){ 
-    T tmp = x;
-    x = y;
-    y = tmp;
+<h2 id="friend"><a class="header" href="#friend">Friend</a></h2>
+<p>Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az <code>operator&lt;&lt;</code> (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni.
+A <code>friend</code> kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class DinTomb{
+    /* 
+        ...
+    */
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb);
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb){
+    for(std::size_t i = 0; i &lt; dtomb.meret; ++i){
+        out &lt;&lt; dtomb.tomb[i] &lt;&lt; ' ';
+    }
+
+    return out;
 }
 
-template &lt;&gt; 
-void cpp_swap&lt;int&gt;(int&amp; x, int&amp;y){ //specializáció a T=int esetre
-    std::cout &lt;&lt; "int";
-    T tmp = x;
-    x = y;
-    y = tmp;
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+    tomb += 2.3;
+    tomb.push_back(8.7);
+
+    std::cout &lt;&lt; tomb;
+    return 0;
 }
 </code></pre>
+<p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
+<p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="3-dinamikus-memoriakezeles.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="5-osztályok.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="5-osztályok.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="7-inheritance.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -298,11 +250,11 @@ void cpp_swap&lt;int&gt;(int&amp; x, int&amp;y){ //specializáció a T=int esetr
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="3-dinamikus-memoriakezeles.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="5-osztályok.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="5-osztályok.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="7-inheritance.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -1,6 +1,7 @@
 # Alapvető különbségek a C nyelvtől
 
 ## A `bool`, mint nyelvi elem
+<https://en.cppreference.com/w/cpp/language/types#Boolean_type>
 
 A `bool` típus, habár a C nyelv újabb verzióiban nyelvi elemként szerepel, a Prog1 még nem tanítja. A C++ nyelvnek szerencsére része a `bool` típus, nem kell ehhez a legújabb verziókat használni.
 
@@ -31,6 +32,7 @@ A C standard library header-jei a C++ nyelvben is léteznek, viszont a `.h` kite
 ```
 
 ## Névterek(namespace)
+<https://en.cppreference.com/w/cpp/language/namespace>
 
 C-ben gyakori az, hogy egy név már használva van például egy header file-ban ezért bárhol, ahol ez a header include-olva van, ez a név "foglalt" lesz. Ezt sok könyvtár a név prefixelésével oldja meg, pl. `SDL_Texture`.
 
@@ -116,6 +118,9 @@ Gondolhatunk a referenciára úgy, mint egy 'alias' -ra (alternatív név). Megm
 Fontos megjegyezni, hogy ugyan úgy mint a pointereknél, lokális változóra mutató referenciával *tilos* visszatérni.
 
 ## A const kulcsszó
+<https://en.cppreference.com/w/cpp/language/cv>
+
+Most a `const` *type qualifier*-ről van szó.
 
 A `const` kulcsszó a C nyelvnek is része, viszont C++ban egy sokkal fontosabb szerepe van, amivel később találkozunk még.
 
@@ -152,8 +157,9 @@ int& r = pi;
 ```
 
 ## Null pointer
+<https://en.cppreference.com/w/cpp/language/nullptr>
 
-A régebbi(prog1en oktatott) C verziókban a `NULL` valójában a konstans 0 void* -é kasztolása. C++ban a `void*` -> `T*` konverzió nem implicit, így C++ban a null pointernek saját `std::nullptr_t` típusa van, és `nullptr` -ként hivatkozunk rá a kódban. Az `std::nullptr_t` típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és `bool`-ra is képes implicit konvertálódni, azaz működnek a
+A régebbi(prog1en oktatott) C verziókban a `NULL` valójában a konstans 0 void* -é kasztolása. C++ban a `void*` -> `T*` konverzió nem implicit, így C++ban a null pointernek saját `std::nullptr_t` típusa van, és [`nullptr`]() -ként hivatkozunk rá a kódban. Az `std::nullptr_t` típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és `bool`-ra is képes implicit konvertálódni, azaz működnek a
 ```cpp
 int* a = nullptr;
 
@@ -162,3 +168,41 @@ if(a) {
 }
 ```
 kódrészletek.
+
+## std::string
+<https://en.cppreference.com/w/cpp/string/basic_string>
+
+Egy egyszerű string típus dinamikus mérettel és alap elvárt string funkcionalitással.
+
+```cpp
+#include <string>
+/* ... */
+std::string str = "foo";
+std::string str2 = str;
+
+str = str.substr(0, 1);
+// ...
+```
+
+## Scoped enum(C++11)
+<https://en.cppreference.com/w/cpp/language/enum>
+
+A C `enum` típusai nagyon furcsán viselkednek, egésszé változnak ha kicsit féloldalasan nézzük őket, pedig nem igazán erre valók. C++ban az `enum class` ezt oldja meg. 
+Definíciós szintaxisuk a C enumokhoz hasonló, viszont a scoped enum-ok nem konvertálódnak automatikusan egész számokká, valamint nem valami mágikus globális konstansként próbálnak viselkedni.
+```cpp
+enum class Direction{
+    UP=0, DOWN=1, LEFT=2, RIGHT=3
+};
+
+int main(){
+    Direction d = Direction::UP; //typename::enumname szintaxis
+    int x = d; //error
+}
+``` 
+
+Még egy nagyon jó tulajdonságuk, hogy megadhatjuk az underlying típusukat. Például ha tudjuk hogy max 1 bytera lesz szükségünk, akkor megmondhatjuk neki, hogy valójában egy speckó `char` legyen.
+```cpp
+enum class Direction : char{
+    UP=0, DOWN=1, LEFT=2, RIGHT=3
+};
+```

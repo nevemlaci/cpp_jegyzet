@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html" class="active"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html" class="active"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -209,8 +209,10 @@ int main(){
 </code></pre>
 <h2 id="tagfüggvények-member-functions"><a class="header" href="#tagfüggvények-member-functions">Tagfüggvények (member functions)</a></h2>
 <p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton(state) operálnak.</p>
-<p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.</p>
-<p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.</p>
+<p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.<br>
+<em><strong>FONTOS</strong></em> egy tagfüggvény túltölthető az alapján, hogy <code>const</code> -e, vagy nem, így a <code>const</code> qualifier része a függvény fejlécének! (signature)</p>
+<p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
+A tagfüggvények gyakorlatilag speciális függvények, amelyek első paramétere a rejtett <code>this</code> pointer.</p>
 <p>A szintaxis a következő:</p>
 <pre><code class="language-cpp">class Square{
 private:
@@ -302,6 +304,35 @@ public:
 };
 </code></pre>
 <p>Nagyon hasonlóan működik a függvényparaméterekhez, szimpla kódgenerálásról van szó.</p>
+<h2 id="gyakori-félreértések-static-tagfüggvények"><a class="header" href="#gyakori-félreértések-static-tagfüggvények">Gyakori félreértések, static tagfüggvények</a></h2>
+<p>Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy <em>valami</em> leírása. Ez az objektumorientált programozás alapelve. A való világ(vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre <em>példányokat</em>. Egy osztály egy példányát nevezzük általában objektumnak.</p>
+<p>Pl.</p>
+<pre><code class="language-cpp">class foo{};
+
+int main(){
+    foo f; // f a foo osztály egy példánya
+}
+</code></pre>
+<p>Amikor egy osztályban egy tagváltozót érünk el, az az adott példány tagváltozójára vonatkozik. Emlékezzünk vissza, a tagváltozók elérése (még ha implicit módon is) a <code>this</code> pointeren keresztül történik, azaz a példányunkra mutató pointeren keresztül.</p>
+<p>Vannak azonban esetek amikor valamilyen állapotot nem egy példányhoz, hanem az osztályhoz szeretnénk kötni. Nos erre való a <code>static</code> kulcsszó. Egy statikus tagváltozó nem a példányokhoz, hanem az osztályhoz tartozik, a statikus tagfüggvény ugyanígy az osztályhoz tartozik. Természetesen ez azt is jelenti, hogy statikus tagváltozót nem érhetünk el példányon keresztül, valamint <code>non static</code> tagváltozókat és tagfüggvényeket nem érhetünk el statikus tagfüggvényekből.</p>
+<p>Statikus tagváltozókat a <code>::</code> operátorral érhetünk el:
+<code>foo::bar();</code></p>
+<pre><code class="language-cpp">class foo{
+    public:
+        static void s_bar() {}
+        void m_bar() {}
+        int s_x;
+        int m_x;
+};
+
+int main(){
+    foo f;
+    f.m_bar(); //ok
+    f.m_x = 4; //ok
+    f.s_bar; //nem ok
+    foo::s_bar(); //ok
+}
+</code></pre>
 <h2 id="komolyabb-raii-példa"><a class="header" href="#komolyabb-raii-példa">Komolyabb RAII példa</a></h2>
 <p>Most pedig nézzünk egy komolyabb RAII példát.
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
@@ -353,61 +384,48 @@ int main(){
 <p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Ezt teszi a C++ Standard Library nagyrésze, pl. <code>std::vector</code>, a Standard Library dinamikus tömb típusa.</p>
 <h2 id="class-vs-struct"><a class="header" href="#class-vs-struct">class vs struct</a></h2>
 <p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne(C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
-<h2 id="operátorok-túltöltése"><a class="header" href="#operátorok-túltöltése">Operátorok túltöltése</a></h2>
-<p>Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni.</p>
-<p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
-<p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
-A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
-<p>Nézzünk egy példát:</p>
-<pre><code class="language-cpp">class DinTomb{
-    /* 
-        ...
-    */
+<h2 id="osztályok-tagfüggvényei-többmodulos-programokban"><a class="header" href="#osztályok-tagfüggvényei-többmodulos-programokban">Osztályok tagfüggvényei többmodulos programokban</a></h2>
+<p>Ha egy osztálynak saját header és cpp file-t dezignálunk, akkor azt a következő szintaxissal tehetjük meg:</p>
+<p><code>foo.hpp</code> (a .hpp kiterjesztés gyakori c++ header fileokhoz, de természetesen a .h ugyanígy gyakori, a kiterjesztések egyébként sem számítanak)</p>
+<pre><code class="language-cpp">class foo{
+    int x;
+    static int y;
+    public:
+    foo(int x);
+    void set_x(int x);
+    int get_x() const;
 
-    void operator+=(const T&amp; elem){
-        push_back(elem); //delegáljuk a beillesztést a push_back függvénynek, nem duplikálunk kódot.
+    static void something();
+
+
+    //
+    template &lt;typename T&gt;
+    void print_with_x(T thing) const {
+        std::cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; thing;
     }
 };
+</code></pre>
+<p><em><strong>FONTOS!</strong></em> A template definíciókat (explicit specializációkat kivéve) header fileokban kell megírni!</p>
+<p>A .cpp fileban a <code>returntype classname::functionname(params...)</code> szintaktikát használjuk.<br>
+Statikus tagváltozókat itt kell definiálni, itt a <code>type classname::variablename = somevalue;</code> szintaktikát használjuk. Osztálydefiníción kívül a <code>static</code> mást jelent, így kiírni nagy hiba.
+<code>foo.cpp</code></p>
+<pre><code class="language-cpp">
+int foo::y = 1; //statikus tagváltozó definíciója
 
-int main(){
-    DinTomb tomb;
-    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+foo::foo(int x) : x(x) {} //konstruktor definíciója
 
-    return 0;
+void foo::set_x(int x){
+    this-&gt;x = x;
+}
+
+int foo::get_x() const { //fontos! a const része a függvény fejécének(signature), itt is ki kell írni.
+    return x;
+}
+
+void foo::something(){
+    y*=2;
 }
 </code></pre>
-<p>Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az <code>operator&lt;&lt;</code> (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni.
-A <code>friend</code> kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.</p>
-<pre><code class="language-cpp">#include &lt;iostream&gt;
-
-class DinTomb{
-    /* 
-        ...
-    */
-
-    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb);
-};
-
-std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb){
-    for(std::size_t i = 0; i &lt; dtomb.meret; ++i){
-        out &lt;&lt; dtomb.tomb[i] &lt;&lt; ' ';
-    }
-
-    return out;
-}
-
-int main(){
-    DinTomb tomb;
-    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
-    tomb += 2.3;
-    tomb.push_back(8.7);
-
-    std::cout &lt;&lt; tomb;
-    return 0;
-}
-</code></pre>
-<p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
-<p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
 
                     </main>
 
@@ -417,6 +435,9 @@ int main(){
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next prefetch" href="6-operator-overloading.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -428,10 +449,29 @@ int main(){
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next prefetch" href="6-operator-overloading.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

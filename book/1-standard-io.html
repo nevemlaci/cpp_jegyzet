@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html" class="active"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html" class="active"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -177,6 +177,8 @@
 <h2 id="problémák-a-c-standard-io-val"><a class="header" href="#problémák-a-c-standard-io-val">Problémák a C standard IO-val</a></h2>
 <p>A <code>printf</code> és <code>scanf</code> fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A <code>scanf</code> függvénynél ezen felül nem szabad elfelejteni a címképző operátort(<code>&amp;</code>) sem, a <code>printf</code> pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.</p>
 <h2 id="c-alternatívák"><a class="header" href="#c-alternatívák">C++ alternatívák</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/io/cout">https://en.cppreference.com/w/cpp/io/cout</a></p>
+<p><a href="https://en.cppreference.com/w/cpp/io/cin">https://en.cppreference.com/w/cpp/io/cin</a></p>
 <p>C++ban a standard input és output két fő globális objektum(<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként(<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
 <p>Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
@@ -199,6 +201,47 @@ std::cout &lt;&lt; "int: " &lt;&lt; x &lt;&lt; " double: " &lt;&lt; d &lt;&lt; "
 <p>Ez a "szintaktika" operátorok túltöltésén(overload) alapul.
 Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy <code>operator&lt;&lt;</code> függvényt hívunk meg az <code>std::cout</code>(referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az <code>std::cout</code> -ot, így tudjuk őket láncolni is.
 Később azt is megtanuljuk, hogy pontosan hogyan működik az operátorok overload-olása és láncolása, valamint megtanítjuk majd a saját típusaink beolvasását és kiírását is.</p>
+<h3 id="get"><a class="header" href="#get">Get</a></h3>
+<p><a href="https://en.cppreference.com/w/cpp/io/basic_istream/get">https://en.cppreference.com/w/cpp/io/basic_istream/get</a></p>
+<pre><code class="language-cpp">char k = std::cin.get(); //bekérünk 1 karaktert
+
+char k2;
+std::cin.get(k2); //ugyanaz mint az előző, csak máshogy, itt out parameter van return helyett
+
+char k3[6];
+std::cin.get(k3, 5); //5 karaktert olvasunk egy 5 méretű tömbbe. Ez a függvény tesz lezáró 0-t
+
+</code></pre>
+<h2 id="stdgetline"><a class="header" href="#stdgetline">std::getline</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/string/basic_string/getline">https://en.cppreference.com/w/cpp/string/basic_string/getline</a>
+Az std::getline függvény alapértelmezetten egy egész sort olvas be egy input streamről, viszont saját elválasztót is megadhatunk neki.</p>
+<pre><code class="language-cpp">std::string line;
+std::getline(std::cin, line);
+std::getline(std::cin, line, ','); // ',' karakterig olvasunk
+</code></pre>
+<h2 id="ignore"><a class="header" href="#ignore">Ignore</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/io/basic_istream/ignore">https://en.cppreference.com/w/cpp/io/basic_istream/ignore</a></p>
+<p>A bemeneti streameknek van egy <code>ignore</code> tagfüggvénye, amellyel eldobhatunk("ignorálhatunk") karaktereket.</p>
+<pre><code class="language-cpp">std::cin.ignore(x); // x karaktert ignorál, vagy amíg eof-t nem kap
+std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max()); //ignorál mindent ami a bemeneten van
+std::cin.ignore(x, c); //ignorál x karakter, vagy amíg nem kap c-vel azonos karaktert
+</code></pre>
+<p><code>std::numeric_limits&lt;T&gt;::max()</code> : adott <code>T</code> típusú numerikus típus maximum értékét adja vissza. (pl. <code>std::numeric_limits&lt;std::size_t&gt;::max()</code>)</p>
+<pre><code class="language-cpp">int a;
+int b;
+std::cin &gt;&gt; a;
+std::cin.ignore(5);
+std::cin &gt;&gt; b;
+
+char c1;
+char c2;
+
+std::cin &gt;&gt; c1;
+//ignorálunk addig amíg ';' -t nem kapunk. Ignorálja a ; -t is!
+std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), ';'); 
+std::cin &gt;&gt; c2;
+</code></pre>
+<p><em>Nem összekeverendő a teljesen más jelentésű <code>std::ignore</code>-al.</em></p>
 
                     </main>
 
@@ -229,6 +272,22 @@ Később azt is megtanuljuk, hogy pontosan hogyan működik az operátorok overl
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

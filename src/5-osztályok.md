@@ -51,9 +51,11 @@ int main(){
 
 Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton(state) operálnak.
 
-Egy tagváltozó lehet `const`, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így `const` objektumon is működik.
+Egy tagváltozó lehet `const`, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így `const` objektumon is működik.<br>
+***FONTOS*** egy tagfüggvény túltölthető az alapján, hogy `const` -e, vagy nem, így a `const` qualifier része a függvény fejlécének! (signature)
 
 A `this` pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
+A tagfüggvények gyakorlatilag speciális függvények, amelyek első paramétere a rejtett `this` pointer. 
 
 A szintaxis a következő:
 
@@ -160,6 +162,45 @@ public:
 ```
 Nagyon hasonlóan működik a függvényparaméterekhez, szimpla kódgenerálásról van szó.
 
+## Gyakori félreértések, static tagfüggvények
+
+Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy *valami* leírása. Ez az objektumorientált programozás alapelve. A való világ(vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre *példányokat*. Egy osztály egy példányát nevezzük általában objektumnak.
+
+Pl.
+
+```cpp
+class foo{};
+
+int main(){
+    foo f; // f a foo osztály egy példánya
+}
+```
+
+Amikor egy osztályban egy tagváltozót érünk el, az az adott példány tagváltozójára vonatkozik. Emlékezzünk vissza, a tagváltozók elérése (még ha implicit módon is) a `this` pointeren keresztül történik, azaz a példányunkra mutató pointeren keresztül.
+
+Vannak azonban esetek amikor valamilyen állapotot nem egy példányhoz, hanem az osztályhoz szeretnénk kötni. Nos erre való a `static` kulcsszó. Egy statikus tagváltozó nem a példányokhoz, hanem az osztályhoz tartozik, a statikus tagfüggvény ugyanígy az osztályhoz tartozik. Természetesen ez azt is jelenti, hogy statikus tagváltozót nem érhetünk el példányon keresztül, valamint `non static` tagváltozókat és tagfüggvényeket nem érhetünk el statikus tagfüggvényekből.
+
+Statikus tagváltozókat a `::` operátorral érhetünk el: 
+`foo::bar();`
+
+```cpp
+class foo{
+    public:
+        static void s_bar() {}
+        void m_bar() {}
+        int s_x;
+        int m_x;
+};
+
+int main(){
+    foo f;
+    f.m_bar(); //ok
+    f.m_x = 4; //ok
+    f.s_bar; //nem ok
+    foo::s_bar(); //ok
+}
+```
+
 ## Komolyabb RAII példa
 
 Most pedig nézzünk egy komolyabb RAII példát. 
@@ -218,68 +259,51 @@ Nos igen, ez a RAII lényege. Nem kell manuálisan sehol `delete` és `new` -t �
 
 A `struct` keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A `class` -tól annyiban különbözik, hogy `private` helyett alapértelmezetten minden `public` benne(C kompatibilitás miatt). Az, hogy valaki `class`-t vagy `struct`-ot használ, preferencia.
 
-## Operátorok túltöltése
+## Osztályok tagfüggvényei többmodulos programokban
 
-Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni. 
+Ha egy osztálynak saját header és cpp file-t dezignálunk, akkor azt a következő szintaxissal tehetjük meg:
 
-Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a `this` pointer lesz.
-
-Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
-A += operátorra "függvényként" az `operator+=` kifejezéssel hivatkozhatunk.
-
-Nézzünk egy példát:
-
+`foo.hpp` (a .hpp kiterjesztés gyakori c++ header fileokhoz, de természetesen a .h ugyanígy gyakori, a kiterjesztések egyébként sem számítanak)
 ```cpp
-class DinTomb{
-    /* 
-        ...
-    */
+class foo{
+    int x;
+    static int y;
+    public:
+    foo(int x);
+    void set_x(int x);
+    int get_x() const;
 
-    void operator+=(const T& elem){
-        push_back(elem); //delegáljuk a beillesztést a push_back függvénynek, nem duplikálunk kódot.
+    static void something();
+
+
+    //
+    template <typename T>
+    void print_with_x(T thing) const {
+        std::cout << x << ' ' << thing;
     }
 };
-
-int main(){
-    DinTomb tomb;
-    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -> operator+=(&tomb, 5.2)
-
-    return 0;
-}
 ```
 
-Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az `operator<<` (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni. 
-A `friend` kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.
+***FONTOS!*** A template definíciókat (explicit specializációkat kivéve) header fileokban kell megírni!
 
+A .cpp fileban a `returntype classname::functionname(params...)` szintaktikát használjuk.<br>
+Statikus tagváltozókat itt kell definiálni, itt a `type classname::variablename = somevalue;` szintaktikát használjuk. Osztálydefiníción kívül a `static` mást jelent, így kiírni nagy hiba.
+`foo.cpp`
 ```cpp
-#include <iostream>
 
-class DinTomb{
-    /* 
-        ...
-    */
+int foo::y = 1; //statikus tagváltozó definíciója
 
-    friend std::ostream& operator<<(std::ostream& out, const DinTomb& dtomb);
-};
+foo::foo(int x) : x(x) {} //konstruktor definíciója
 
-std::ostream& operator<<(std::ostream& out, const DinTomb& dtomb){
-    for(std::size_t i = 0; i < dtomb.meret; ++i){
-        out << dtomb.tomb[i] << ' ';
-    }
-
-    return out;
+void foo::set_x(int x){
+    this->x = x;
 }
 
-int main(){
-    DinTomb tomb;
-    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -> operator+=(&tomb, 5.2)
-    tomb += 2.3;
-    tomb.push_back(8.7);
+int foo::get_x() const { //fontos! a const része a függvény fejécének(signature), itt is ki kell írni.
+    return x;
+}
 
-    std::cout << tomb;
-    return 0;
+void foo::something(){
+    y*=2;
 }
 ```
-Ha az `operator<<`-t streamre való kiírásra használjuk, akkor mindig `std::ostream&` -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (`std::cout << a << b << c;`)
-
-Természetesen ezt a példát `friend` nélkül is meg lehet oldani, azonban ez nem mindig van így.

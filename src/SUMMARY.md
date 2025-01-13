@@ -6,3 +6,5 @@
 - [Dinamikus memóriakezelés](./3-dinamikus-memoriakezeles.md)
 - [Sablonok](./4-sablonok.md)
 - [Osztályok, RAII](./5-osztályok.md)
+- [Operator overloading](./6-operator-overloading.md)
+- [Inheritance](./7-inheritance.md)
