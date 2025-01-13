@@ -33,6 +33,10 @@ jobs:
         run: sudo apt install cargo
       - name: Get mdBook
         run: cargo install mdbook
+      - name: PWD
+        run: echo "$PWD"
+      - name: CD
+        run: cd ./cpp_jegyzet
       - name: Build book
         run: mdbook build
       - name: Checkout
