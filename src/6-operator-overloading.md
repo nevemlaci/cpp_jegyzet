@@ -69,3 +69,51 @@ int main(){
 Ha az `operator<<`-t streamre való kiírásra használjuk, akkor mindig `std::ostream&` -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (`std::cout << a << b << c;`)
 
 Természetesen ezt a példát `friend` nélkül is meg lehet oldani, azonban ez nem mindig van így.
+
+## Copy assignment(értékadó operátor)
+
+A másoló konstruktor testvére a copy assignment(értékadó) operator. A copy constructorhoz hasonlóan `const T&` -ként veszi át a másolandó objektumot és a default is generálódik belőle.
+Fontos, hogy a copy assignment operátor nem új objektumot hoz létre így az előzőleg használt erőforrásokat fel kell szabadítani.
+
+```cpp
+class tomb{
+    T* adat;
+    std::size_t size;
+
+    public:
+    tomb(const tomb& other);
+
+    tomb& operator=(const tomb& other){
+        delete[] adat;
+        adat = new T[other.size];
+        size = other.size;
+        for(std::size_t i = 0; i < other.size; ++i){
+            adat[i] = other.adat[i]; 
+        }
+    }
+
+    ~tomb();
+    
+    void push_back(const T& elem);
+    T& at(std::size_t idx);
+    //...
+};
+```
+
+## Rule of 0/3
+
+<https://en.cppreference.com/w/cpp/language/rule_of_three>
+
+Rule of 3: Ha egy osztálynak szüksége van nem compiler-default destruktorra, másoló konstruktorra vagy copy assignment operátorra akkor majdnem biztosan szüksége van mindháromra.
+
+*advanced*
+Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destruktora, copy construktora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<https://en.wikipedia.org/wiki/Single-responsibility_principle>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.
+
+## Néhány kötöttség
+
+Nem változtatható meg:
+* precedencia
+* asszocivitás
+
+Ezen felül egyes operátoroknak csak kötött számú paramétere lehet.<br>
+A logikai(`||` és `&&`) operátorok túltöltése esetén azok elvesztik a short-circuit tulajdonságukat.

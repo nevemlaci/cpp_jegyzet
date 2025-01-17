@@ -177,17 +177,17 @@
 <p>Senkit sem szeretnék a sablonszöveggel untatni, ha szép és kerek leírást keresünk arra itt a <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">wikipédia</a>.</p>
 <h4 id="a-lényeg"><a class="header" href="#a-lényeg">A lényeg</a></h4>
 <p>Az objektumorientált programozás alapja, hogy minden <em>dolog</em> ami a programunkban létezik egy objektum.</p>
-<p><em>Encapsulation</em>
+<p><em>Encapsulation</em> (Egységbe zárás)<br>
 Az objektumok valamilyen blueprintek(C++ban classok) példányai. Az osztályok valamilyen állapotot és az azokon elvégezhető műveleteket írják le(tagváltozó ~ állapot, tagfüggvény ~ művelet).</p>
-<p><em>Inheritance</em> (leszármaztatás)
+<p><em>Inheritance</em> (öröklődés)<br>
 Van olyan eset, amikor egy adott dolog egyben egy másik dolog, csak kicsit kiegészítve, megváltoztatva. Pl. a Hallgató egy egyetemi polgár, viszont képes vizsgát felvenni és van kreditindexe.
 Ekkor az egyetemi polgár a <em>"base class"</em> a hallgató pedig a "<em>subclass</em>" nevet kapja.</p>
-<p><em>Polymorphism</em>
+<p><em>Polymorphism</em><br>
 Kéz a kézben jár a leszármaztatással. A fő lényege, hogy egy base class -ra mutató dolog kaphat subclass objektumot, és ezen a mutatón keresztül való viselkedés a subclass viselkedését mutatja.</p>
-<p><em>Abstraction</em>
+<p><em>Abstraction</em><br>
 A legtöbb esetben nem érdekel minket, hogy egy adott függvény vagy típus pontosan hogy működik, csak az, hogy mit csinál. Pl. az <code>std::string</code> <code>push_back()</code> tagfüggvénye beilleszt egy karaktert a sztring végére, de az hogy ezt hogy tesz az az átlag programozó számára(a típus felhasználója) nem érdekes.
 Ezt az elvet a jegyzet is alkalmazni fogja, nem lesznek definiálva tagfüggvények, ha azok implementációja jelentéktelen.</p>
-<h2 id="leszármazás"><a class="header" href="#leszármazás">Leszármazás</a></h2>
+<h2 id="inheritance"><a class="header" href="#inheritance">Inheritance</a></h2>
 <p>A leszármazás szintaktikája viszonylag egyszerű:</p>
 <pre><code class="language-cpp">class polgar{
 public:
@@ -231,7 +231,7 @@ class E : public D {};
 <strong>protected</strong>: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class <code>public</code> tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
 <strong>private</strong>: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.</p>
 <p><em><strong>Fontos, zhn szokott lenni</strong></em>: a <code>struct</code>-al definiált osztályoknál a leszármazásnál is <code>public</code> a default, míg a <code>class</code>-al definiáltaknál <code>private</code>.</p>
-<h2 id="virtual-tagfüggvények"><a class="header" href="#virtual-tagfüggvények">Virtual tagfüggvények</a></h2>
+<h2 id="virtuális-tagfüggvények"><a class="header" href="#virtuális-tagfüggvények">Virtuális tagfüggvények</a></h2>
 <p>Tegyük fel, hogy a hallgatók dekorált nevéhez hozzá szeretnénk adni, hogy "hallgató". Ehhez valahogyan "felül kell írnunk" a base class <code>get_decorated_name</code> függvényét. Azokat a függvényeket amelyeket felül lehet írni virtuális tagfüggvényeknek hívunk és a <code>virtual</code> keyworddel jelezzük őket.
 A base class-ra mutató pointeren keresztül tárolt subbclassnak a saját tagfüggvény verziója hívódik majd.</p>
 <p>Az <code>ovverride</code> keyword opcionálisan a felülíró függvény fejléce után kerül, hasznos kiírni.</p>
@@ -266,7 +266,7 @@ int main(){
 Mivel base class pointer mutathat subclass objektumra, így fordításidőben nem tudhatjuk, hogy melyik függvényt kell hívni, ezért futásidőben ezt a tömböt használjuk, hogy a helyes függvényt hívjuk.</p>
 <p><em>Mekkora overheaddel jár ez?</em><br>
 A válasz: depends. Gyakorlatilag semekkorával, persze ez sok tényezőtől függ. Gyenge hardveren(pl. mikrokontrollerek) problémát jelenthet, azonban egy asztali számítógépen valószínűleg nem ez lesz a szűk keresztmetszet.</p>
-<h3 id="pure-virtual-function"><a class="header" href="#pure-virtual-function">Pure virtual function</a></h3>
+<h3 id="pure-virtual-function-absztrakt-osztályok"><a class="header" href="#pure-virtual-function-absztrakt-osztályok">Pure virtual function, absztrakt osztályok</a></h3>
 <p>Néha szeretnénk azt, hogy a base class ne legyen valóban példányosítható, hanem valamilyen függvényét implementálja minden subclass. Az ilyen függvényeket pure virtual functionnak, az osztály t pedig absztrakt osztálynak nevezzük. Pure virtual function-t az <code>=0</code> postfix-el deklarálhatunk.</p>
 <pre><code class="language-cpp">struct base {
     virtual void foo() = 0;
@@ -361,9 +361,57 @@ struct D : B, C {};
 </code></pre>
 <p>Ekkor a leszármazási gráf egy "gyémánt" alakot alkot, amely a következő problémát veti fel: <br>
 Amikor a <code>D</code> -n keresztül <code>A</code> beli tagokat érünk el, akkor azt a <code>D</code> osztály <code>B</code> vagy <code>C</code> részén tesszük -e meg?<br>
-Ez akkora dilemma, hogy sok nyelv (pl Java) szimplán nem enged egyszerre több osztályból való származást.</p>
+Ez akkora dilemma, hogy sok nyelv (pl. Java) szimplán nem enged egyszerre több osztályból való származást.</p>
 <p>C++ -ban ezt a problémát a virtuális leszármazással oldották meg.</p>
-<h1 id="todo"><a class="header" href="#todo">TODO</a></h1>
+<p>Minden virtuálisan örökölt osztályból garantáltan csak egyet tartalmaz majd minden leszármazott, akkor is, ha az osztály többször is szerepel a hierarchiában. <br>
+A virtuális ősosztályok minden nem-virtuális ősosztály előtt jönnek létre és a virtuális base classok konstruktorát csak a hierarchiában legalsó osztály konstruktora fogja meghívni.</p>
+<p>Az alábbi kódrészletben a konstruktor hívások sorrendje:</p>
+<ul>
+<li>B konstruktor</li>
+<li>X konstruktor</li>
+<li>Y konstruktor</li>
+<li>A konstruktor</li>
+</ul>
+<p>B konstruktora hívódik meg először, mivel virtual base class. Ez az <code>AA</code> initializer listjének sorrendjétől független, sőt, warningot is kapunk, ha B nem legelől van.<br>
+Ezután következik <code>X</code> és <code>Y</code> konstruktora, hiszen az <code>A</code> konstruktor törzse csak az initializer list után, az objektum inicializálása után fog lefutni.</p>
+<p>A destruktor hívások a konstruktor hívásokkal ellentétes sorrendben történnek.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+struct B
+{
+    int n;
+ 
+    B(int x) : n(x) {
+        std::cout &lt;&lt; "b ctor\n";
+    }
+};
+ 
+struct X : virtual B { 
+    X() : B(1) {
+        std::cout &lt;&lt; "x ctor\n";
+    } 
+};
+struct Y : virtual B {
+    Y() : B(2) {
+        std::cout &lt;&lt; "y ctor\n";
+    }  
+};
+struct AA : X, Y     {
+    AA() : B(3), X(), Y() {
+        std::cout &lt;&lt; "a ctor\n";
+    } 
+};
+
+int main(){
+    AA x;
+}
+</code></pre>
+<h2 id="saját-exception"><a class="header" href="#saját-exception">Saját exception</a></h2>
+<p>Korábban már szerepelt, hogy lehetséges saját kivételeket létrehozni. Ehhez semmi mást nem kell csinálni, mint az <code>std::exception</code>, vagy legtöbb esetben inkább az <code>std::runtime_error</code> osztályból leszármazni. A kivételeknek van egy konstruktora amely egy hibaüzenetet vesz át, ezért ezt implementáljuk.</p>
+<pre><code class="language-cpp">struct image_load_error : std::runtime_error {
+    image_load_error(const std::string&amp; what) : std::runtime_error(what) {}
+};
+</code></pre>
 
                     </main>
 

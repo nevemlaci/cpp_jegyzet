@@ -87,11 +87,13 @@ public:
 ```
 ## Konstruktor, destruktor és RAII
 
-Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization) módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.
+Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization), de hívhatjuk *"Scope Based Resource Management*-nek is, módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.
 
 A C++ nyelvben a "konstruktor"(constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.
 
 A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig `~osztaly_neve`.
+Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal, vagy a `new` operátorral dinamikus élettartamú objektumot hozunk létre.
+Lokális változó élettartama a definiálásától a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(`new`) a felszabadításáig(`delete`) tart.
 
 ```cpp
 class Foo{
@@ -114,9 +116,11 @@ int main(){
 }
 ```
 
-Azt a konstruktort, amely paraméter nélkül hívható, *defualt konstruktor*nak nevezzük. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor.
+Azt a konstruktort, amely paraméter nélkül hívható, *defualt konstruktor*nak nevezzük. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor. 
 
-A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van.
+Egy osztályból csak akkor hozható létre (C értelemben vett) tömb, ha annak van default konstruktora.
+
+A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: `classname() : member1(value1), member2(value2)`<br>
 Vegyük újra példának a `Square` osztályt.
 
 ```cpp
@@ -201,6 +205,14 @@ int main(){
 }
 ```
 
+## Egyetlen felelősség elve
+
+*"A module should be responsible to one, and only one, actor."* <br>
+Nos ez egy kicsit furcsa lehet, szóval vegyünk egy érthetőbb megfogalmazást:
+Egy osztálynak egyetlen felelősséget kell lefednie, viszont azt teljes mértékben. 
+
+Pl. A `string` osztályunk kezeli a dinamikus karaktertömböt, viszont azzal nem foglalkozik, hogy a karaktereit egyesével hogy írjuk ki.
+
 ## Komolyabb RAII példa
 
 Most pedig nézzünk egy komolyabb RAII példát. 
@@ -253,8 +265,51 @@ int main(){
 }
 ```
 
-Nos igen, ez a RAII lényege. Nem kell manuálisan sehol `delete` és `new` -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Ezt teszi a C++ Standard Library nagyrésze, pl. `std::vector`, a Standard Library dinamikus tömb típusa.
+Nos igen, ez a RAII lényege. Nem kell manuálisan sehol `delete` és `new` -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.
 
+## Objektumok másolása
+
+Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy `T` típusú objektumból `T` típusú objektumot készít *másoló konstruktor*(copy constructor)-nak nevezzük.
+
+A copy constructor valójában azt mondja meg, hogyan is kéne lemásolni egy objektumot. Ez sok esetben triviális, pl.
+```cpp
+class foo{
+    public:
+        int x;
+        float y;
+        double t;
+};
+```
+Ha egy osztálynak minden tagváltozója lemásolható(van copy constructora, vagy pl. primitív típus), akkor lesz automatikusan generált copy constructora is. 
+
+A copy constructor paramétereként `const T&` -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a lemásolásához a copy constructorra lenne szükség.
+Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni(deep copy).
+Ennek oka az, hogy a pointer lemásolásával(shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <https://en.wikipedia.org/wiki/Object_copying>
+
+***FONTOS!*** Néhány olvasó esetleg ismerheti a `memcpy` függvényt. C++ objektumokat `memcpy`-vel(és `std::memcpy`-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!
+
+```cpp
+template<typename T>
+class tomb{
+    T* adat;
+    std::size_t size;
+
+    public:
+    tomb(const tomb& other) : adat(new T[other.size]), size(other.size){
+        for(std::size_t i = 0; i < other.size; ++i){
+            adat[i] = other.adat[i]; //egyesével másoljuk le a tömböt
+        }
+    }
+
+    ~tomb(){
+        delete[] adat;
+    }
+    
+    void push_back(const T& elem);
+    T& at(std::size_t idx);
+    //...
+};
+```
 ## class vs struct
 
 A `struct` keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A `class` -tól annyiban különbözik, hogy `private` helyett alapértelmezetten minden `public` benne(C kompatibilitás miatt). Az, hogy valaki `class`-t vagy `struct`-ot használ, preferencia.
