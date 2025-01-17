@@ -175,9 +175,11 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="a-jegyzetről"><a class="header" href="#a-jegyzetről">A jegyzetről</a></h1>
+<p><em><strong>FONTOS!</strong></em> A C++ nyelv a népszerű nyelvek között az egyik legnehezebb, elsajátítása megfelelő figyelmet és erőbefektetést igényel. A jegyzetben minden sornak jelentése van, azokban potenciálisan olyan információ rejlik, amely később kritikus tudásként szolgálhat. Érdemes minden sort elolvasni és értelmezni a kódrészleteket. A programozás tényleges megtanulásához elengedhetetlen, hogy hallgatóként a programozásra hobbiként is tekintsünk.</p>
 <p>A jegyzet A Programozás Alapjai 2 című tárgyhoz készült, viszont egyes esetekben kitérőket tesz, hogy az esetleges C++ nyelv iránt érdeklődő hallgatókat elmélyítse a nyelv szépségeiben.</p>
 <p>A jegyzetben próbáltam a tananyag menetéhez alkalmazkodni, csak akkor változtattam, amikor a tananyagban esetleg érdemesebbnek láttam egyes fogalmakat hamarabb bevezetni.</p>
-<p>A legtöbb anyaghoz találhatóak külső linkek hasznos oldalakhoz, azonban egyesek(pl. cppreference) kicsit bővebben elmagyaráznak egyes aspektusokat, mint ami a tárgyhoz szükséges. Ezen felül fontos azt megjegyezni, hogy a tárgy C++ verzióban inkonzisztens, néhány laboron működni fog az, ami a másikon nem. Viszont a házi feladatban <em>elvileg</em> C++17 verzióval fordul minden.</p>
+<p>A legtöbb anyaghoz találhatóak külső linkek hasznos oldalakhoz, azonban egyesek(pl. cppreference) kicsit bővebben elmagyaráznak egyes aspektusokat, mint ami a tárgyhoz szükséges.</p>
+<p>Ezen felül fontos azt megjegyezni, hogy a tárgy C++ verzióban inkonzisztens, néhány laboron működni fog az, ami a másikon nem. Viszont a házi feladatban <em>elvileg</em> C++17 verzióval fordul minden.</p>
 <h1 id="inspiráció"><a class="header" href="#inspiráció">Inspiráció</a></h1>
 <p>A jegyzet inspirációt merít az <a href="https://infocpp.iit.bme.hu">infocpp</a>(hivatalos tárgyhonlap, tananyag), <a href="https://prog2.cppftw.org">CPPFTW</a>(hallgatók által készített majdnem kész jegyzet) és a <a href="https://en.cppreference.com/w/">cppreference</a> weboldal tartalmából.</p>
 <p>Köszönöm a <a href="https://discord.gg/tccpp">TCCPP</a> Discord szerver tapasztalt(gcc közreműködők, C++ ISO tanács tagok) tagjainak az esetleges szakmai kérdések megválaszolását.</p>
@@ -657,9 +659,11 @@ public:
 };
 </code></pre>
 <h2 id="konstruktor-destruktor-és-raii"><a class="header" href="#konstruktor-destruktor-és-raii">Konstruktor, destruktor és RAII</a></h2>
-<p>Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization) módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
+<p>Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is, módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
 <p>A C++ nyelvben a "konstruktor"(constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.</p>
-<p>A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig <code>~osztaly_neve</code>.</p>
+<p>A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig <code>~osztaly_neve</code>.
+Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal, vagy a <code>new</code> operátorral dinamikus élettartamú objektumot hozunk létre.
+Lokális változó élettartama a definiálásától a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(<code>new</code>) a felszabadításáig(<code>delete</code>) tart.</p>
 <pre><code class="language-cpp">class Foo{
     Foo() {
         std::cout &lt;&lt; "Foo ctor\n";
@@ -680,7 +684,8 @@ int main(){
 }
 </code></pre>
 <p>Azt a konstruktort, amely paraméter nélkül hívható, <em>defualt konstruktor</em>nak nevezzük. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor.</p>
-<p>A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van.
+<p>Egy osztályból csak akkor hozható létre (C értelemben vett) tömb, ha annak van default konstruktora.</p>
+<p>A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: <code>classname() : member1(value1), member2(value2)</code><br>
 Vegyük újra példának a <code>Square</code> osztályt.</p>
 <pre><code class="language-cpp">class Square{
 private:
@@ -750,6 +755,11 @@ int main(){
     foo::s_bar(); //ok
 }
 </code></pre>
+<h2 id="egyetlen-felelősség-elve"><a class="header" href="#egyetlen-felelősség-elve">Egyetlen felelősség elve</a></h2>
+<p><em>"A module should be responsible to one, and only one, actor."</em> <br>
+Nos ez egy kicsit furcsa lehet, szóval vegyünk egy érthetőbb megfogalmazást:
+Egy osztálynak egyetlen felelősséget kell lefednie, viszont azt teljes mértékben.</p>
+<p>Pl. A <code>string</code> osztályunk kezeli a dinamikus karaktertömböt, viszont azzal nem foglalkozik, hogy a karaktereit egyesével hogy írjuk ki.</p>
 <h2 id="komolyabb-raii-példa"><a class="header" href="#komolyabb-raii-példa">Komolyabb RAII példa</a></h2>
 <p>Most pedig nézzünk egy komolyabb RAII példát.
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
@@ -798,7 +808,43 @@ int main(){
     return 0; // nem kell semmi manuális memóriakezelés, mert a destruktor automatikusan felszabadítja amit kell, mert egyszer megírtuk
 }
 </code></pre>
-<p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Ezt teszi a C++ Standard Library nagyrésze, pl. <code>std::vector</code>, a Standard Library dinamikus tömb típusa.</p>
+<p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.</p>
+<h2 id="objektumok-másolása"><a class="header" href="#objektumok-másolása">Objektumok másolása</a></h2>
+<p>Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy <code>T</code> típusú objektumból <code>T</code> típusú objektumot készít <em>másoló konstruktor</em>(copy constructor)-nak nevezzük.</p>
+<p>A copy constructor valójában azt mondja meg, hogyan is kéne lemásolni egy objektumot. Ez sok esetben triviális, pl.</p>
+<pre><code class="language-cpp">class foo{
+    public:
+        int x;
+        float y;
+        double t;
+};
+</code></pre>
+<p>Ha egy osztálynak minden tagváltozója lemásolható(van copy constructora, vagy pl. primitív típus), akkor lesz automatikusan generált copy constructora is.</p>
+<p>A copy constructor paramétereként <code>const T&amp;</code> -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a lemásolásához a copy constructorra lenne szükség.
+Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni(deep copy).
+Ennek oka az, hogy a pointer lemásolásával(shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <a href="https://en.wikipedia.org/wiki/Object_copying">https://en.wikipedia.org/wiki/Object_copying</a></p>
+<p><em><strong>FONTOS!</strong></em> Néhány olvasó esetleg ismerheti a <code>memcpy</code> függvényt. C++ objektumokat <code>memcpy</code>-vel(és <code>std::memcpy</code>-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!</p>
+<pre><code class="language-cpp">template&lt;typename T&gt;
+class tomb{
+    T* adat;
+    std::size_t size;
+
+    public:
+    tomb(const tomb&amp; other) : adat(new T[other.size]), size(other.size){
+        for(std::size_t i = 0; i &lt; other.size; ++i){
+            adat[i] = other.adat[i]; //egyesével másoljuk le a tömböt
+        }
+    }
+
+    ~tomb(){
+        delete[] adat;
+    }
+    
+    void push_back(const T&amp; elem);
+    T&amp; at(std::size_t idx);
+    //...
+};
+</code></pre>
 <h2 id="class-vs-struct"><a class="header" href="#class-vs-struct">class vs struct</a></h2>
 <p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne(C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
 <h2 id="osztályok-tagfüggvényei-többmodulos-programokban"><a class="header" href="#osztályok-tagfüggvényei-többmodulos-programokban">Osztályok tagfüggvényei többmodulos programokban</a></h2>
@@ -901,21 +947,60 @@ int main(){
 </code></pre>
 <p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
 <p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
+<h2 id="copy-assignmentértékadó-operátor"><a class="header" href="#copy-assignmentértékadó-operátor">Copy assignment(értékadó operátor)</a></h2>
+<p>A másoló konstruktor testvére a copy assignment(értékadó) operator. A copy constructorhoz hasonlóan <code>const T&amp;</code> -ként veszi át a másolandó objektumot és a default is generálódik belőle.
+Fontos, hogy a copy assignment operátor nem új objektumot hoz létre így az előzőleg használt erőforrásokat fel kell szabadítani.</p>
+<pre><code class="language-cpp">class tomb{
+    T* adat;
+    std::size_t size;
+
+    public:
+    tomb(const tomb&amp; other);
+
+    tomb&amp; operator=(const tomb&amp; other){
+        delete[] adat;
+        adat = new T[other.size];
+        size = other.size;
+        for(std::size_t i = 0; i &lt; other.size; ++i){
+            adat[i] = other.adat[i]; 
+        }
+    }
+
+    ~tomb();
+    
+    void push_back(const T&amp; elem);
+    T&amp; at(std::size_t idx);
+    //...
+};
+</code></pre>
+<h2 id="rule-of-03"><a class="header" href="#rule-of-03">Rule of 0/3</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a></p>
+<p>Rule of 3: Ha egy osztálynak szüksége van nem compiler-default destruktorra, másoló konstruktorra vagy copy assignment operátorra akkor majdnem biztosan szüksége van mindháromra.</p>
+<p><em>advanced</em>
+Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destruktora, copy construktora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">https://en.wikipedia.org/wiki/Single-responsibility_principle</a>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.</p>
+<h2 id="néhány-kötöttség"><a class="header" href="#néhány-kötöttség">Néhány kötöttség</a></h2>
+<p>Nem változtatható meg:</p>
+<ul>
+<li>precedencia</li>
+<li>asszocivitás</li>
+</ul>
+<p>Ezen felül egyes operátoroknak csak kötött számú paramétere lehet.<br>
+A logikai(<code>||</code> és <code>&amp;&amp;</code>) operátorok túltöltése esetén azok elvesztik a short-circuit tulajdonságukat.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="objektumorientált-idióma"><a class="header" href="#objektumorientált-idióma">Objektumorientált idióma</a></h1>
 <p>Senkit sem szeretnék a sablonszöveggel untatni, ha szép és kerek leírást keresünk arra itt a <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">wikipédia</a>.</p>
 <h4 id="a-lényeg"><a class="header" href="#a-lényeg">A lényeg</a></h4>
 <p>Az objektumorientált programozás alapja, hogy minden <em>dolog</em> ami a programunkban létezik egy objektum.</p>
-<p><em>Encapsulation</em>
+<p><em>Encapsulation</em> (Egységbe zárás)<br>
 Az objektumok valamilyen blueprintek(C++ban classok) példányai. Az osztályok valamilyen állapotot és az azokon elvégezhető műveleteket írják le(tagváltozó ~ állapot, tagfüggvény ~ művelet).</p>
-<p><em>Inheritance</em> (leszármaztatás)
+<p><em>Inheritance</em> (öröklődés)<br>
 Van olyan eset, amikor egy adott dolog egyben egy másik dolog, csak kicsit kiegészítve, megváltoztatva. Pl. a Hallgató egy egyetemi polgár, viszont képes vizsgát felvenni és van kreditindexe.
 Ekkor az egyetemi polgár a <em>"base class"</em> a hallgató pedig a "<em>subclass</em>" nevet kapja.</p>
-<p><em>Polymorphism</em>
+<p><em>Polymorphism</em><br>
 Kéz a kézben jár a leszármaztatással. A fő lényege, hogy egy base class -ra mutató dolog kaphat subclass objektumot, és ezen a mutatón keresztül való viselkedés a subclass viselkedését mutatja.</p>
-<p><em>Abstraction</em>
+<p><em>Abstraction</em><br>
 A legtöbb esetben nem érdekel minket, hogy egy adott függvény vagy típus pontosan hogy működik, csak az, hogy mit csinál. Pl. az <code>std::string</code> <code>push_back()</code> tagfüggvénye beilleszt egy karaktert a sztring végére, de az hogy ezt hogy tesz az az átlag programozó számára(a típus felhasználója) nem érdekes.
 Ezt az elvet a jegyzet is alkalmazni fogja, nem lesznek definiálva tagfüggvények, ha azok implementációja jelentéktelen.</p>
-<h2 id="leszármazás"><a class="header" href="#leszármazás">Leszármazás</a></h2>
+<h2 id="inheritance"><a class="header" href="#inheritance">Inheritance</a></h2>
 <p>A leszármazás szintaktikája viszonylag egyszerű:</p>
 <pre><code class="language-cpp">class polgar{
 public:
@@ -959,7 +1044,7 @@ class E : public D {};
 <strong>protected</strong>: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class <code>public</code> tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
 <strong>private</strong>: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.</p>
 <p><em><strong>Fontos, zhn szokott lenni</strong></em>: a <code>struct</code>-al definiált osztályoknál a leszármazásnál is <code>public</code> a default, míg a <code>class</code>-al definiáltaknál <code>private</code>.</p>
-<h2 id="virtual-tagfüggvények"><a class="header" href="#virtual-tagfüggvények">Virtual tagfüggvények</a></h2>
+<h2 id="virtuális-tagfüggvények"><a class="header" href="#virtuális-tagfüggvények">Virtuális tagfüggvények</a></h2>
 <p>Tegyük fel, hogy a hallgatók dekorált nevéhez hozzá szeretnénk adni, hogy "hallgató". Ehhez valahogyan "felül kell írnunk" a base class <code>get_decorated_name</code> függvényét. Azokat a függvényeket amelyeket felül lehet írni virtuális tagfüggvényeknek hívunk és a <code>virtual</code> keyworddel jelezzük őket.
 A base class-ra mutató pointeren keresztül tárolt subbclassnak a saját tagfüggvény verziója hívódik majd.</p>
 <p>Az <code>ovverride</code> keyword opcionálisan a felülíró függvény fejléce után kerül, hasznos kiírni.</p>
@@ -994,7 +1079,7 @@ int main(){
 Mivel base class pointer mutathat subclass objektumra, így fordításidőben nem tudhatjuk, hogy melyik függvényt kell hívni, ezért futásidőben ezt a tömböt használjuk, hogy a helyes függvényt hívjuk.</p>
 <p><em>Mekkora overheaddel jár ez?</em><br>
 A válasz: depends. Gyakorlatilag semekkorával, persze ez sok tényezőtől függ. Gyenge hardveren(pl. mikrokontrollerek) problémát jelenthet, azonban egy asztali számítógépen valószínűleg nem ez lesz a szűk keresztmetszet.</p>
-<h3 id="pure-virtual-function"><a class="header" href="#pure-virtual-function">Pure virtual function</a></h3>
+<h3 id="pure-virtual-function-absztrakt-osztályok"><a class="header" href="#pure-virtual-function-absztrakt-osztályok">Pure virtual function, absztrakt osztályok</a></h3>
 <p>Néha szeretnénk azt, hogy a base class ne legyen valóban példányosítható, hanem valamilyen függvényét implementálja minden subclass. Az ilyen függvényeket pure virtual functionnak, az osztály t pedig absztrakt osztálynak nevezzük. Pure virtual function-t az <code>=0</code> postfix-el deklarálhatunk.</p>
 <pre><code class="language-cpp">struct base {
     virtual void foo() = 0;
@@ -1089,9 +1174,57 @@ struct D : B, C {};
 </code></pre>
 <p>Ekkor a leszármazási gráf egy "gyémánt" alakot alkot, amely a következő problémát veti fel: <br>
 Amikor a <code>D</code> -n keresztül <code>A</code> beli tagokat érünk el, akkor azt a <code>D</code> osztály <code>B</code> vagy <code>C</code> részén tesszük -e meg?<br>
-Ez akkora dilemma, hogy sok nyelv (pl Java) szimplán nem enged egyszerre több osztályból való származást.</p>
+Ez akkora dilemma, hogy sok nyelv (pl. Java) szimplán nem enged egyszerre több osztályból való származást.</p>
 <p>C++ -ban ezt a problémát a virtuális leszármazással oldották meg.</p>
-<h1 id="todo"><a class="header" href="#todo">TODO</a></h1>
+<p>Minden virtuálisan örökölt osztályból garantáltan csak egyet tartalmaz majd minden leszármazott, akkor is, ha az osztály többször is szerepel a hierarchiában. <br>
+A virtuális ősosztályok minden nem-virtuális ősosztály előtt jönnek létre és a virtuális base classok konstruktorát csak a hierarchiában legalsó osztály konstruktora fogja meghívni.</p>
+<p>Az alábbi kódrészletben a konstruktor hívások sorrendje:</p>
+<ul>
+<li>B konstruktor</li>
+<li>X konstruktor</li>
+<li>Y konstruktor</li>
+<li>A konstruktor</li>
+</ul>
+<p>B konstruktora hívódik meg először, mivel virtual base class. Ez az <code>AA</code> initializer listjének sorrendjétől független, sőt, warningot is kapunk, ha B nem legelől van.<br>
+Ezután következik <code>X</code> és <code>Y</code> konstruktora, hiszen az <code>A</code> konstruktor törzse csak az initializer list után, az objektum inicializálása után fog lefutni.</p>
+<p>A destruktor hívások a konstruktor hívásokkal ellentétes sorrendben történnek.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+struct B
+{
+    int n;
+ 
+    B(int x) : n(x) {
+        std::cout &lt;&lt; "b ctor\n";
+    }
+};
+ 
+struct X : virtual B { 
+    X() : B(1) {
+        std::cout &lt;&lt; "x ctor\n";
+    } 
+};
+struct Y : virtual B {
+    Y() : B(2) {
+        std::cout &lt;&lt; "y ctor\n";
+    }  
+};
+struct AA : X, Y     {
+    AA() : B(3), X(), Y() {
+        std::cout &lt;&lt; "a ctor\n";
+    } 
+};
+
+int main(){
+    AA x;
+}
+</code></pre>
+<h2 id="saját-exception"><a class="header" href="#saját-exception">Saját exception</a></h2>
+<p>Korábban már szerepelt, hogy lehetséges saját kivételeket létrehozni. Ehhez semmi mást nem kell csinálni, mint az <code>std::exception</code>, vagy legtöbb esetben inkább az <code>std::runtime_error</code> osztályból leszármazni. A kivételeknek van egy konstruktora amely egy hibaüzenetet vesz át, ezért ezt implementáljuk.</p>
+<pre><code class="language-cpp">struct image_load_error : std::runtime_error {
+    image_load_error(const std::string&amp; what) : std::runtime_error(what) {}
+};
+</code></pre>
 
                     </main>
 

@@ -231,6 +231,45 @@ int main(){
 </code></pre>
 <p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
 <p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
+<h2 id="copy-assignmentértékadó-operátor"><a class="header" href="#copy-assignmentértékadó-operátor">Copy assignment(értékadó operátor)</a></h2>
+<p>A másoló konstruktor testvére a copy assignment(értékadó) operator. A copy constructorhoz hasonlóan <code>const T&amp;</code> -ként veszi át a másolandó objektumot és a default is generálódik belőle.
+Fontos, hogy a copy assignment operátor nem új objektumot hoz létre így az előzőleg használt erőforrásokat fel kell szabadítani.</p>
+<pre><code class="language-cpp">class tomb{
+    T* adat;
+    std::size_t size;
+
+    public:
+    tomb(const tomb&amp; other);
+
+    tomb&amp; operator=(const tomb&amp; other){
+        delete[] adat;
+        adat = new T[other.size];
+        size = other.size;
+        for(std::size_t i = 0; i &lt; other.size; ++i){
+            adat[i] = other.adat[i]; 
+        }
+    }
+
+    ~tomb();
+    
+    void push_back(const T&amp; elem);
+    T&amp; at(std::size_t idx);
+    //...
+};
+</code></pre>
+<h2 id="rule-of-03"><a class="header" href="#rule-of-03">Rule of 0/3</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a></p>
+<p>Rule of 3: Ha egy osztálynak szüksége van nem compiler-default destruktorra, másoló konstruktorra vagy copy assignment operátorra akkor majdnem biztosan szüksége van mindháromra.</p>
+<p><em>advanced</em>
+Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destruktora, copy construktora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">https://en.wikipedia.org/wiki/Single-responsibility_principle</a>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.</p>
+<h2 id="néhány-kötöttség"><a class="header" href="#néhány-kötöttség">Néhány kötöttség</a></h2>
+<p>Nem változtatható meg:</p>
+<ul>
+<li>precedencia</li>
+<li>asszocivitás</li>
+</ul>
+<p>Ezen felül egyes operátoroknak csak kötött számú paramétere lehet.<br>
+A logikai(<code>||</code> és <code>&amp;&amp;</code>) operátorok túltöltése esetén azok elvesztik a short-circuit tulajdonságukat.</p>
 
                     </main>
 
