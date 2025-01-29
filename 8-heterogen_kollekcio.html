@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Dinamikus memóriakezelés - Prog2_Jegyzet</title>
+        <title>Heterogén kollekció - Prog2_Jegyzet</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html" class="active"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html" class="active"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,54 +173,126 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="dinamikus-memóriakezelés"><a class="header" href="#dinamikus-memóriakezelés">Dinamikus memóriakezelés</a></h1>
-<h2 id="c-dinamikus-memóriakezelés"><a class="header" href="#c-dinamikus-memóriakezelés">C dinamikus memóriakezelés</a></h2>
-<p>A C dinamikus memóriakezelése a kőkorszakban jár. Megkérdezi hány bájtnyi memóriára van szükségünk, majd visszadob rá egy pointert.</p>
-<h2 id="c-memóriakezelés"><a class="header" href="#c-memóriakezelés">C++ memóriakezelés</a></h2>
-<p>A C++ <code>malloc</code> függvényét a <code>new</code> operátor(igen, ezek operátorok), a <code>free</code> függvényt pedig a <code>delete</code> és <code>delete[]</code> operátor váltotta fel.</p>
-<p>A <code>new</code> egy intelligens eszköz. Nem memóriamennyiséget, hanem egy típust és opcionálisan egy tömbméretet kap.
-Pl.</p>
-<pre><code class="language-cpp">
-int* x = new int; //egy darab dinamikusan foglalt int
-
-int* tomb = new int[5]; //egy dinamikusan foglalt 5 méretű tömb
-
-std::size_t tombMeret; //std::size_t : általában memóriafoglalások méretét vagy indexeket tároló előjel nélküli egész
-
-std::cin &gt;&gt; tombMeret;
-
-int* dinTomb = new int[tombMeret];
-</code></pre>
-<p>A <code>delete</code> operátor a <code>new</code> operátorral lefoglalt memóriát szabadítja fel. Ha tömböt szabadítunk fel, akkor a <code>delete[]</code> operátort kell használni.</p>
-<p>Az előbbi példa foglalások felszabadítása:</p>
-<pre><code class="language-cpp">delete x;
-delete[] tomb;
-delete[] dinTomb;
-</code></pre>
-<h2 id="variable-length-array"><a class="header" href="#variable-length-array">Variable Length Array</a></h2>
-<p>Az alábbi kódrészlet az ISO C++ Standard szerint nem szabványos C++, a GCC és Clang fordítók compiler extensionként engedélyezik. VLA-t ne használjunk, hiszen így a stacken szükséges memória mérete ismeretlen lesz.</p>
-<p><a href="https://godbolt.org/z/93xxj5WPM">https://godbolt.org/z/93xxj5WPM</a></p>
-<pre><code class="language-cpp">int x;
-std::cin &gt;&gt; x;
-int a[x];
-</code></pre>
-<p><em>A non-standard extension-ök kikapcsolása:</em></p>
+                        <h1 id="heterogén-tárolók"><a class="header" href="#heterogén-tárolók">Heterogén tárolók</a></h1>
+<h2 id="polimorphism-by-inheritance"><a class="header" href="#polimorphism-by-inheritance">Polimorphism by inheritance</a></h2>
+<p>Az öröklés alapú polimorfizmus alapja az előző fejezetben is említett örökléses memóriakép:
+<img src="image-2.png" alt="" /></p>
+<p>Ezen láthatjuk, hogy egy <code>struct B : A</code> osztály egy példánya egyben egy <code>A</code> osztály példánya is, ezért <code>A</code> típusra mutató pointer/referencia mutathat <code>B</code> példányra is.</p>
+<p>Ezek alapján készíthetünk egy olyan tárolót, amely egy adott típusból leszármazó objektumokra mutató pointereket tárol. Az ilyen tárolókat hívjuk heterogén kollekciónak.</p>
+<p><strong>Ownership kérdés</strong>: Egy heterogén kollekció esetén két opciónk van:</p>
 <ul>
-<li>GCC/Clang: <code>-pedantic-errors</code> flag</li>
-<li>MSVC: <code>/fpermissive-</code> flag</li>
+<li>A kollekció birtokolja a tárolt objektumokat. Ez azt jelenti, hogy a kollekció élettartama végén fel kell szabadítania a tárolt elemeket.</li>
+<li>A kollekció nem birtokolja az elemeket, ekkor a felhasználó feladata az elemek felszabadítása.</li>
 </ul>
+<p>Heterogén kollekciók esetén általában az első opciót választjuk.</p>
+<h2 id="heterogén-kollekció-konstrukciója"><a class="header" href="#heterogén-kollekció-konstrukciója">Heterogén kollekció konstrukciója</a></h2>
+<p>Tároljunk "komponens"eket, amelyeknek van egy virtuális <code>use()</code> tagfüggvénye.
+Szükségünk lesz:</p>
+<ul>
+<li>Valamilyen <code>Component*</code> tömbre</li>
+<li>Méretet tároló egészre</li>
+<li>hozzáadó tagfüggvényre</li>
+<li>indexelő operátorra</li>
+<li>destruktorra</li>
+<li>másoló konstruktorra és értékadó operátorra(vagy ha nem kell, akkor priváttá tesszük ezeket, C++11 -től <code> = delete;</code> is jó)</li>
+</ul>
+<p>Az első két pontot egyesíthetjük egy <code>std::vector&lt;Container*&gt;</code> használatával(C++ standard library dinamikus tömbje), vagy egy saját dinamikus tömb implementációval. (ld. előző fejezet)</p>
+<p>A hozzáadó tagfüggvényünk egy <code>Container*</code>-ot vesz át, amit a hívó fél a <code>new</code> operátor visszatérési értékeként kapott. Ez a függvény "átveszi a birtokos szerepét"(<em>takes ownership</em>) a hívótól. Ezt érdemes kommentként jelezni.</p>
+<p><a href="https://godbolt.org/z/hdvobeddz">https://godbolt.org/z/hdvobeddz</a></p>
+<pre><code class="language-cpp">#include &lt;cstdint&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+struct Component{
+    virtual void use() = 0;
+    virtual ~Component() = default;
+};
+
+struct SomeComponent : Component{
+    SomeComponent(int gears) : gears(gears) {}
+    int gears;
+    virtual void use() override{
+        fixSimpleMachine();
+    }
+
+    void fixSimpleMachine() {
+        std::cout &lt;&lt; "fixed simple machine, gears: " &lt;&lt; gears &lt;&lt; '\n';
+    }
+    virtual ~SomeComponent() = default;
+};
+
+struct ComponentStore{
+    ComponentStore() = default;
+
+    std::size_t size() const { return components.size(); }
+
+    void push_back(Component* component) {
+        components.push_back(component);
+    }
+
+    Component* operator[](std::size_t idx){
+        return components[idx];
+    }
+
+    ~ComponentStore(){
+        for(Component* component : components){ //range based for ciklus, ld. iterátorok
+            delete component;
+        }
+    }
+
+    private:
+        ComponentStore(const ComponentStore&amp;);
+        ComponentStore&amp; operator=(const ComponentStore&amp;);
+        std::vector&lt;Component*&gt; components;
+};
+
+int main(){
+    ComponentStore components;
+    components.push_back(new SomeComponent(5));
+    components[0]-&gt;use(); 
+}
+</code></pre>
+<h3 id="kitérő-stdunique_ptr-c11--től"><a class="header" href="#kitérő-stdunique_ptr-c11--től"><em>Kitérő: std::unique_ptr</em> (C++11 -től)</a></h3>
+<p><em>Ez a fejezet túlmutat a tárgy anyagán. A <code>unqiue_ptr</code> használatához sokszor szükségesebb bonyolultabb koncepciók, amelyeket a jegyzet végén "kitérő" fejezetekben tárgyal.</em></p>
+<p>Gyakran szeretnénk egy dinamikusan foglalt objektumot valamilyen másik objektum élettartamához kötni. Erre az esetre létezik egy pointert csomagoló <code>std::unique_ptr</code> osztály. Ugyanúgy működik, mint egy pointer, van <code>*</code> és <code>-&gt;</code> operátora, viszont a <code>unique_ptr</code> objektum élettartama végén felszabadítja a tárolt pointert. Nem másolható(hiszen "unique"), ezzel biztosítja, hogy egyszerre csak egy objektum birtokolja a memóriát, amire mutat. Referencia paraméterként természetesen átvehető, ez nem okoz másolást.</p>
+<p>A <code>unqiue_ptr</code>-hez az <code>std::make_unique</code> függvénnyel tudunk objektumot foglalni. Amit paraméterként adunk neki, azt továbbadja az objektum konstruktorának.
+Emellett a <code>uniqure_ptr</code> konstruktora kaphat már lefoglalt objektumra mutó pointert is.</p>
+<pre><code class="language-cpp">std::unique_ptr&lt;Foo&gt; p = std::make_unique&lt;Foo&gt;(3, "bar"); //Foo* p = new Foo(3, "bar")
+Foo* f = new Foo(2, "asd");
+std::unqiue_ptr&lt;Foo&gt; p2(f); //p2 takes ownership of f, so delete f; is not necessary
+</code></pre>
+<p><code>unique_ptr</code> -el átírva a heterogén kollekciónkat:</p>
+<pre><code class="language-cpp">struct ComponentStore{
+    ComponentStore() = default;
+
+    std::size_t size() const { return components.size(); }
+
+    void push_back(Component* component) {
+        components.push_back(std::unique_ptr&lt;Component&gt;(component));
+    }
+
+    std::unique_ptr&lt;Component&gt;&amp; operator[](std::size_t idx){
+        return components[idx];
+    }
+
+    ~ComponentStore() = default; 
+
+    private:
+        ComponentStore(const ComponentStore&amp;);
+        ComponentStore&amp; operator=(const ComponentStore&amp;);
+        std::vector&lt;std::unique_ptr&lt;Component&gt;&gt; components;
+};
+</code></pre>
+<p>Így már nem kell explicit dtor, az std::vector dtora meghívja az elemeinek dtorát. A <code>unqiue_ptr</code> destruktora pedig felszabadítja a memóriát.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="2-kivetelek.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="7-inheritance.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="4-sablonok.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -228,13 +300,10 @@ int a[x];
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="2-kivetelek.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="7-inheritance.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="4-sablonok.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Inheritance - Prog2_Jegyzet</title>
+        <title>Objektumorientált programozás idióma - Prog2_Jegyzet</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html" class="active"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html" class="active"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -226,16 +226,30 @@ class E : public D {};
 <p>A <code>private</code> tagok nem láthatók a leszármazottakból sem. A <code>protected</code> tagok a leszármazottból látszanak, az osztályon kívülről viszont nem.</p>
 <h2 id="inheritance-access-specifiers"><a class="header" href="#inheritance-access-specifiers">Inheritance access specifiers</a></h2>
 <p>Mint ahogyan tagokból, leszármazásból is létezik publikus, protected és private.</p>
+<pre><code class="language-cpp">class Base {};
+class A : public Base {};
+class B : protected Base {};
+class C : private Base {};
+</code></pre>
 <p>Ezt a következőképp kell érteni:</p>
 <p><strong>public</strong>: a subclass és a külső kód is tud a leszármazásról, a leszármazotton keresztül a subclass és a külső kód is eléri a base class <code>public</code> tagjait, a <code>private</code> és <code>protected</code> tagokat viszont nem
 <strong>protected</strong>: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class <code>public</code> tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
 <strong>private</strong>: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.</p>
-<p><em><strong>Fontos, zhn szokott lenni</strong></em>: a <code>struct</code>-al definiált osztályoknál a leszármazásnál is <code>public</code> a default, míg a <code>class</code>-al definiáltaknál <code>private</code>.</p>
+<p>A <code>struct</code>-al definiált osztályoknál a leszármazásnál is <code>public</code> a default, míg a <code>class</code>-al definiáltaknál <code>private</code>.</p>
+<p>Gyakori kérdés: hogyan alakul a publikus, protected és privát tagok láthatósága publikus, protected és privát öröklés esetén?
+<em>... megoldását az olvasóra bízom</em></p>
 <h2 id="virtuális-tagfüggvények"><a class="header" href="#virtuális-tagfüggvények">Virtuális tagfüggvények</a></h2>
 <p>Tegyük fel, hogy a hallgatók dekorált nevéhez hozzá szeretnénk adni, hogy "hallgató". Ehhez valahogyan "felül kell írnunk" a base class <code>get_decorated_name</code> függvényét. Azokat a függvényeket amelyeket felül lehet írni virtuális tagfüggvényeknek hívunk és a <code>virtual</code> keyworddel jelezzük őket.
 A base class-ra mutató pointeren keresztül tárolt subbclassnak a saját tagfüggvény verziója hívódik majd.</p>
 <p>Az <code>ovverride</code> keyword opcionálisan a felülíró függvény fejléce után kerül, hasznos kiírni.</p>
-<pre><code class="language-cpp">class polgar{
+<p><a href="https://godbolt.org/z/j7a3jW9fP">https://godbolt.org/z/j7a3jW9fP</a></p>
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+struct Targy {};
+
+class polgar{
 public:
     std::string name;
     std::string neptun;
@@ -244,7 +258,7 @@ public:
     }
 };
 
-class hallgato : polgar {
+class hallgato : public polgar {
 public:
     double calculate_kreditindex();
     std::vector&lt;Targy&gt; targyak;
@@ -255,7 +269,9 @@ public:
 };
 
 int main(){
-    polgar* p = new hallgato("Gipsz Jakab", "ABC123");
+    polgar* p = new hallgato;
+    p-&gt;name = "Gipsz Jakab";
+    p-&gt;neptun = "ABC123";
     std::string name = p-&gt;get_decorated_name(); //hallgato tagfüggvényét hívja
     std::cout &lt;&lt; name; //hallgato Gipsz Jakab ABC123
 }
@@ -290,18 +306,26 @@ int main(){
 <h2 id="base-class-konstruktor-és-virtuális-destruktor"><a class="header" href="#base-class-konstruktor-és-virtuális-destruktor">Base class konstruktor és virtuális destruktor</a></h2>
 <p>Amikor egy leszármazott objektumot készítünk, akkor inicializálni kell annak base class "részét" is. Ehhez meg kell hívni a base class destruktorát(ha nincs neki default konstruktora).
 Ezt a már jól ismert member initializer list-ről tehetjük meg.</p>
-<pre><code class="language-cpp">class polgar{
+<p><a href="https://godbolt.org/z/cndqTPEMj">https://godbolt.org/z/cndqTPEMj</a></p>
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+struct Targy {};
+
+class polgar{
+protected:
     std::string name;
     std::string neptun;
+
+public:
     virtual std::string get_decorated_name() const {
         return name + std::string(" ") + neptun;
     }
-
-public:
     polgar(const std::string&amp; name, const std::string&amp; neptun) : name(name), neptun(neptun) {}
 };
 
-class hallgato : polgar {
+class hallgato : public polgar {
     std::vector&lt;Targy&gt; targyak;
 public:
     hallgato(const std::string&amp; name, const std::string&amp; neptun) : polgar(name, neptun) //a polgar konstruktorát hívjuk a name és neptun paraméterekkel
@@ -313,16 +337,22 @@ public:
         return std::string("hallgato ") + name + std::string(" ") + neptun;
     }
 };
+
+int main(){
+    polgar* p = new hallgato("Gipsz Jakab", "ABC123");
+
+    std::string name = p-&gt;get_decorated_name(); //hallgato tagfüggvényét hívja
+    std::cout &lt;&lt; name; //hallgato Gipsz Jakab ABC123
+}
 </code></pre>
 <pre><code class="language-cpp">polgar* p = new hallgato("Gipsz Jakab", "ABC123");
 </code></pre>
-<p>Azonban van egy kis baj... A következő sor undefined behavior:</p>
-<pre><code class="language-cpp">delete p;
-</code></pre>
+<p>Azonban van egy kis baj...</p>
 <p>A probléma a destruktor kérdése. Ha a base classra mutató pointerre hívunk <code>delete</code> -t, akkor az a base class destruktorát fogja meghívni. Ez probléma, ha a subclass destruktora valamilyen erőforrást szabadít fel, viszont nem hívódik meg.</p>
 <p>Erre a problémára nyújtanak megoldást a virtuális destruktorok. Amikor egy base-re mutató pointerre <code>delete</code>-t hívunk, akkor a láncon felfelé(legalsó leszármazott-&gt;legfelső leszármazott) meghívódik az összes destruktor.</p>
+<p><a href="https://godbolt.org/z/GfT89Edne">https://godbolt.org/z/GfT89Edne</a></p>
 <pre><code class="language-cpp">struct base {
-    base() = default; //explicit default: "im okay with what the compiler gives me"
+    base() = default; //explicit default: "im okay with what the compiler gives me" (C++11 -től)
     virtual ~base() {
         std::cout &lt;&lt; "base dtor\n";
     }
@@ -365,16 +395,10 @@ Ez akkora dilemma, hogy sok nyelv (pl. Java) szimplán nem enged egyszerre több
 <p>C++ -ban ezt a problémát a virtuális leszármazással oldották meg.</p>
 <p>Minden virtuálisan örökölt osztályból garantáltan csak egyet tartalmaz majd minden leszármazott, akkor is, ha az osztály többször is szerepel a hierarchiában. <br>
 A virtuális ősosztályok minden nem-virtuális ősosztály előtt jönnek létre és a virtuális base classok konstruktorát csak a hierarchiában legalsó osztály konstruktora fogja meghívni.</p>
-<p>Az alábbi kódrészletben a konstruktor hívások sorrendje:</p>
-<ul>
-<li>B konstruktor</li>
-<li>X konstruktor</li>
-<li>Y konstruktor</li>
-<li>A konstruktor</li>
-</ul>
 <p>B konstruktora hívódik meg először, mivel virtual base class. Ez az <code>AA</code> initializer listjének sorrendjétől független, sőt, warningot is kapunk, ha B nem legelől van.<br>
 Ezután következik <code>X</code> és <code>Y</code> konstruktora, hiszen az <code>A</code> konstruktor törzse csak az initializer list után, az objektum inicializálása után fog lefutni.</p>
 <p>A destruktor hívások a konstruktor hívásokkal ellentétes sorrendben történnek.</p>
+<p><a href="https://godbolt.org/z/s6PqqjP1a">https://godbolt.org/z/s6PqqjP1a</a></p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 
 struct B
@@ -406,11 +430,40 @@ int main(){
     AA x;
 }
 </code></pre>
+<p>A kódrészletben a konstruktor hívások sorrendje:</p>
+<ul>
+<li>B konstruktor</li>
+<li>X konstruktor</li>
+<li>Y konstruktor</li>
+<li>A konstruktor</li>
+</ul>
 <h2 id="saját-exception"><a class="header" href="#saját-exception">Saját exception</a></h2>
 <p>Korábban már szerepelt, hogy lehetséges saját kivételeket létrehozni. Ehhez semmi mást nem kell csinálni, mint az <code>std::exception</code>, vagy legtöbb esetben inkább az <code>std::runtime_error</code> osztályból leszármazni. A kivételeknek van egy konstruktora amely egy hibaüzenetet vesz át, ezért ezt implementáljuk.</p>
-<pre><code class="language-cpp">struct image_load_error : std::runtime_error {
+<p><a href="https://godbolt.org/z/a6rTb3cnG">https://godbolt.org/z/a6rTb3cnG</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+struct image_load_error : std::runtime_error {
     image_load_error(const std::string&amp; what) : std::runtime_error(what) {}
 };
+
+struct image{
+    image(const std::string&amp; path){
+        if(path.empty()){
+            throw image_load_error("Image Load Error: image cannot have empty path!");
+        }
+    }
+};
+
+int main(){
+    try{
+        image img("");
+    }catch(const image_load_error&amp; img_error){
+        std::cout &lt;&lt; img_error.what();
+    }catch(std::exception&amp; e){
+        std::cout &lt;&lt; e.what();
+    }
+}
 </code></pre>
 
                     </main>
@@ -421,6 +474,9 @@ int main(){
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next prefetch" href="8-heterogen_kollekcio.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -432,6 +488,9 @@ int main(){
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next prefetch" href="8-heterogen_kollekcio.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

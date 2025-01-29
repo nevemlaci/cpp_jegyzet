@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html" class="active"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html" class="active"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -227,21 +227,87 @@ std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max()); //ignorál m
 std::cin.ignore(x, c); //ignorál x karakter, vagy amíg nem kap c-vel azonos karaktert
 </code></pre>
 <p><code>std::numeric_limits&lt;T&gt;::max()</code> : adott <code>T</code> típusú numerikus típus maximum értékét adja vissza. (pl. <code>std::numeric_limits&lt;std::size_t&gt;::max()</code>)</p>
-<pre><code class="language-cpp">int a;
-int b;
-std::cin &gt;&gt; a;
-std::cin.ignore(5);
-std::cin &gt;&gt; b;
+<p>Pl:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;limits&gt;
 
-char c1;
-char c2;
+int main(){
+    int a;
+    int b;
+    std::cin &gt;&gt; a;
+    std::cin.ignore(5);
+    std::cin &gt;&gt; b;
+    std::cout &lt;&lt; "a: " &lt;&lt; a &lt;&lt; " b: " &lt;&lt; b &lt;&lt; '\n';
 
-std::cin &gt;&gt; c1;
-//ignorálunk addig amíg ';' -t nem kapunk. Ignorálja a ; -t is!
-std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), ';'); 
-std::cin &gt;&gt; c2;
+    char c1;
+    char c2;
+    std::cin &gt;&gt; c1;
+    //ignorálunk addig amíg ';' -t nem kapunk. Ignorálja a ; -t is!
+    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), ';'); 
+    std::cin &gt;&gt; c2;
+    std::cout &lt;&lt; "c1: '" &lt;&lt; c1 &lt;&lt;"' c2: '" &lt;&lt; c2 &lt;&lt; "'\n";
+}
 </code></pre>
+<p><img src="Screenshot%202025-01-29%20115519.png" alt="" /></p>
 <p><em>Nem összekeverendő a teljesen más jelentésű <code>std::ignore</code>-al.</em></p>
+<h2 id="file-io"><a class="header" href="#file-io">File IO</a></h2>
+<p>C++ -ban a file IO <em>API</em>-ja(az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.</p>
+<p>File olvasásra megnyitásához  és nyilvántartásához az <code>std::ifstream</code> (Input Filestream) típust, írásra az <code>std::ofstream</code> (Output Filestream) típust használjuk.</p>
+<pre><code class="language-cpp">#include &lt;fstream&gt;
+
+int main(){
+    std::ifstream input("input.txt");
+    int x;
+    input &gt;&gt; x; 
+    std::ofstream output("output.txt");
+    output &lt;&lt; x;
+}
+</code></pre>
+<p>Az <code>std::ifstream</code> és <code>std::ofstream</code> típusó objektumok automatikusan(ld. <a href="./5-oszt%C3%A1lyok.html">osztályok</a>) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (<code>.close()</code>)</p>
+<h2 id="io-manipulátorok"><a class="header" href="#io-manipulátorok">IO manipulátorok</a></h2>
+<p>Az IO műveletek viselkesését ún. manipulátorok segítségével változtathatjuk meg. Ezeket úgy használjuk, mintha ők maguk is input/output lennének. Pl. ha az egészeket mindenképp 7 számjeggyel szeretnénk kiírni, és 0-val kitölteni a maradék helyet.</p>
+<pre><code class="language-cpp">#include &lt;iomanip&gt;
+#include &lt;iostream&gt;
+
+int main(){
+    int x = 356463;
+    std::cout &lt;&lt; std::setw(7) &lt;&lt; std::setfill('0') &lt;&lt; x; 
+}
+</code></pre>
+<p>A manipulátorok hatóköre változó, vannak olyanok, amelyek csak a következő outputra hatnak, de vannak olyanok is, amelyek hatása "végtelen"(amíg meg nem változtatjuk).
+Az IO manipulátorok és egyéb kapcsolódó foszlányok itt: <a href="https://en.cppreference.com/w/cpp/io/manip">https://en.cppreference.com/w/cpp/io/manip</a></p>
+<p>Sokszor állítunk el dolgokat egy IO streamen, viszont nem szeretnénk egyesével visszaállítani az eredeti értékeket.
+Ekkor van két lehetőségünk.
+Az első, hogy egy "buffer stream" segítségével összeállítunk egy stringet és ezt a stringet írjuk ki. Ehhez használjuk az <code>std::stringstream</code> típust: <a href="https://en.cppreference.com/w/cpp/io/basic_stringstream">https://en.cppreference.com/w/cpp/io/basic_stringstream</a></p>
+<p><a href="https://godbolt.org/z/59YETh5dn">https://godbolt.org/z/59YETh5dn</a></p>
+<pre><code class="language-cpp">#include &lt;sstream&gt;
+#include &lt;iostream&gt;
+
+int main(){
+    std::stringstream buf;
+    buf &lt;&lt; std::hex &lt;&lt; 45678;
+    std::cout &lt;&lt; buf.str();
+}
+</code></pre>
+<p>A másik lehetőség az, hogy a stream beállításait(flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.</p>
+<p><a href="https://godbolt.org/z/o1hxqvnzz">https://godbolt.org/z/o1hxqvnzz</a></p>
+<pre><code class="language-cpp">#include &lt;sstream&gt;
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+int main(){
+    //most őszintén, kinek van ehhez kedve?
+    std::ios_base::fmtflags flags = std::cout.flags();
+    std::streamsize prec = std::cout.precision();
+    std::streamsize width = std::cout.width();
+    std::cout &lt;&lt; std::hex &lt;&lt; 465643 &lt;&lt; std::setprecision(12) &lt;&lt; std::setw(20) &lt;&lt; 454.3256456436;
+    std::cout.flags(flags);
+    std::cout.precision(prec);
+    std::cout.width(width);
+    std::cout &lt;&lt; '\n';
+    std::cout &lt;&lt; 54;
+}
+</code></pre>
 
                     </main>
 
