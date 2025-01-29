@@ -62,7 +62,7 @@ int main(){
     tomb += 2.3;
     tomb.push_back(8.7);
 
-    std::cout << tomb;
+    std::cout << tomb; //értsd: operator<<(std::cout, tomb);
     return 0;
 }
 ```
@@ -106,12 +106,12 @@ class tomb{
 
 Rule of 3: Ha egy osztálynak szüksége van nem compiler-default destruktorra, másoló konstruktorra vagy copy assignment operátorra akkor majdnem biztosan szüksége van mindháromra.
 
-*advanced*
-Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destruktora, copy construktora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<https://en.wikipedia.org/wiki/Single-responsibility_principle>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.
+__*advanced*__<br>
+Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destructora, copy constructora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<https://en.cppreference.com/w/cpp/language/rule_of_three>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.
 
 ## Néhány kötöttség
 
-Nem változtatható meg:
+Operátor túltöltéssel nem változtatható meg:
 * precedencia
 * asszocivitás
 

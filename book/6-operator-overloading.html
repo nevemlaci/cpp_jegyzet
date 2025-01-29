@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html" class="active"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html" class="active"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -225,7 +225,7 @@ int main(){
     tomb += 2.3;
     tomb.push_back(8.7);
 
-    std::cout &lt;&lt; tomb;
+    std::cout &lt;&lt; tomb; //értsd: operator&lt;&lt;(std::cout, tomb);
     return 0;
 }
 </code></pre>
@@ -260,10 +260,10 @@ Fontos, hogy a copy assignment operátor nem új objektumot hoz létre így az e
 <h2 id="rule-of-03"><a class="header" href="#rule-of-03">Rule of 0/3</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a></p>
 <p>Rule of 3: Ha egy osztálynak szüksége van nem compiler-default destruktorra, másoló konstruktorra vagy copy assignment operátorra akkor majdnem biztosan szüksége van mindháromra.</p>
-<p><em>advanced</em>
-Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destruktora, copy construktora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">https://en.wikipedia.org/wiki/Single-responsibility_principle</a>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.</p>
+<p><strong><em>advanced</em></strong><br>
+Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destructora, copy constructora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.</p>
 <h2 id="néhány-kötöttség"><a class="header" href="#néhány-kötöttség">Néhány kötöttség</a></h2>
-<p>Nem változtatható meg:</p>
+<p>Operátor túltöltéssel nem változtatható meg:</p>
 <ul>
 <li>precedencia</li>
 <li>asszocivitás</li>

@@ -20,15 +20,18 @@ A C++ egy fontos nyelvi elemei a kivételek(exception). Ezek segítségével *ki
 
 Kivételt a `throw` kulcsszóval dobhatunk, valamint a `try` kulcsszóval nyitott scope-ban dobott kivételeket a `catch` kulcsszóval kaphatunk el.
 
-Kivételként bármilyen típust dobhatunk(int, const char*, stb.), viszont érdemes az `std::exception` és a belőle leszármazó(később) típusú objekutmokat dobni. Ezekhez az `stdexcept` nevű header-re van szükség.
+Kivételként bármilyen típust dobhatunk(int, const char*, stb.), viszont érdemes az `std::exception` és a belőle leszármazó(később) típusú objekutmokat dobni. Ezekhez a típusokhoz az `stdexcept` nevű header-re van szükség.
 
 <https://en.cppreference.com/w/cpp/error/exception>
 
-
+<https://godbolt.org/z/axWfMGxxK>
 ```cpp
+#include <stdexcept>
+#include <iostream>
+
 double oszt(double x, double y){
     if(y == 0){
-        throw std::runitme_error("0-val valo osztas!"); 
+        throw std::runtime_error("0-val valo osztas!"); 
         /*
         lehetne:
         throw "0-val valo osztas";
@@ -44,7 +47,7 @@ double oszt(double x, double y){
 int main(){
     try{
         oszt(5.0, 0.0);
-    }catch(std::exception& e){ //referenciaként kapjuk el az exception-t
+    }catch(const std::exception& e){ //konstans referenciaként kapjuk el az exception-t(ezt mindig!)
         std::cout << e.what(); //.what() : visszaadja az exception "üzenetét"
         //egyéb hibakezelő kód...
     }

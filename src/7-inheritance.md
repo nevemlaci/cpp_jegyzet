@@ -73,13 +73,23 @@ A `private` tagok nem láthatók a leszármazottakból sem. A `protected` tagok 
 
 Mint ahogyan tagokból, leszármazásból is létezik publikus, protected és private.
 
+```cpp
+class Base {};
+class A : public Base {};
+class B : protected Base {};
+class C : private Base {};
+```
+
 Ezt a következőképp kell érteni:
 
 **public**: a subclass és a külső kód is tud a leszármazásról, a leszármazotton keresztül a subclass és a külső kód is eléri a base class `public` tagjait, a `private` és `protected` tagokat viszont nem
 **protected**: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class `public` tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
 **private**: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.
 
-***Fontos, zhn szokott lenni***: a `struct`-al definiált osztályoknál a leszármazásnál is `public` a default, míg a `class`-al definiáltaknál `private`.
+A `struct`-al definiált osztályoknál a leszármazásnál is `public` a default, míg a `class`-al definiáltaknál `private`.
+
+Gyakori kérdés: hogyan alakul a publikus, protected és privát tagok láthatósága publikus, protected és privát öröklés esetén?
+*... megoldását az olvasóra bízom*
 
 ## Virtuális tagfüggvények
 
@@ -88,7 +98,14 @@ A base class-ra mutató pointeren keresztül tárolt subbclassnak a saját tagf�
 
 Az `ovverride` keyword opcionálisan a felülíró függvény fejléce után kerül, hasznos kiírni.
 
+<https://godbolt.org/z/j7a3jW9fP>
 ```cpp
+#include <string>
+#include <iostream>
+#include <vector>
+
+struct Targy {};
+
 class polgar{
 public:
     std::string name;
@@ -98,7 +115,7 @@ public:
     }
 };
 
-class hallgato : polgar {
+class hallgato : public polgar {
 public:
     double calculate_kreditindex();
     std::vector<Targy> targyak;
@@ -109,7 +126,9 @@ public:
 };
 
 int main(){
-    polgar* p = new hallgato("Gipsz Jakab", "ABC123");
+    polgar* p = new hallgato;
+    p->name = "Gipsz Jakab";
+    p->neptun = "ABC123";
     std::string name = p->get_decorated_name(); //hallgato tagfüggvényét hívja
     std::cout << name; //hallgato Gipsz Jakab ABC123
 }
@@ -156,19 +175,27 @@ int main(){
 Amikor egy leszármazott objektumot készítünk, akkor inicializálni kell annak base class "részét" is. Ehhez meg kell hívni a base class destruktorát(ha nincs neki default konstruktora).
 Ezt a már jól ismert member initializer list-ről tehetjük meg.
 
+<https://godbolt.org/z/cndqTPEMj>
 ```cpp
+#include <string>
+#include <iostream>
+#include <vector>
+
+struct Targy {};
+
 class polgar{
+protected:
     std::string name;
     std::string neptun;
+
+public:
     virtual std::string get_decorated_name() const {
         return name + std::string(" ") + neptun;
     }
-
-public:
     polgar(const std::string& name, const std::string& neptun) : name(name), neptun(neptun) {}
 };
 
-class hallgato : polgar {
+class hallgato : public polgar {
     std::vector<Targy> targyak;
 public:
     hallgato(const std::string& name, const std::string& neptun) : polgar(name, neptun) //a polgar konstruktorát hívjuk a name és neptun paraméterekkel
@@ -180,23 +207,28 @@ public:
         return std::string("hallgato ") + name + std::string(" ") + neptun;
     }
 };
-```
 
+int main(){
+    polgar* p = new hallgato("Gipsz Jakab", "ABC123");
+
+    std::string name = p->get_decorated_name(); //hallgato tagfüggvényét hívja
+    std::cout << name; //hallgato Gipsz Jakab ABC123
+}
+```
 
 ```cpp
 polgar* p = new hallgato("Gipsz Jakab", "ABC123");
 ```
-Azonban van egy kis baj... A következő sor undefined behavior:
-```cpp
-delete p;
-```
+Azonban van egy kis baj... 
 
 A probléma a destruktor kérdése. Ha a base classra mutató pointerre hívunk `delete` -t, akkor az a base class destruktorát fogja meghívni. Ez probléma, ha a subclass destruktora valamilyen erőforrást szabadít fel, viszont nem hívódik meg.
 
 Erre a problémára nyújtanak megoldást a virtuális destruktorok. Amikor egy base-re mutató pointerre `delete`-t hívunk, akkor a láncon felfelé(legalsó leszármazott->legfelső leszármazott) meghívódik az összes destruktor.
+
+<https://godbolt.org/z/GfT89Edne>
 ```cpp
 struct base {
-    base() = default; //explicit default: "im okay with what the compiler gives me"
+    base() = default; //explicit default: "im okay with what the compiler gives me" (C++11 -től)
     virtual ~base() {
         std::cout << "base dtor\n";
     }
@@ -251,18 +283,12 @@ C++ -ban ezt a problémát a virtuális leszármazással oldották meg.
 Minden virtuálisan örökölt osztályból garantáltan csak egyet tartalmaz majd minden leszármazott, akkor is, ha az osztály többször is szerepel a hierarchiában. <br>
 A virtuális ősosztályok minden nem-virtuális ősosztály előtt jönnek létre és a virtuális base classok konstruktorát csak a hierarchiában legalsó osztály konstruktora fogja meghívni.
 
-
-Az alábbi kódrészletben a konstruktor hívások sorrendje:
-* B konstruktor
-* X konstruktor
-* Y konstruktor
-* A konstruktor
-
 B konstruktora hívódik meg először, mivel virtual base class. Ez az `AA` initializer listjének sorrendjétől független, sőt, warningot is kapunk, ha B nem legelől van.<br>
 Ezután következik `X` és `Y` konstruktora, hiszen az `A` konstruktor törzse csak az initializer list után, az objektum inicializálása után fog lefutni.
 
 A destruktor hívások a konstruktor hívásokkal ellentétes sorrendben történnek.
 
+<https://godbolt.org/z/s6PqqjP1a>
 ```cpp
 #include <iostream>
 
@@ -295,13 +321,40 @@ int main(){
     AA x;
 }
 ```
+A kódrészletben a konstruktor hívások sorrendje:
+* B konstruktor
+* X konstruktor
+* Y konstruktor
+* A konstruktor
 
 ## Saját exception
 
 Korábban már szerepelt, hogy lehetséges saját kivételeket létrehozni. Ehhez semmi mást nem kell csinálni, mint az `std::exception`, vagy legtöbb esetben inkább az `std::runtime_error` osztályból leszármazni. A kivételeknek van egy konstruktora amely egy hibaüzenetet vesz át, ezért ezt implementáljuk.
 
+<https://godbolt.org/z/a6rTb3cnG>
 ```cpp
+#include <iostream>
+#include <stdexcept>
+
 struct image_load_error : std::runtime_error {
     image_load_error(const std::string& what) : std::runtime_error(what) {}
 };
+
+struct image{
+    image(const std::string& path){
+        if(path.empty()){
+            throw image_load_error("Image Load Error: image cannot have empty path!");
+        }
+    }
+};
+
+int main(){
+    try{
+        image img("");
+    }catch(const image_load_error& img_error){
+        std::cout << img_error.what();
+    }catch(std::exception& e){
+        std::cout << e.what();
+    }
+}
 ```

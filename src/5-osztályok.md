@@ -1,6 +1,7 @@
 # Osztályok, objektumok
+*most ugrik a majom a vízbe*
 
-**Ez egy viszonylag hosszú fejezet, azonban a nyelv megértéséhez gyakorlatilag esszenciális!**
+**Ez egy viszonylag hosszú fejezet, azonban a nyelv megértéséhez esszenciális!**
 
 ## Osztály, objektum
 
@@ -11,7 +12,7 @@ struct foo {};
 
 void foo_szamol(struct foo f) {}
 ```
-és társai.
+és társai. Jó lenne, ha a `foo_szamol` függvényt valahogyan a `foo` struktúrához köthetnénk.
 
 Az osztályok ezt a problémát oldják meg, valamint néhány nagyon hasznos utility-t adnak a programozó kezébe.
 
@@ -33,6 +34,7 @@ Egy osztály tartalmazhat "member"-eket(tagokat), amelyeknek különböző láth
 Ezt a `public`, `private` és `protected` (később) szavakkal állíthatjuk be. Ezeket a kulcsszavakat *access specifier*-nek hívjuk.
 A privát tagokat csak az osztályon belülről, a public-okat kívülről is elérhetjük. Egy osztályban alapból minden private, amíg ezt meg nem változtatjuk.
 
+<https://godbolt.org/z/vYb75s41a>
 ```cpp
 class Foo {
 public: //ez után a következő access-specifier -ig minden public.
@@ -59,6 +61,7 @@ A tagfüggvények gyakorlatilag speciális függvények, amelyek első paraméte
 
 A szintaxis a következő:
 
+<https://godbolt.org/z/E3YP9scPq>
 ```cpp
 class Square{
 private:
@@ -85,6 +88,17 @@ public:
     }
 };
 ```
+Tagfüggvényeket a `.` operátorral érhetünk el:
+```cpp
+int main(){
+    Square square;
+    square.set_side_length(2.5);
+    std::cout << square.calculate_area();
+}
+```
+
+Felfedezhetjük azonban azt a problémát, hogy egy `const` négyzet objektummal sok mindent nem tudunk kezdeni, ugyanis annak nem változtathatjuk meg az oldalhosszát, mután az objektum "elkészült". Ezt a problémát később, a konstruktorral oldjuk meg.
+
 ## Konstruktor, destruktor és RAII
 
 Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization), de hívhatjuk *"Scope Based Resource Management*-nek is, módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.
@@ -120,9 +134,10 @@ Azt a konstruktort, amely paraméter nélkül hívható, *defualt konstruktor*na
 
 Egy osztályból csak akkor hozható létre (C értelemben vett) tömb, ha annak van default konstruktora.
 
-A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: `classname() : member1(value1), member2(value2)`<br>
+A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat, vagy konstans objektum tagváltozóit nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: `classname() : member1(value1), member2(value2)`<br>
 Vegyük újra példának a `Square` osztályt.
 
+<https://godbolt.org/z/hK479jPbY>
 ```cpp
 class Square{
 private:
@@ -132,7 +147,7 @@ public:
     // : side_length(side_length) -> a side_length nevű tagváltozót inicializáljuk a side_length nevű paraméterrel
     // vesszővel választjuk el a tagokat
     Square(double side_length, const std::string& name) : side_length(side_length), name(name) {
-    } 
+    } //így már lehet const Square is használható objektum
 
     //"Setter" függvény, nagyon hasznos ha nem triviális egy érték beállítása(pl. itt side_length > 0 check miatt)
     void set_side_length(double side_length){
@@ -168,6 +183,7 @@ Nagyon hasonlóan működik a függvényparaméterekhez, szimpla kódgenerálás
 
 ## Gyakori félreértések, static tagfüggvények
 
+*adatbázisok referencia következik*
 Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy *valami* leírása. Ez az objektumorientált programozás alapelve. A való világ(vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre *példányokat*. Egy osztály egy példányát nevezzük általában objektumnak.
 
 Pl.
@@ -182,7 +198,7 @@ int main(){
 
 Amikor egy osztályban egy tagváltozót érünk el, az az adott példány tagváltozójára vonatkozik. Emlékezzünk vissza, a tagváltozók elérése (még ha implicit módon is) a `this` pointeren keresztül történik, azaz a példányunkra mutató pointeren keresztül.
 
-Vannak azonban esetek amikor valamilyen állapotot nem egy példányhoz, hanem az osztályhoz szeretnénk kötni. Nos erre való a `static` kulcsszó. Egy statikus tagváltozó nem a példányokhoz, hanem az osztályhoz tartozik, a statikus tagfüggvény ugyanígy az osztályhoz tartozik. Természetesen ez azt is jelenti, hogy statikus tagváltozót nem érhetünk el példányon keresztül, valamint `non static` tagváltozókat és tagfüggvényeket nem érhetünk el statikus tagfüggvényekből.
+Vannak azonban esetek amikor valamilyen állapotot nem egy példányhoz, hanem az osztályhoz szeretnénk kötni. Nos erre való a `static` kulcsszó. Egy statikus tagváltozó nem a példányokhoz, hanem az osztályhoz tartozik, a statikus tagfüggvény ugyanígy az osztályhoz tartozik. Természetesen ez azt is jelenti, hogy statikus tagváltozót/tagfüggvényt nem érhetünk el példányon keresztül, valamint `non static` tagváltozókat és tagfüggvényeket nem érhetünk el statikus tagfüggvényekből.
 
 Statikus tagváltozókat a `::` operátorral érhetünk el: 
 `foo::bar();`
@@ -219,7 +235,7 @@ Most pedig nézzünk egy komolyabb RAII példát.
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
 Ezt a példát sokáig fogjuk használni.
 
-Szóval szükségünk lesz egy `typename` sablonparaméterre, egy pointerre, ami a tömbre mutat, valamint tárolni kell a tömb méretét
+Szóval szükségünk lesz egy `typename T` sablonparaméterre, egy pointerre, ami a tömbre mutat, valamint tárolni kell a tömb méretét
 ```cpp
 #include <cstdint>
 
@@ -267,6 +283,8 @@ int main(){
 
 Nos igen, ez a RAII lényege. Nem kell manuálisan sehol `delete` és `new` -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.
 
+Jó RAII példák a már megismert filestream osztályok. A konstruktorukban megnyitják a filet(elkérik a file handle-t az OS-től), majd a destruktorukban automatikusan bezárják a file-t.
+
 ## Objektumok másolása
 
 Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy `T` típusú objektumból `T` típusú objektumot készít *másoló konstruktor*(copy constructor)-nak nevezzük.
@@ -282,7 +300,7 @@ class foo{
 ```
 Ha egy osztálynak minden tagváltozója lemásolható(van copy constructora, vagy pl. primitív típus), akkor lesz automatikusan generált copy constructora is. 
 
-A copy constructor paramétereként `const T&` -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a lemásolásához a copy constructorra lenne szükség.
+A copy constructor paramétereként `const T&` -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a nem referenciaként átvételhet(lemásolásához) copy constructorra lenne szükség.
 Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni(deep copy).
 Ennek oka az, hogy a pointer lemásolásával(shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <https://en.wikipedia.org/wiki/Object_copying>
 
@@ -318,7 +336,7 @@ A `struct` keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiál�
 
 Ha egy osztálynak saját header és cpp file-t dezignálunk, akkor azt a következő szintaxissal tehetjük meg:
 
-`foo.hpp` (a .hpp kiterjesztés gyakori c++ header fileokhoz, de természetesen a .h ugyanígy gyakori, a kiterjesztések egyébként sem számítanak)
+`foo.hpp` (a .hpp kiterjesztés gyakori c++ header fileokhoz, de természetesen a .h ugyanígy gyakori)
 ```cpp
 class foo{
     int x;
@@ -331,7 +349,6 @@ class foo{
     static void something();
 
 
-    //
     template <typename T>
     void print_with_x(T thing) const {
         std::cout << x << ' ' << thing;

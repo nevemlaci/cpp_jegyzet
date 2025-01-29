@@ -8,7 +8,18 @@ A jegyzetben próbáltam a tananyag menetéhez alkalmazkodni, csak akkor változ
 
 A legtöbb anyaghoz találhatóak külső linkek hasznos oldalakhoz, azonban egyesek(pl. cppreference) kicsit bővebben elmagyaráznak egyes aspektusokat, mint ami a tárgyhoz szükséges.
 
- Ezen felül fontos azt megjegyezni, hogy a tárgy C++ verzióban inkonzisztens, néhány laboron működni fog az, ami a másikon nem. Viszont a házi feladatban *elvileg* C++17 verzióval fordul minden.
+Ezen felül fontos azt megjegyezni, hogy a tárgy C++ verzióban inkonzisztens(pl. egyes ellenőrző feladatok C++03-ra vannak állítva), néhány laboron működni fog az, ami a másikon nem. Viszont a házi feladatban *elvileg* C++17 verzióval fordul minden.
+A laborokon elvileg lehet(és Windowson ezt ajánlom!) Visual Studioban dolgozni, ami viszont C++14-nél régebbi verziókat nem támogat. 
+
+# Compiler Explorer(Godbolt)
+
+A [Compiler Explorer](https://godbolt.org/z/xPK1P37P8) egy weboldal, ahol mindenféle nyelven írt programok különböző fordítókkal készített kimenetét lehet megnézni. A linkre kattintva egy egyszerű setupot kapunk, amelyen a bal oldalra írt kódot a jobb oldalon optimalizálás nélküli Assemblyként láthatjuk, valamint egy "Executor" is jelen van, amely a kód futtatását szimulálja.
+(Ha nem érdekel az assembly, azt a tabot nyugodtan bezárhatod, telhesen független az Executor-tól.)
+
+A jegyzetben a hosszabb/bonyolultabb kódrészletekhez csatoltam godbolt linkeket, így gyorsan csekkolható a program futása, valamint így gyorsan bele lehet piszkálni a kódba.
+
+![alt text](image-4.png)
+
 
 
 # Inspiráció
@@ -22,7 +33,7 @@ Köszönöm a [TCCPP](https://discord.gg/tccpp) Discord szerver tapasztalt(gcc k
 * dot
 * DXPower
 
-Az "Alapvető különbségek a C nyelvtől" fejezet alcímeit a CPPFTW oldal inspirálta.
+Az "Alapvető különbségek a C nyelvtől" fejezet alcímeit és tartalmát részben a CPPFTW oldal inspirálta.
 
 
 

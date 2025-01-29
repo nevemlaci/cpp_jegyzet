@@ -73,20 +73,103 @@ std::cin.ignore(x, c); //ignorál x karakter, vagy amíg nem kap c-vel azonos ka
 
 `std::numeric_limits<T>::max()` : adott `T` típusú numerikus típus maximum értékét adja vissza. (pl. `std::numeric_limits<std::size_t>::max()`)
 
+Pl:
 ```cpp
-int a;
-int b;
-std::cin >> a;
-std::cin.ignore(5);
-std::cin >> b;
+#include <iostream>
+#include <limits>
 
-char c1;
-char c2;
+int main(){
+    int a;
+    int b;
+    std::cin >> a;
+    std::cin.ignore(5);
+    std::cin >> b;
+    std::cout << "a: " << a << " b: " << b << '\n';
 
-std::cin >> c1;
-//ignorálunk addig amíg ';' -t nem kapunk. Ignorálja a ; -t is!
-std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ';'); 
-std::cin >> c2;
+    char c1;
+    char c2;
+    std::cin >> c1;
+    //ignorálunk addig amíg ';' -t nem kapunk. Ignorálja a ; -t is!
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ';'); 
+    std::cin >> c2;
+    std::cout << "c1: '" << c1 <<"' c2: '" << c2 << "'\n";
+}
 ```
+![](<Screenshot 2025-01-29 115519.png>)
 
 *Nem összekeverendő a teljesen más jelentésű `std::ignore`-al.*
+
+## File IO
+
+C++ -ban a file IO *API*-ja(az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.
+
+File olvasásra megnyitásához  és nyilvántartásához az `std::ifstream` (Input Filestream) típust, írásra az `std::ofstream` (Output Filestream) típust használjuk.
+
+```cpp
+#include <fstream>
+
+int main(){
+    std::ifstream input("input.txt");
+    int x;
+    input >> x; 
+    std::ofstream output("output.txt");
+    output << x;
+}
+```
+
+Az `std::ifstream` és `std::ofstream` típusó objektumok automatikusan(ld. [osztályok](./5-osztályok.md)) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (`.close()`)
+
+## IO manipulátorok
+
+Az IO műveletek viselkesését ún. manipulátorok segítségével változtathatjuk meg. Ezeket úgy használjuk, mintha ők maguk is input/output lennének. Pl. ha az egészeket mindenképp 7 számjeggyel szeretnénk kiírni, és 0-val kitölteni a maradék helyet.
+
+```cpp
+#include <iomanip>
+#include <iostream>
+
+int main(){
+    int x = 356463;
+    std::cout << std::setw(7) << std::setfill('0') << x; 
+}
+```
+
+A manipulátorok hatóköre változó, vannak olyanok, amelyek csak a következő outputra hatnak, de vannak olyanok is, amelyek hatása "végtelen"(amíg meg nem változtatjuk).
+Az IO manipulátorok és egyéb kapcsolódó foszlányok itt: <https://en.cppreference.com/w/cpp/io/manip>
+
+Sokszor állítunk el dolgokat egy IO streamen, viszont nem szeretnénk egyesével visszaállítani az eredeti értékeket.
+Ekkor van két lehetőségünk. 
+Az első, hogy egy "buffer stream" segítségével összeállítunk egy stringet és ezt a stringet írjuk ki. Ehhez használjuk az `std::stringstream` típust: <https://en.cppreference.com/w/cpp/io/basic_stringstream>
+
+<https://godbolt.org/z/59YETh5dn>
+```cpp
+#include <sstream>
+#include <iostream>
+
+int main(){
+    std::stringstream buf;
+    buf << std::hex << 45678;
+    std::cout << buf.str();
+}
+```
+
+A másik lehetőség az, hogy a stream beállításait(flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.
+
+<https://godbolt.org/z/o1hxqvnzz>
+```cpp
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+
+int main(){
+    //most őszintén, kinek van ehhez kedve?
+    std::ios_base::fmtflags flags = std::cout.flags();
+    std::streamsize prec = std::cout.precision();
+    std::streamsize width = std::cout.width();
+    std::cout << std::hex << 465643 << std::setprecision(12) << std::setw(20) << 454.3256456436;
+    std::cout.flags(flags);
+    std::cout.precision(prec);
+    std::cout.width(width);
+    std::cout << '\n';
+    std::cout << 54;
+}
+```

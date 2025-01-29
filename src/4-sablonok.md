@@ -3,6 +3,7 @@
 ## Sablon alapok
 A C++ egyik legnagyobb előnye a C-vel szemben a generikus programozási lehetőségekben rejlik. A jegyzetben már szerepelt az alábbi függvény:
 
+<https://godbolt.org/z/86ae5adTr>
 ```cpp
 //swap C++ -ban
 void cpp_swap(int& x, int& y){
@@ -14,6 +15,8 @@ void cpp_swap(int& x, int& y){
 
 Ezt a függvényt szeretnénk megírni, hogy működjön mindenféle típusra. Természetesen ez lehetetlen küldetésnek tűnhet, azonban a C++ templatek fő felhasználási módja éppen ez.
 
+
+<https://godbolt.org/z/rrzMjYvK7>
 ```cpp
 template <typename T> //sablondeklaráció, sablonparaméterek(itt T) felsorolása
 void cpp_swap(T& x, T&y){ //cpp_swap<T> függvénysablon
@@ -26,16 +29,21 @@ void cpp_swap(T& x, T&y){ //cpp_swap<T> függvénysablon
 A fent látható `cpp_swap` -ot *függvénysablon*nak hívjuk. Önmagában nem függvény, ahhoz "példányosítani" kell. Ez a gyakorlatban annyit jelent, hogy használjuk.
 
 pl.
-
 ```cpp
-int x = 5;
-int y = 2;
-// cpp_swap<T> függvénysablon példányosítása T=int sablonparaméterekkel
-cpp_swap<int>(x, y); //<int> <- sablonparaméter megadása
+int main(){
+    int x = 6;
+    int y = 2;
 
-double a = 5.2;
-double b = 1.2;
-cpp_swap<double>(a, b);
+    // cpp_swap<T> függvénysablon példányosítása T=int sablonparaméterekkel
+    cpp_swap<int>(x, y); //<int> <- sablonparaméter megadása
+
+    std::cout << x << ' ' << y << '\n';
+
+    float a = 7.3;
+    float b = 1.2;
+    cpp_swap<float>(a, b);
+    std::cout << a << ' ' << b;
+}
 ```
 
 Amikor egy sablont példányosítunk adott sablonparaméterekkel, olyankor valójában fordításidőben kód generálódik az adott sablonparaméterek behelyettesítésével.
@@ -53,7 +61,7 @@ void cpp_swap(int& x, int& y){
 ```
 kód generálódik. A `T` helyére mindenhol `int` kerül. Ezt a generált kódot nekük természetesen nem kell látnunk, vagy foglalkoznunk vele.
 
-A sablonparamétereket a fordító néha ki tudja találni a kapott függvényparaméterekből(template parameter deduction).
+A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből(template parameter deduction).
 Például:
 ```cpp
 double a = 5.2;
@@ -63,7 +71,7 @@ cpp_swap(a, b); //nem kell megadni, hogy double típus, mivel a és b double tí
 cpp_swap<double>(a, x); //meg kell adni, hogy double típus, mivel a és x különböző típusúak, így a fordító nem tud dönteni
 ```
 
-A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL).
+A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL, EA Games STL).
 
 ## Duck typing
 
@@ -84,6 +92,8 @@ Milyen típusokra működik ez a függvény?
 Hát azokra, amelyek ezeket a feltételeket teljesítik:
 * lemásolhatók (hiszen másolatként vesszük át őket)
 * összehasonlíthatók a `>` operátorral
+
+*Vegyük észre*: ezek pontosan azok a feltételek, amelyek ahhoz kellenek, hogy a kódban az adott típust T helyére beillesztve a kód leforduljon.
 
 A sablonok korlátozására léteznek további technikák(SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.
 
@@ -108,18 +118,19 @@ void print_template_int(){
     std::cout << N << '\n';
 }
 ```
-Fontos azt megjegyezni, hogy a sablonok fordításidőben példanyosodnak, szóval minden függvényparaméternek fordításidőben konstansnak kell lennie.
+Fontos azt megjegyezni, hogy a sablonok fordításidőben példanyosodnak, szóval minden sablonparaméternek fordításidőben konstansnak kell lennie.
 pl.
 ```cpp
 print_template_int<5>(); //ok
 int x = 5;
-print_template_int<x>(); //hiba, x nem fordításidejű konstans(const sem oldaná meg)
+print_template_int<x>(); //hiba, x nem fordításidejű konstans(const int x sem oldaná meg)
 ```
 ## Részleges specializáció
 
 Tegyük fel, hogy szeretnénk ha egy adott sablon egy speciális módon működjön, ha egy adott típust kap. 
 Például ha a swap függvényünk int-et kap, akkor írja ki, hogy "int", különben működjön normális módon.
 
+<https://godbolt.org/z/zj1bfe5s9>
 ```cpp
 template <typename T> 
 void cpp_swap(T& x, T&y){ 
@@ -130,8 +141,8 @@ void cpp_swap(T& x, T&y){
 
 template <> 
 void cpp_swap<int>(int& x, int&y){ //specializáció a T=int esetre
-    std::cout << "int";
-    T tmp = x;
+    std::cout << "int ";
+    int tmp = x;
     x = y;
     y = tmp;
 }

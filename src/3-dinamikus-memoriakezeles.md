@@ -32,3 +32,17 @@ delete[] tomb;
 delete[] dinTomb;
 ```
 
+## Variable Length Array
+
+Az alábbi kódrészlet az ISO C++ Standard szerint nem szabványos C++, a GCC és Clang fordítók compiler extensionként engedélyezik. VLA-t ne használjunk, hiszen így a stacken szükséges memória mérete ismeretlen lesz.
+
+<https://godbolt.org/z/93xxj5WPM>
+```cpp
+int x;
+std::cin >> x;
+int a[x];
+```
+
+*A non-standard extension-ök kikapcsolása:*
+* GCC/Clang: `-pedantic-errors` flag
+* MSVC: `/fpermissive-` flag

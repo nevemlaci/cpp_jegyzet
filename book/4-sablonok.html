@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html" class="active"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Inheritance</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html" class="active"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -176,6 +176,7 @@
                         <h1 id="sablonok-template"><a class="header" href="#sablonok-template">Sablonok (template)</a></h1>
 <h2 id="sablon-alapok"><a class="header" href="#sablon-alapok">Sablon alapok</a></h2>
 <p>A C++ egyik legnagyobb előnye a C-vel szemben a generikus programozási lehetőségekben rejlik. A jegyzetben már szerepelt az alábbi függvény:</p>
+<p><a href="https://godbolt.org/z/86ae5adTr">https://godbolt.org/z/86ae5adTr</a></p>
 <pre><code class="language-cpp">//swap C++ -ban
 void cpp_swap(int&amp; x, int&amp; y){
     int tmp = x;
@@ -184,6 +185,7 @@ void cpp_swap(int&amp; x, int&amp; y){
 }
 </code></pre>
 <p>Ezt a függvényt szeretnénk megírni, hogy működjön mindenféle típusra. Természetesen ez lehetetlen küldetésnek tűnhet, azonban a C++ templatek fő felhasználási módja éppen ez.</p>
+<p><a href="https://godbolt.org/z/rrzMjYvK7">https://godbolt.org/z/rrzMjYvK7</a></p>
 <pre><code class="language-cpp">template &lt;typename T&gt; //sablondeklaráció, sablonparaméterek(itt T) felsorolása
 void cpp_swap(T&amp; x, T&amp;y){ //cpp_swap&lt;T&gt; függvénysablon
     T tmp = x;
@@ -193,14 +195,20 @@ void cpp_swap(T&amp; x, T&amp;y){ //cpp_swap&lt;T&gt; függvénysablon
 </code></pre>
 <p>A fent látható <code>cpp_swap</code> -ot <em>függvénysablon</em>nak hívjuk. Önmagában nem függvény, ahhoz "példányosítani" kell. Ez a gyakorlatban annyit jelent, hogy használjuk.</p>
 <p>pl.</p>
-<pre><code class="language-cpp">int x = 5;
-int y = 2;
-// cpp_swap&lt;T&gt; függvénysablon példányosítása T=int sablonparaméterekkel
-cpp_swap&lt;int&gt;(x, y); //&lt;int&gt; &lt;- sablonparaméter megadása
+<pre><code class="language-cpp">int main(){
+    int x = 6;
+    int y = 2;
 
-double a = 5.2;
-double b = 1.2;
-cpp_swap&lt;double&gt;(a, b);
+    // cpp_swap&lt;T&gt; függvénysablon példányosítása T=int sablonparaméterekkel
+    cpp_swap&lt;int&gt;(x, y); //&lt;int&gt; &lt;- sablonparaméter megadása
+
+    std::cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; y &lt;&lt; '\n';
+
+    float a = 7.3;
+    float b = 1.2;
+    cpp_swap&lt;float&gt;(a, b);
+    std::cout &lt;&lt; a &lt;&lt; ' ' &lt;&lt; b;
+}
 </code></pre>
 <p>Amikor egy sablont példányosítunk adott sablonparaméterekkel, olyankor valójában fordításidőben kód generálódik az adott sablonparaméterek behelyettesítésével.
 Pl.</p>
@@ -214,7 +222,7 @@ Pl.</p>
 }
 </code></pre>
 <p>kód generálódik. A <code>T</code> helyére mindenhol <code>int</code> kerül. Ezt a generált kódot nekük természetesen nem kell látnunk, vagy foglalkoznunk vele.</p>
-<p>A sablonparamétereket a fordító néha ki tudja találni a kapott függvényparaméterekből(template parameter deduction).
+<p>A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből(template parameter deduction).
 Például:</p>
 <pre><code class="language-cpp">double a = 5.2;
 double b = 1.2;
@@ -222,7 +230,7 @@ cpp_swap(a, b); //nem kell megadni, hogy double típus, mivel a és b double tí
 
 cpp_swap&lt;double&gt;(a, x); //meg kell adni, hogy double típus, mivel a és x különböző típusúak, így a fordító nem tud dönteni
 </code></pre>
-<p>A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL).</p>
+<p>A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL, EA Games STL).</p>
 <h2 id="duck-typing"><a class="header" href="#duck-typing">Duck typing</a></h2>
 <p>A sablonokkal felmerül egy újabb kérdés: milyen típusokat fogadunk el? A válasz erre egyszerű: mindent, amivel a függvény kódja lefordul.</p>
 <p>Ezt "duck typing" -nak hívjuk: <em>"If it walks like a duck and it quacks like a duck, then it must be a duck"</em></p>
@@ -238,6 +246,7 @@ Hát azokra, amelyek ezeket a feltételeket teljesítik:</p>
 <li>lemásolhatók (hiszen másolatként vesszük át őket)</li>
 <li>összehasonlíthatók a <code>&gt;</code> operátorral</li>
 </ul>
+<p><em>Vegyük észre</em>: ezek pontosan azok a feltételek, amelyek ahhoz kellenek, hogy a kódban az adott típust T helyére beillesztve a kód leforduljon.</p>
 <p>A sablonok korlátozására léteznek további technikák(SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.</p>
 <h2 id="nem-típus-sablonparaméterek-nem-függvény-sablonok"><a class="header" href="#nem-típus-sablonparaméterek-nem-függvény-sablonok">Nem-típus sablonparaméterek, nem-függvény sablonok</a></h2>
 <p>Sablonparaméterként átadható nem csak típus, hanem gyakorlatilag bármilyen más objektum is. Pl. a standard library egy típusa az <code>std::array</code>, amely első függvényparamétere a tömbben tárolt típus, második függvényparamétere egy pozitív egész szám, a tömb mérete.</p>
@@ -255,15 +264,16 @@ void print_template_int(){
     std::cout &lt;&lt; N &lt;&lt; '\n';
 }
 </code></pre>
-<p>Fontos azt megjegyezni, hogy a sablonok fordításidőben példanyosodnak, szóval minden függvényparaméternek fordításidőben konstansnak kell lennie.
+<p>Fontos azt megjegyezni, hogy a sablonok fordításidőben példanyosodnak, szóval minden sablonparaméternek fordításidőben konstansnak kell lennie.
 pl.</p>
 <pre><code class="language-cpp">print_template_int&lt;5&gt;(); //ok
 int x = 5;
-print_template_int&lt;x&gt;(); //hiba, x nem fordításidejű konstans(const sem oldaná meg)
+print_template_int&lt;x&gt;(); //hiba, x nem fordításidejű konstans(const int x sem oldaná meg)
 </code></pre>
 <h2 id="részleges-specializáció"><a class="header" href="#részleges-specializáció">Részleges specializáció</a></h2>
 <p>Tegyük fel, hogy szeretnénk ha egy adott sablon egy speciális módon működjön, ha egy adott típust kap.
 Például ha a swap függvényünk int-et kap, akkor írja ki, hogy "int", különben működjön normális módon.</p>
+<p><a href="https://godbolt.org/z/zj1bfe5s9">https://godbolt.org/z/zj1bfe5s9</a></p>
 <pre><code class="language-cpp">template &lt;typename T&gt; 
 void cpp_swap(T&amp; x, T&amp;y){ 
     T tmp = x;
@@ -273,8 +283,8 @@ void cpp_swap(T&amp; x, T&amp;y){
 
 template &lt;&gt; 
 void cpp_swap&lt;int&gt;(int&amp; x, int&amp;y){ //specializáció a T=int esetre
-    std::cout &lt;&lt; "int";
-    T tmp = x;
+    std::cout &lt;&lt; "int ";
+    int tmp = x;
     x = y;
     y = tmp;
 }
