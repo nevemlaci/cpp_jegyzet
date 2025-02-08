@@ -188,18 +188,6 @@ public:
     }
 
     /**
-     * @brief back tagfüggvény
-     * @return az utolsó, még érvényes elemre mutató iterátor
-     */
-    iterator back() {
-        return iterator(m_back);
-    }
-
-    const iterator back() const {
-        return iterator(m_back);
-    }
-
-    /**
      * @brief end tagfüggvény az iteráláshoz
      * @return az utolsó érvényes elem "után" mutató iterátor, "sentinel" iterátor
      */
@@ -272,14 +260,6 @@ Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:
 
     const T* begin() const {
         return tomb;
-    }
-
-    T* back() {
-        return tomb + (meret-1);
-    }
-
-    const T* back() const {
-        return tomb + (meret-1);
     }
 
     T* end() {
