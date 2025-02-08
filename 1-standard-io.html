@@ -274,8 +274,14 @@ int main(){
     std::cout &lt;&lt; std::setw(7) &lt;&lt; std::setfill('0') &lt;&lt; x; 
 }
 </code></pre>
-<p>A manipulátorok hatóköre változó, vannak olyanok, amelyek csak a következő outputra hatnak, de vannak olyanok is, amelyek hatása "végtelen"(amíg meg nem változtatjuk).
-Az IO manipulátorok és egyéb kapcsolódó foszlányok itt: <a href="https://en.cppreference.com/w/cpp/io/manip">https://en.cppreference.com/w/cpp/io/manip</a></p>
+<p>A manipulátorok hatóköre változó, vannak olyanok, amelyek csak a következő outputra hatnak, de vannak olyanok is, amelyek hatása "végtelen"(amíg meg nem változtatjuk).</p>
+<p>Fontosabb mainpulátorok:</p>
+<ul>
+<li><code>std::setw(size)</code> : megadja, hogy a kiírt számok hány karakter szélesek legyene</li>
+<li><code>std::setfill(ch)</code> : a paraméterként kapott karakterrel lesz kitöltve a maradék hely, ha egy kiírt érték nem tölti ki a megadott szélességet</li>
+<li><code>std::setprecision(p)</code> : a lebegőpontos számok tizedesjegyeinek pontosságát(számát) állítja be</li>
+</ul>
+<p>Több IO manipulátor és egyéb kapcsolódó foszlányok itt: <a href="https://en.cppreference.com/w/cpp/io/manip">https://en.cppreference.com/w/cpp/io/manip</a></p>
 <p>Sokszor állítunk el dolgokat egy IO streamen, viszont nem szeretnénk egyesével visszaállítani az eredeti értékeket.
 Ekkor van két lehetőségünk.
 Az első, hogy egy "buffer stream" segítségével összeállítunk egy stringet és ezt a stringet írjuk ki. Ehhez használjuk az <code>std::stringstream</code> típust: <a href="https://en.cppreference.com/w/cpp/io/basic_stringstream">https://en.cppreference.com/w/cpp/io/basic_stringstream</a></p>
