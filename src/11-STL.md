@@ -11,6 +11,7 @@ A standard tárolók fontosabb közös tulajdonságai:
 * indexelő operátor (ahol értelmes)
 
 #### std::string
+`<string>` header
 
 Egy egyszerű karakterlánc implementáció.
 
@@ -25,6 +26,7 @@ std::cout << str;
 
 #### std::vector
 `<vector>` header
+
 Egy általános dinamikus tömb típus. Nem mindig akkora helyet foglal, amennyire szüksége van, hanem kapacitás hiányában geometrikusan növeli a lefoglalt memória méretét(pl kétszerezi, vagy másfélszerezi)
 
 ```cpp
