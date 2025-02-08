@@ -195,6 +195,8 @@ int main(){
 }
 ```
 
+Az `std::mismatch` megkeresi az első olyan pontot két range-ben, ahol eltérnek.
+
 #### std::transform
 
 Az `std::transform` végrehajt egy függvényt az adott range minden elemén és átmásolja egy másik rangebe. A függvény a range mindig aktuálisan változtatandó elemét veszi át.<br>
