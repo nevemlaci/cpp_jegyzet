@@ -75,7 +75,23 @@ Azt, hogy egy kulcs a tárolóban van -e, a `contains(key)` tagfüggvénnyel ell
 ## STL algoritmusok
 `<algorithm>` header
 
+Az STL algoritmusok különböző típusú paraméterei:
+
+* `InIter` / `InputIt`: input iterátor
+* `OutIter`: output iterátor
+* `FwIter`: előre léptethető(Forward) iterátor
+* `BiIter`: kétirányú(bidirectional) iterátor
+* `RndIter`: Random Access iterátor(léptethető minden irányban akármekkora lépésben, pl. pointer, vektor iterátor)
+* `Pred` / `UnaryPred`: egy operandusú predikátum
+* `BinPred`: két operandusú predikátum
+* `UnOp`: egy operandusú művelet
+* `Cmp`: összehasonlító művelet
+
+Ezeket a nevek találhatók a tárgyhoz tartozó STL puskán is, de fejből nem kötelező tudni őket. Érdemes viszont átgondolni, mikor miért az adott típusú paraméterre van szükség.
+
 #### std::find, std::find_if
+
+`InputIt find( InputIt first, InputIt last, const T& value );`
 
 Az `std::find` függvény két iterátort(a keresés doménjét), valamint egy értéket vesz át. A doménjében az `==` operátor segítségével keresi a kapott értéket, és ha megtalálja, akkor visszaad rá egy iterátort. Ha nem találja meg, akkor a domén végére mutató iterátort adja vissza.
 Az ilyen iterátor párokat gyakran *range*-nek nevezzük.
@@ -91,6 +107,8 @@ Az ilyen iterátor párokat gyakran *range*-nek nevezzük.
     }
 ```
 
+`InputIt find_if( InputIt first, InputIt last, UnaryPred p );`
+
 Az `std::find_if` 3. paraméterként egy érték helyett egy predikátumfüggvényt(vagy más függvényhívó operátorral rendelkező objektumot) vesz át, amely `bool` -t ad vissza és egyetlen paramétereként átveszi egy a doménben tárolt objektumok típusával megegyező típusú objektumot(*értsd: átveszi az éppen vizsgált elemet*).
 
 ```cpp
@@ -103,6 +121,10 @@ Az `std::find_if` 3. paraméterként egy érték helyett egy predikátumfüggvé
 ```
 
 #### std::count és std::count_if
+
+`count( InputIt first, InputIt last, const T& value );`
+
+`count_if( InputIt first, InputIt last, UnaryPred p );`
 
 Ugyan az, mint a `find` és `find_if`, csak összeszámolja a feltételt kielégítő elemeket.
 
@@ -126,6 +148,9 @@ int main(){
 #### std::fill, std::generate
 
 Az `std::fill` feltölti a kapott range-t egy értékkel.
+
+`void fill( ForwardIt first, ForwardIt last, const T& value );`
+
 <https://godbolt.org/z/7qbYq17v3>
 ```cpp
 #include <iostream>
@@ -143,6 +168,8 @@ int main(){
 
 Az std::generate feltölti a kapott range-t értékekkel. 
 Ezt egy generátor segítségével teszi, amely a harmadik paramétere. A generátor paraméter nélkül hívható objektum, amely visszaadja a beillesztendő értéket.
+
+`void generate(ForwardIt first, ForwardIt last, Generator g);`
 
 Pl.
 <https://godbolt.org/z/Mz78oP4Wb>
@@ -181,6 +208,8 @@ for(auto it = v.begin(), it != v.end(), ++it){
 
 Az `std::equal` megmondja, hogy két range minden eleme egyenlő -e.
 
+`bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2);`
+
 <https://godbolt.org/z/qsv57sPK5>
 ```cpp
 #include <iostream>
@@ -196,11 +225,53 @@ int main(){
 ```
 
 Az `std::mismatch` megkeresi az első olyan pontot két range-ben, ahol eltérnek.
+Első három paramétere:
+* Első range eleje
+* Első range vége
+* Második range eleje
+
+Opcionális negyedik paramétere egy predikátum, amely ha igazat ad vissza, mismatch-nek számít az adott elempár.
+
+`std::pair<InputIt1, InputIt2> mismatch( InputIt1 first1, InputIt1 last1, InputIt2 first2);`
+
+`std::pair<InputIt1, InputIt2> mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPred p);`
+
+Visszatérési értéke egy `std::pair`, amely a két rangen belül a különbségre mutató iterátorokat tartalmazza.
+
+<https://godbolt.org/z/hvdWTxqqr>
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+template<typename T> //template hogy mindenféle vektorhoz jó legyen
+struct transformer{
+    T elozo;
+    
+    transformer() : elozo(0) {}
+
+    T operator()(const T& elem){
+        int eredmeny = elem + elozo;
+        elozo = elem;
+        return eredmeny;
+    }
+};
+
+int main(){
+    std::vector<int> v = {3, 2, 1, 5, 3, 2, 8, 3, 12};
+    std::vector<int> w = {3, 2, 1, 5, 0, 2, 8, 0, 12};
+    
+    auto it_pair = std::mismatch(v.begin(), v.end(), w.begin());
+    std::cout << "Mismatch at: " << it_pair.first - v.begin();
+}
+```
 
 #### std::transform
 
 Az `std::transform` végrehajt egy függvényt az adott range minden elemén és átmásolja egy másik rangebe. A függvény a range mindig aktuálisan változtatandó elemét veszi át.<br>
 Első két paramétere a domén range eleje és vége, a hardmadik paramétere a másolás céljának eleje, a negyedik paraméter pedig a végrehajtandó művelet(függvény vagy funktor).
+
+`OutputIt transform(InputIt first1, InputIt last1, OutputIt d_first, UnaryOp unary_op);`
 
 <https://godbolt.org/z/WKE977c8P>
 ```cpp
@@ -232,4 +303,29 @@ int main(){
     }
 }
 ```
+
+Az `std::transform`-nak létezik egy két range-n működő változata is:
+
+`OutputIt transform(InputIt1 first1, InputIt1 last1, InputIt2 first2, OutputIt d_first, BinaryOp binary_op);`
+
+<https://godbolt.org/z/q96zb98Ea>
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main(){
+    std::vector<int> v = {3, 2, 1, 5, 3, 2, 8, 3, 12};
+    std::vector<int> w = {2, 5, 1, 5, 0, 2, 9, 0, 10};
+    
+    std::vector<int> x(v.size());
+
+    //std::plus<T> : funktor aminek a fgv.hívás operátora összeadja a két operandust
+    std::transform(v.begin(), v.end(), w.begin(), x.begin(), std::plus<int>()/*default constructed std::add instance*/);
+    for(int elem : x){
+        std::cout << elem << '\n';
+    }
+}
+```
+
 

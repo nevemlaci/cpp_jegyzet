@@ -270,3 +270,7 @@ Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:
         return tomb + meret;
     }
 ```
+
+## Kiegészítés: Iterátorok besorolása
+
+![alt text](image-5.png)
