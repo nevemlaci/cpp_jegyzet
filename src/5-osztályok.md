@@ -281,7 +281,7 @@ public:
     }
 
     //ua. mint az előbb, csak konstans verzió
-    const T& at(std::size_t idx) const {
+    const T& at(std::size_t idx) const { 
         if(idx >= meret) {
             throw std::out_of_range("Tomb tulindexelve!");
         }
@@ -408,22 +408,14 @@ void foo::something(){
 }
 ```
 
-## std::initializer_list
+#### *std::initializer_list*
+<https://en.cppreference.com/w/cpp/utility/initializer_list>
 
 Ha szeretnénk a tömbünknek egy egyszerű inicializálási módszert adni, akkor átvehetünk egy `std::initializer_list` típusú objektumot konstruktor paraméterként.
 
 Az `std::initializer_list` egy read-only "view", azaz módosítani nem tudjuk, viszont másolni tudunk belőle. Nincs sem `at()` tagfüggvénye, sem indexelő operátora, csak range-for ciklussal tudunk végigiterálni rajta.
 
 ```cpp
-//
-// Created by nevemlaci on 08/02/2025.
-//
-
-#pragma once
-
-#include <cstddef>
-#include "memtrace.h"
-
 template <typename T>
 class DinTomb{
     T* tomb; //pointer a dinamikus tömbre
@@ -451,5 +443,4 @@ public:
 int main(){
     DinTomb<int> tomb = {1, 2, 3, 4};
 }
-
 ```

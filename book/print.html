@@ -920,7 +920,7 @@ public:
     }
 
     //ua. mint az előbb, csak konstans verzió
-    const T&amp; at(std::size_t idx) const {
+    const T&amp; at(std::size_t idx) const { 
         if(idx &gt;= meret) {
             throw std::out_of_range("Tomb tulindexelve!");
         }
@@ -1028,19 +1028,11 @@ void foo::something(){
     y*=2;
 }
 </code></pre>
-<h2 id="stdinitializer_list"><a class="header" href="#stdinitializer_list">std::initializer_list</a></h2>
+<h4 id="stdinitializer_list"><a class="header" href="#stdinitializer_list"><em>std::initializer_list</em></a></h4>
+<p><a href="https://en.cppreference.com/w/cpp/utility/initializer_list">https://en.cppreference.com/w/cpp/utility/initializer_list</a></p>
 <p>Ha szeretnénk a tömbünknek egy egyszerű inicializálási módszert adni, akkor átvehetünk egy <code>std::initializer_list</code> típusú objektumot konstruktor paraméterként.</p>
 <p>Az <code>std::initializer_list</code> egy read-only "view", azaz módosítani nem tudjuk, viszont másolni tudunk belőle. Nincs sem <code>at()</code> tagfüggvénye, sem indexelő operátora, csak range-for ciklussal tudunk végigiterálni rajta.</p>
-<pre><code class="language-cpp">//
-// Created by nevemlaci on 08/02/2025.
-//
-
-#pragma once
-
-#include &lt;cstddef&gt;
-#include "memtrace.h"
-
-template &lt;typename T&gt;
+<pre><code class="language-cpp">template &lt;typename T&gt;
 class DinTomb{
     T* tomb; //pointer a dinamikus tömbre
     std::size_t meret; //a dinamikus tömb mérete
@@ -1067,7 +1059,6 @@ public:
 int main(){
     DinTomb&lt;int&gt; tomb = {1, 2, 3, 4};
 }
-
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="operator-overloading"><a class="header" href="#operator-overloading">Operator overloading</a></h1>
 <h2 id="mik-az-operátorok-valójában"><a class="header" href="#mik-az-operátorok-valójában">Mik az operátorok valójában?</a></h2>
@@ -1194,7 +1185,7 @@ public:
 
     T&amp; at(std::size_t idx);
 
-    const T&amp; at(std::size_t idx) const;
+    T&amp; at(std::size_t idx) const;
 };
 
 int main(){
