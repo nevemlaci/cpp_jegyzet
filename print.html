@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="#-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -1661,6 +1661,279 @@ std::unqiue_ptr&lt;Foo&gt; p2(f); //p2 takes ownership of f, so delete f; is not
 };
 </code></pre>
 <p>Így már nem kell explicit dtor, az std::vector dtora meghívja az elemeinek dtorát. A <code>unqiue_ptr</code> destruktora pedig felszabadítja a memóriát.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="iterátorok"><a class="header" href="#iterátorok">Iterátorok</a></h1>
+<p>Most elengedjük egy kicsit a tömböket, és megnézünk egy láncolt lisát.</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class List{
+    struct node{ //belső osztály, List&lt;T&gt;::node
+        T data;
+        node* next;
+    };
+
+    node* m_head;
+    node* m_back;
+    std::size_t m_size;
+
+public:
+    List() : m_head{nullptr}, m_back(nullptr), m_size(0) {}
+
+    List(const List&amp; other) : m_head(nullptr), m_back(nullptr), m_size(0) {
+        for(const auto&amp; elem : other) {
+            push_back(elem);
+        }
+    }
+
+    ~List() {
+        node* iter = m_head;
+        while (iter != nullptr) {
+            node* tmp = iter;
+            iter = iter-&gt;next;
+            delete tmp;
+        }
+    }
+
+    void push_front(T data) {
+        node* uj = new node;
+        uj-&gt;data = data;
+        uj-&gt;next = m_head;
+        if(m_size == 0) {
+            m_back = uj;
+            m_head = uj;
+        }else {
+            m_head = uj;
+        }
+        ++m_size;
+    }
+
+    void push_back(const T&amp; data) {
+        if(m_size == 0) {
+            push_front(data);
+            return;
+        }else {
+            node* uj = new node;
+            uj-&gt;data = data;
+            uj-&gt;next = nullptr;
+            m_back-&gt;next = uj;
+            m_back = m_back -&gt; next;
+        }
+        ++m_size;
+    }
+
+    std::size_t size() const {
+        return m_size;
+    }
+};
+</code></pre>
+<p>Ha ezen a listán végig szeretnénk iterálni, akkor az valamilyen ronda <code>-&gt;next</code> és <code>==nullptr</code> -el teli kódot eredményezne.</p>
+<p>Ehelyett készíthetünk egy segédosztályt, amely az iterálás lépéseit absztraktálja el. Az ilyen osztályokat nevezzük iterátornak.
+Ahhoz, hogy egy iterátor használható legyen legalább szükség van valamilyen léptető operátorra, dereferencia operátorokra, valamint összehasonlító(== != stb.) operátorokra is.</p>
+<p>Pl.:</p>
+<p><a href="https://godbolt.org/z/qchjxE9en">https://godbolt.org/z/qchjxE9en</a></p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class List{
+    struct node{
+        T data;
+        node* next;
+    };
+
+public:
+    struct iterator{
+        friend class List; 
+    private:
+        node* it; //az iterátor egy pointer absztrakció, azt tárolja hogy éppen melyik node-ra mutat
+        explicit iterator(node* it) : it(it) {} //privát konstruktor, nem kell hogy a hívó fél manuálisan csináljon iterátorokat
+    public:
+        iterator(const iterator&amp; other) : it(other.it) {}
+        
+        iterator&amp; operator= (const iterator&amp; other) {
+            it = other.it;
+            return *this;
+        }
+
+        /**
+         * @brief léptető preincrement operátor, a current = current-&gt;next műveletet absztraktálja
+         * @return
+         */
+        iterator&amp; operator++() {
+            it = it-&gt;next;
+            return *this;
+        }
+
+        /**
+         * @brief összehasonlító operátor FONTOS!
+         * @param other
+         * @return
+         */
+        bool operator==(const iterator&amp; other) const {
+            return it == other.it;
+        }
+
+        /**
+         * @brief összehasonlító operátor FONTOS(talán a legfontosabb)
+         * @param other
+         * @return
+         */
+        bool operator!=(const iterator&amp; other) const {
+            return  !(it == other.it);
+        }
+
+        /**
+         * @brief dereferencia operátor
+         * @return
+         */
+        T&amp; operator*() {
+            return it-&gt;data;
+        }
+
+        /**
+         * @brief konstans dereferencia operátor
+         * @return
+         */
+        const T&amp; operator*() const {
+            return it-&gt;data;
+        }
+
+        /**
+         * @brief nyíl operátor ha az iterátoron keresztül közvetlen egy osztály tagjait akarjuk elérni
+         * @return
+         */
+        T* operator-&gt;() {
+            return &amp;(it-&gt;data);
+        }
+
+        //ugyanaz mint a másik, csak konstans
+        T* operator-&gt;() const {
+            return &amp;(it-&gt;data);
+        }
+    };
+
+private:
+    node* m_head; //lista első eleme
+    node* m_back; //lista utolsó, még érvényes eleme
+    std::size_t m_size; //lista mérete
+
+public:
+    List() : m_head{nullptr}, m_back(nullptr), m_size(0) {}
+
+    List(const List&amp; other) : m_head(nullptr), m_back(nullptr), m_size(0) {
+        for(const auto&amp; elem : other) {
+            push_back(elem);
+        }
+    }
+
+    ~List();
+
+    void push_front(T data);
+
+    void push_back(const T&amp; data);
+
+    std::size_t size() const;
+
+    /**
+     * @brief begin tagfüggvény az iteráláshoz
+     * @return az első elemre mutató iterátor
+     */
+    iterator begin() {
+        return iterator(m_head);
+    }
+
+    // Minden iterátort visszaadó tagfüggvényből készül konstans verzió is ami konstans iterátort ad vissza.
+    const iterator begin() const {
+        return iterator(m_head);
+    }
+
+    /**
+     * @brief back tagfüggvény
+     * @return az utolsó, még érvényes elemre mutató iterátor
+     */
+    iterator back() {
+        return iterator(m_back);
+    }
+
+    const iterator back() const {
+        return iterator(m_back);
+    }
+
+    /**
+     * @brief end tagfüggvény az iteráláshoz
+     * @return az utolsó érvényes elem "után" mutató iterátor, "sentinel" iterátor
+     */
+    iterator end() {
+        return m_back == nullptr ? iterator(m_back) : iterator(m_back-&gt;next);
+    }
+    
+    const iterator end() const {
+        return m_back == nullptr ? iterator(m_back) : iterator(m_back-&gt;next);
+    }
+};
+
+int main(){
+    List&lt;int&gt; list;
+
+    for(int i = -3; i &lt; 5; ++i){
+        list.push_back(i);
+    }
+
+    for(List&lt;int&gt;::iterator it = list.begin(); it != list.end(); ++it) {
+        std::cout &lt;&lt; *it &lt;&lt; ' ';
+    }
+
+    std::cout &lt;&lt; '\n';
+    *list.begin() = 5;
+
+    for(int elem : list) { //minden elemet lemásolunk egyesével
+        std::cout &lt;&lt; elem &lt;&lt; ' ';
+    }
+}
+</code></pre>
+<p>A fent látott</p>
+<pre><code class="language-cpp">for(List&lt;int&gt;::iterator it = list.begin(); it != list.end(); ++it) {
+        std::cout &lt;&lt; *it &lt;&lt; ' ';
+}
+</code></pre>
+<p>kódrészlet olyan gyakori, hogy külön szintaxis létezik rá:</p>
+<pre><code class="language-cpp">for(int elem : list) { //minden elemet lemásolunk egyesével
+        std::cout &lt;&lt; elem &lt;&lt; ' ';
+}
+
+for(int&amp; elem : list) { //minden elemre referenciával hivatkozunk
+        std::cout &lt;&lt; elem &lt;&lt; ' ';
+}
+
+for(const int&amp; elem : list) { //ua. mint az előbb, csak konstans referenciával
+        std::cout &lt;&lt; elem &lt;&lt; ' ';
+}
+</code></pre>
+<p>Gondoljunk az iterátorokra úgy, mint a felturbózott pointerekre. Minden iterátor valamilyen tárolóhoz igazított, speciális mutató típus.</p>
+<p>A következő fejezetben azt láthatjuk, hogy valójában a pointerek a tömb féle tárolók iterátorai.</p>
+<h2 id="iterátorok-tömbök-és-pointerek"><a class="header" href="#iterátorok-tömbök-és-pointerek">Iterátorok, tömbök és pointerek</a></h2>
+<p>A pointerek kielégítik az iterátorok legmélyebb követelményét, a <a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"><em>LegacyRandomAccessIterator</em></a> követelményt.
+Ez azt jelenti, hogy egy dinamikus tömbnél például nincs szükség külön iterátor osztályra, hiszen elég a pointereket léptetni és összehasonlítani.</p>
+<p>Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:</p>
+<pre><code class="language-cpp">    T* begin() {
+        return tomb;
+    }
+
+    const T* begin() const {
+        return tomb;
+    }
+
+    T* back() {
+        return tomb + (meret-1);
+    }
+
+    const T* back() const {
+        return tomb + (meret-1);
+    }
+
+    T* end() {
+        return tomb + meret;
+    }
+
+    const T* end() const {
+        return tomb + meret;
+    }
+</code></pre>
 
                     </main>
 
