@@ -407,3 +407,49 @@ void foo::something(){
     y*=2;
 }
 ```
+
+## std::initializer_list
+
+Ha szeretnénk a tömbünknek egy egyszerű inicializálási módszert adni, akkor átvehetünk egy `std::initializer_list` típusú objektumot konstruktor paraméterként.
+
+Az `std::initializer_list` egy read-only "view", azaz módosítani nem tudjuk, viszont másolni tudunk belőle. Nincs sem `at()` tagfüggvénye, sem indexelő operátora, csak range-for ciklussal tudunk végigiterálni rajta.
+
+```cpp
+//
+// Created by nevemlaci on 08/02/2025.
+//
+
+#pragma once
+
+#include <cstddef>
+#include "memtrace.h"
+
+template <typename T>
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
+
+public:
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
+
+    /**
+     * @brief initializer list konstruktor
+     * @param init
+     */
+    DinTomb(std::initializer_list<T> init) : tomb(new T[init.size()]), meret(init.size()) {
+        std::size_t i = 0;
+        for(const T& elem : init) {
+            tomb[i] = elem;
+            ++i;
+        }
+    }
+};
+
+int main(){
+    DinTomb<int> tomb = {1, 2, 3, 4};
+}
+
+```
