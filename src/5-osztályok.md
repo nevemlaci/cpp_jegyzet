@@ -241,14 +241,20 @@ Szóval szükségünk lesz egy `typename T` sablonparaméterre, egy pointerre, a
 
 template <typename T>
 class DinTomb{
-    std::size_t meret; //dinamikus tömb méretét tárolja
-    T* tomb; //T* -> T-re mutató pointer, ez fog mutatni a tömbre.
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
 
 public:
-    DinTomb() : meret(0), tomb(nullptr) {} //default ctor, 0-ra inicializalunk mindent
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
 
-    //ez fog beilleszteni, gyakorlatilag ugyanaz, mint C-ben, csak new és delete van malloc&free helyett
-    void push_back(const T& elem) { 
+    /**
+     * @brief hozzáad egy új elemet a tömb végéhez. Nagyon hasonlít a C-ben megismert algoritmushoz, csak malloc-free helyett new-delete[] van
+     * @param elem az elem amit hozzáadunk(lemásolható kell, hogy legyen)
+     */
+    void push_back(const T& elem) {
         T* uj_tomb = new T[meret + 1];
         for(std::size_t i = 0; i < meret; ++i){
             uj_tomb[i] = tomb[i];
@@ -261,13 +267,29 @@ public:
 
     std::size_t size() const { return meret; }
 
-    //visszaad egy referenciát az adott tömbindexre
+    /**
+     * @brief indexelő függvény
+     * @param idx
+     * @return referencia az adott indexen lévő elemre
+     * @throw std::out_of_range, ha túlindexelés történik
+     */
     T& at(std::size_t idx) {
+        if(idx >= meret) {
+            throw std::out_of_range("Tomb tulindexelve!");
+        }
+        return tomb[idx];
+    }
+
+    //ua. mint az előbb, csak konstans verzió
+    const T& at(std::size_t idx) const {
+        if(idx >= meret) {
+            throw std::out_of_range("Tomb tulindexelve!");
+        }
         return tomb[idx];
     }
 
     ~DinTomb() {
-        delete[] tomb; // a destruktor felszabadítja az objektum által használt erőforrást az élettartam végén
+        delete[] tomb; //destruktor felszabadítja a lefoglalt memóriát
     }
 };
 
@@ -307,25 +329,31 @@ Ennek oka az, hogy a pointer lemásolásával(shallow copy, ez a default) az egy
 ***FONTOS!*** Néhány olvasó esetleg ismerheti a `memcpy` függvényt. C++ objektumokat `memcpy`-vel(és `std::memcpy`-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!
 
 ```cpp
-template<typename T>
-class tomb{
-    T* adat;
-    std::size_t size;
+template <typename T>
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
 
-    public:
-    tomb(const tomb& other) : adat(new T[other.size]), size(other.size){
-        for(std::size_t i = 0; i < other.size; ++i){
-            adat[i] = other.adat[i]; //egyesével másoljuk le a tömböt
+public:
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
+
+    /**
+     * @brief Másoló konstruktor
+     * @param other a másik tömb amit másolunk
+     */
+    DinTomb(const DinTomb& other) : tomb(other.tomb != nullptr ? new T[other.meret] : nullptr), meret(other.meret) {
+        //                                          ^ ha nullptr a másik tömb(vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt(nem is lehetne...)
+        for(std::size_t i = 0; i < other.meret; ++i){
+            tomb[i] = other.tomb[i];
         }
     }
 
-    ~tomb(){
-        delete[] adat;
+    ~DinTomb() {
+        delete[] tomb; //destruktor felszabadítja a lefoglalt memóriát
     }
-    
-    void push_back(const T& elem);
-    T& at(std::size_t idx);
-    //...
 };
 ```
 ## class vs struct
