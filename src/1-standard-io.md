@@ -139,7 +139,9 @@ Fontosabb mainpulátorok:
 * `std::setw(size)` : megadja, hogy a számok hány karakter szélesek legyene
 * `std::setfill(ch)` : a paraméterként kapott karakterrel lesz kitöltve a maradék hely, ha egy kiírt érték nem tölti ki a megadott szélességet
 * `std::setprecision(p)` : a lebegőpontos számok tizedesjegyeinek pontosságát(számát) állítja be
-* `std::oct`, `std::dec`, `std::hex`: 8-as, 10-es és 16-os számrenszerre állítja az adott streamet
+* `std::oct`, `std::dec`, `std::hex` : 8-as, 10-es és 16-os számrenszerre állítja az adott streamet
+* `std::skipws`, `std::noskipws` : Be/kikapcsolja a leading whitespace átugrását
+* `std::boolalpha`, `std::noboolalpha` : Be/kikapcsolja a `bool` értékek alfanumerikus megjelenítését(be: `true`/`false`, ki: `1`/`0`)
 
 Több IO manipulátor és egyéb kapcsolódó foszlányok itt: <https://en.cppreference.com/w/cpp/io/manip>
 

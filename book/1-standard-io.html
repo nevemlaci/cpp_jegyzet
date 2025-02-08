@@ -280,7 +280,9 @@ int main(){
 <li><code>std::setw(size)</code> : megadja, hogy a számok hány karakter szélesek legyene</li>
 <li><code>std::setfill(ch)</code> : a paraméterként kapott karakterrel lesz kitöltve a maradék hely, ha egy kiírt érték nem tölti ki a megadott szélességet</li>
 <li><code>std::setprecision(p)</code> : a lebegőpontos számok tizedesjegyeinek pontosságát(számát) állítja be</li>
-<li><code>std::oct</code>, <code>std::dec</code>, <code>std::hex</code>: 8-as, 10-es és 16-os számrenszerre állítja az adott streamet</li>
+<li><code>std::oct</code>, <code>std::dec</code>, <code>std::hex</code> : 8-as, 10-es és 16-os számrenszerre állítja az adott streamet</li>
+<li><code>std::skipws</code>, <code>std::noskipws</code> : Be/kikapcsolja a leading whitespace átugrását</li>
+<li><code>std::boolalpha</code>, <code>std::noboolalpha</code> : Be/kikapcsolja a <code>bool</code> értékek alfanumerikus megjelenítését(be: <code>true</code>/<code>false</code>, ki: <code>1</code>/<code>0</code>)</li>
 </ul>
 <p>Több IO manipulátor és egyéb kapcsolódó foszlányok itt: <a href="https://en.cppreference.com/w/cpp/io/manip">https://en.cppreference.com/w/cpp/io/manip</a></p>
 <p>Sokszor állítunk el dolgokat egy IO streamen, viszont nem szeretnénk egyesével visszaállítani az eredeti értékeket.
