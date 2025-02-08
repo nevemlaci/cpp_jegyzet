@@ -363,14 +363,20 @@ Ezt a példát sokáig fogjuk használni.</p>
 
 template &lt;typename T&gt;
 class DinTomb{
-    std::size_t meret; //dinamikus tömb méretét tárolja
-    T* tomb; //T* -&gt; T-re mutató pointer, ez fog mutatni a tömbre.
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
 
 public:
-    DinTomb() : meret(0), tomb(nullptr) {} //default ctor, 0-ra inicializalunk mindent
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
 
-    //ez fog beilleszteni, gyakorlatilag ugyanaz, mint C-ben, csak new és delete van malloc&amp;free helyett
-    void push_back(const T&amp; elem) { 
+    /**
+     * @brief hozzáad egy új elemet a tömb végéhez. Nagyon hasonlít a C-ben megismert algoritmushoz, csak malloc-free helyett new-delete[] van
+     * @param elem az elem amit hozzáadunk(lemásolható kell, hogy legyen)
+     */
+    void push_back(const T&amp; elem) {
         T* uj_tomb = new T[meret + 1];
         for(std::size_t i = 0; i &lt; meret; ++i){
             uj_tomb[i] = tomb[i];
@@ -383,13 +389,29 @@ public:
 
     std::size_t size() const { return meret; }
 
-    //visszaad egy referenciát az adott tömbindexre
+    /**
+     * @brief indexelő függvény
+     * @param idx
+     * @return referencia az adott indexen lévő elemre
+     * @throw std::out_of_range, ha túlindexelés történik
+     */
     T&amp; at(std::size_t idx) {
+        if(idx &gt;= meret) {
+            throw std::out_of_range("Tomb tulindexelve!");
+        }
+        return tomb[idx];
+    }
+
+    //ua. mint az előbb, csak konstans verzió
+    const T&amp; at(std::size_t idx) const {
+        if(idx &gt;= meret) {
+            throw std::out_of_range("Tomb tulindexelve!");
+        }
         return tomb[idx];
     }
 
     ~DinTomb() {
-        delete[] tomb; // a destruktor felszabadítja az objektum által használt erőforrást az élettartam végén
+        delete[] tomb; //destruktor felszabadítja a lefoglalt memóriát
     }
 };
 
@@ -419,25 +441,31 @@ int main(){
 Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni(deep copy).
 Ennek oka az, hogy a pointer lemásolásával(shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <a href="https://en.wikipedia.org/wiki/Object_copying">https://en.wikipedia.org/wiki/Object_copying</a></p>
 <p><em><strong>FONTOS!</strong></em> Néhány olvasó esetleg ismerheti a <code>memcpy</code> függvényt. C++ objektumokat <code>memcpy</code>-vel(és <code>std::memcpy</code>-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!</p>
-<pre><code class="language-cpp">template&lt;typename T&gt;
-class tomb{
-    T* adat;
-    std::size_t size;
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
 
-    public:
-    tomb(const tomb&amp; other) : adat(new T[other.size]), size(other.size){
-        for(std::size_t i = 0; i &lt; other.size; ++i){
-            adat[i] = other.adat[i]; //egyesével másoljuk le a tömböt
+public:
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
+
+    /**
+     * @brief Másoló konstruktor
+     * @param other a másik tömb amit másolunk
+     */
+    DinTomb(const DinTomb&amp; other) : tomb(other.tomb != nullptr ? new T[other.meret] : nullptr), meret(other.meret) {
+        //                                          ^ ha nullptr a másik tömb(vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt(nem is lehetne...)
+        for(std::size_t i = 0; i &lt; other.meret; ++i){
+            tomb[i] = other.tomb[i];
         }
     }
 
-    ~tomb(){
-        delete[] adat;
+    ~DinTomb() {
+        delete[] tomb; //destruktor felszabadítja a lefoglalt memóriát
     }
-    
-    void push_back(const T&amp; elem);
-    T&amp; at(std::size_t idx);
-    //...
 };
 </code></pre>
 <h2 id="class-vs-struct"><a class="header" href="#class-vs-struct">class vs struct</a></h2>
@@ -482,6 +510,47 @@ int foo::get_x() const { //fontos! a const része a függvény fejécének(signa
 void foo::something(){
     y*=2;
 }
+</code></pre>
+<h2 id="stdinitializer_list"><a class="header" href="#stdinitializer_list">std::initializer_list</a></h2>
+<p>Ha szeretnénk a tömbünknek egy egyszerű inicializálási módszert adni, akkor átvehetünk egy <code>std::initializer_list</code> típusú objektumot konstruktor paraméterként.</p>
+<p>Az <code>std::initializer_list</code> egy read-only "view", azaz módosítani nem tudjuk, viszont másolni tudunk belőle. Nincs sem <code>at()</code> tagfüggvénye, sem indexelő operátora, csak range-for ciklussal tudunk végigiterálni rajta.</p>
+<pre><code class="language-cpp">//
+// Created by nevemlaci on 08/02/2025.
+//
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include "memtrace.h"
+
+template &lt;typename T&gt;
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
+
+public:
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
+
+    /**
+     * @brief initializer list konstruktor
+     * @param init
+     */
+    DinTomb(std::initializer_list&lt;T&gt; init) : tomb(new T[init.size()]), meret(init.size()) {
+        std::size_t i = 0;
+        for(const T&amp; elem : init) {
+            tomb[i] = elem;
+            ++i;
+        }
+    }
+};
+
+int main(){
+    DinTomb&lt;int&gt; tomb = {1, 2, 3, 4};
+}
+
 </code></pre>
 
                     </main>

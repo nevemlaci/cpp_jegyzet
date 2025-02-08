@@ -208,10 +208,12 @@ class DinTomb{
         ...
     */
 
-    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb);
+    template&lt;typename K&gt;
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb);
 };
 
-std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&amp; dtomb){
+template&lt;typename K&gt;
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb){
     for(std::size_t i = 0; i &lt; dtomb.meret; ++i){
         out &lt;&lt; dtomb.tomb[i] &lt;&lt; ' ';
     }
@@ -232,30 +234,76 @@ int main(){
 <p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
 <p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
 <h2 id="copy-assignmentértékadó-operátor"><a class="header" href="#copy-assignmentértékadó-operátor">Copy assignment(értékadó operátor)</a></h2>
+<p>Vannak olyan esetek, amikor már egy kész objektumnak akarunk új értéket adni.
+Pl.</p>
+<pre><code class="language-cpp">tomb&lt;int&gt; tomb1;
+tomb1.push_back(5);
+
+tomb&lt;int&gt; tomb2;
+tomb2.push_back(1);
+
+tomb1 = tomb2;
+</code></pre>
+<p>Ilyen esetekben egy értékadó operátor(copy assignment operator) hívásról beszélünk.</p>
 <p>A másoló konstruktor testvére a copy assignment(értékadó) operator. A copy constructorhoz hasonlóan <code>const T&amp;</code> -ként veszi át a másolandó objektumot és a default is generálódik belőle.
 Fontos, hogy a copy assignment operátor nem új objektumot hoz létre így az előzőleg használt erőforrásokat fel kell szabadítani.</p>
-<pre><code class="language-cpp">class tomb{
-    T* adat;
-    std::size_t size;
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class DinTomb{
+    T* tomb;
+    std::size_t meret;
 
-    public:
-    tomb(const tomb&amp; other);
+public:
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
 
-    tomb&amp; operator=(const tomb&amp; other){
-        delete[] adat;
-        adat = new T[other.size];
-        size = other.size;
-        for(std::size_t i = 0; i &lt; other.size; ++i){
-            adat[i] = other.adat[i]; 
+
+    /**
+     * @brief Másoló konstruktor
+     * @param other a másik tömb amit másolunk
+     */
+    DinTomb(const DinTomb&amp; other) : tomb(other.tomb != nullptr ? new T[other.meret] : nullptr), meret(other.meret) {
+        //                                          ^ ha nullptr a másik tömb(vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt(nem is lehetne...)
+        for(std::size_t i = 0; i &lt; other.meret; ++i){
+            tomb[i] = other.tomb[i];
         }
     }
 
-    ~tomb();
-    
+    /**
+     * @brief Értékadó operátor
+     * @param other a másik tömb amit másolunk
+     * @return referencia a tömbre aminek értéket adtunk
+     */
+    DinTomb&amp; operator=(const DinTomb&amp; other){
+        if(this == &amp;other) { //ha önmagát kapja paraméterül akkor nincs semmi teendő, ne vágjuk magunk alatt a fát
+            return *this; // *this -&gt; this pointer, *this referencia(az objektumra amin a hívás történt)
+        }
+        delete[] tomb;
+        tomb = new T[other.meret];
+        meret = other.meret;
+        for(std::size_t i = 0; i &lt; other.meret; ++i) {
+            tomb[i] = other.tomb[i];
+        }
+        return *this;
+    }
+
+    ~DinTomb() {
+        delete[] tomb;
+    }
+
+    std::size_t size() const;
+
     void push_back(const T&amp; elem);
+
     T&amp; at(std::size_t idx);
-    //...
+
+    const T&amp; at(std::size_t idx) const;
 };
+
+int main(){
+
+}
 </code></pre>
 <h2 id="rule-of-03"><a class="header" href="#rule-of-03">Rule of 0/3</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a></p>
@@ -270,6 +318,59 @@ Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destructora, copy
 </ul>
 <p>Ezen felül egyes operátoroknak csak kötött számú paramétere lehet.<br>
 A logikai(<code>||</code> és <code>&amp;&amp;</code>) operátorok túltöltése esetén azok elvesztik a short-circuit tulajdonságukat.</p>
+<h2 id="Összehasonlító-operátorok"><a class="header" href="#Összehasonlító-operátorok">Összehasonlító operátorok</a></h2>
+<p>Természetesen mindenféle más operátorokat, pl összehasonlító, ennek negáltja, nagyobb, kisebb, stb. is overloadolhatunk.</p>
+<p>Pl. a tömbjeink összehasonlítása:</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
+
+public:
+    //...
+
+    bool operator==(const DinTomb&amp; other) {
+        if(meret != other.meret) {
+            return false;
+        }
+
+        for(std::size_t i = 0; i &lt; meret; ++i) {
+            if(tomb[i] != other.tomb[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool operator !=(const DinTomb&amp; other) {
+        return !(*this == other);
+    }
+};
+
+</code></pre>
+<p>Pl. indexelő operátor:</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
+
+public:
+    //...
+
+    T&amp; at(std::size_t idx);
+
+    const T&amp; at(std::size_t idx);
+
+    T&amp; operator[](std::size_t idx){
+        return at(idx); //delegáljuk a feladatot a már implementált at() tagfüggvénynek
+    }
+
+    const T&amp; operator[](std::size_t idx) const{
+        return at(idx);
+    }
+};
+</code></pre>
 
                     </main>
 
