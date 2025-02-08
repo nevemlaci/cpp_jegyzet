@@ -134,7 +134,13 @@ int main(){
 ```
 
 A manipulátorok hatóköre változó, vannak olyanok, amelyek csak a következő outputra hatnak, de vannak olyanok is, amelyek hatása "végtelen"(amíg meg nem változtatjuk).
-Az IO manipulátorok és egyéb kapcsolódó foszlányok itt: <https://en.cppreference.com/w/cpp/io/manip>
+
+Fontosabb mainpulátorok:
+* `std::setw(size)` : megadja, hogy a kiírt számok hány karakter szélesek legyene
+* `std::setfill(ch)` : a paraméterként kapott karakterrel lesz kitöltve a maradék hely, ha egy kiírt érték nem tölti ki a megadott szélességet
+* `std::setprecision(p)` : a lebegőpontos számok tizedesjegyeinek pontosságát(számát) állítja be
+
+Több IO manipulátor és egyéb kapcsolódó foszlányok itt: <https://en.cppreference.com/w/cpp/io/manip>
 
 Sokszor állítunk el dolgokat egy IO streamen, viszont nem szeretnénk egyesével visszaállítani az eredeti értékeket.
 Ekkor van két lehetőségünk. 
