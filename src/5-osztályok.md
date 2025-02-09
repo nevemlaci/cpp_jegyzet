@@ -235,9 +235,13 @@ Most pedig nézzünk egy komolyabb RAII példát.
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
 Ezt a példát sokáig fogjuk használni.
 
-Szóval szükségünk lesz egy `typename T` sablonparaméterre, egy pointerre, ami a tömbre mutat, valamint tárolni kell a tömb méretét
+Szóval szükségünk lesz egy `typename T` sablonparaméterre, egy pointerre, ami a tömbre mutat, valamint tárolni kell a tömb méretét.
+
+https://godbolt.org/z/dM9zExWKr
 ```cpp
 #include <cstddef>
+#include <stdexcept>
+#include <iostream>
 
 template <typename T>
 class DinTomb{
@@ -299,6 +303,7 @@ int main(){
     tomb.push_back(4.3);
     tomb.push_back(3.2);
     tomb.at(0) = 5.8; //függvény az egyenlőség bal oldalán, mivel referenciát ad vissza!
+    std::cout << tomb.at(1);
     return 0; // nem kell semmi manuális memóriakezelés, mert a destruktor automatikusan felszabadítja amit kell, mert egyszer megírtuk
 }
 ```
