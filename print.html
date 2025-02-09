@@ -332,6 +332,14 @@ if(a) {
 }
 </code></pre>
 <p>kódrészletek.</p>
+<h2 id="auto-c11"><a class="header" href="#auto-c11"><code>auto</code> (C++11)</a></h2>
+<p>Az <code>auto</code> kulcsszó típus helyére írható, ahol a típus levezethető pl. visszatérési értékből. Fontos, hogy az <code>auto</code> nem vezeti le a <code>const</code>, <code>volatile</code> kvalifikáckat és a referenciákat.</p>
+<pre><code class="language-cpp">auto x = 5; //int x = 5;
+
+auto&amp; y = array.at(5); //referencia egy tömb 5. elemére
+
+auto z = array.at(5); //egy tömb 5. elemének másolata
+</code></pre>
 <h2 id="stdstring"><a class="header" href="#stdstring">std::string</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/string/basic_string">https://en.cppreference.com/w/cpp/string/basic_string</a></p>
 <p>Egy egyszerű string típus dinamikus mérettel és alap elvárt string funkcionalitással.</p>
