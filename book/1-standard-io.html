@@ -179,6 +179,7 @@
 <h2 id="c-alternatívák"><a class="header" href="#c-alternatívák">C++ alternatívák</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/io/cout">https://en.cppreference.com/w/cpp/io/cout</a></p>
 <p><a href="https://en.cppreference.com/w/cpp/io/cin">https://en.cppreference.com/w/cpp/io/cin</a></p>
+<p><code>&lt;iostream&gt;</code> header</p>
 <p>C++ban a standard input és output két fő globális objektum(<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként(<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
 <p>Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
@@ -251,6 +252,7 @@ int main(){
 <p><img src="Screenshot%202025-01-29%20115519.png" alt="" /></p>
 <p><em>Nem összekeverendő a teljesen más jelentésű <code>std::ignore</code>-al.</em></p>
 <h2 id="file-io"><a class="header" href="#file-io">File IO</a></h2>
+<p><code>&lt;fstream&gt;</code> header</p>
 <p>C++ -ban a file IO <em>API</em>-ja(az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.</p>
 <p>File olvasásra megnyitásához  és nyilvántartásához az <code>std::ifstream</code> (Input Filestream) típust, írásra az <code>std::ofstream</code> (Output Filestream) típust használjuk.</p>
 <pre><code class="language-cpp">#include &lt;fstream&gt;
@@ -265,12 +267,14 @@ int main(){
 </code></pre>
 <p>Az <code>std::ifstream</code> és <code>std::ofstream</code> típusó objektumok automatikusan(ld. <a href="./5-oszt%C3%A1lyok.html">osztályok</a>) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (<code>.close()</code>)</p>
 <h2 id="io-manipulátorok"><a class="header" href="#io-manipulátorok">IO manipulátorok</a></h2>
+<p><code>&lt;ios&gt;</code> és <code>&lt;iomanip&gt;</code> headerek</p>
 <p>Az IO műveletek viselkesését ún. manipulátorok segítségével változtathatjuk meg. Ezeket úgy használjuk, mintha ők maguk is input/output lennének. Pl. ha az egészeket mindenképp 7 számjeggyel szeretnénk kiírni, és 0-val kitölteni a maradék helyet.</p>
+<p><a href="https://godbolt.org/z/of6nP3xjn">https://godbolt.org/z/of6nP3xjn</a></p>
 <pre><code class="language-cpp">#include &lt;iomanip&gt;
 #include &lt;iostream&gt;
 
 int main(){
-    int x = 356463;
+    int x = 356;
     std::cout &lt;&lt; std::setw(7) &lt;&lt; std::setfill('0') &lt;&lt; x; 
 }
 </code></pre>

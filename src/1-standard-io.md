@@ -9,6 +9,8 @@ A `printf` és `scanf` fő problémája a compile time hibaellenőrzés hiánya.
 
 <https://en.cppreference.com/w/cpp/io/cin>
 
+`<iostream>` header
+
 C++ban a standard input és output két fő globális objektum(`std::cin` és `std::cout`) és a C-ből shiftelő operátorokként(`>>` és `<<`) ismert szimbólumokkal lett megoldva. A standard IO használatához az `iostream` headerre van szükség.
 
 Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:
@@ -100,6 +102,7 @@ int main(){
 *Nem összekeverendő a teljesen más jelentésű `std::ignore`-al.*
 
 ## File IO
+`<fstream>` header
 
 C++ -ban a file IO *API*-ja(az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.
 
@@ -120,15 +123,18 @@ int main(){
 Az `std::ifstream` és `std::ofstream` típusó objektumok automatikusan(ld. [osztályok](./5-osztályok.md)) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (`.close()`)
 
 ## IO manipulátorok
+`<ios>` és `<iomanip>` headerek
 
 Az IO műveletek viselkesését ún. manipulátorok segítségével változtathatjuk meg. Ezeket úgy használjuk, mintha ők maguk is input/output lennének. Pl. ha az egészeket mindenképp 7 számjeggyel szeretnénk kiírni, és 0-val kitölteni a maradék helyet.
 
+
+<https://godbolt.org/z/of6nP3xjn>
 ```cpp
 #include <iomanip>
 #include <iostream>
 
 int main(){
-    int x = 356463;
+    int x = 356;
     std::cout << std::setw(7) << std::setfill('0') << x; 
 }
 ```

@@ -513,6 +513,7 @@ void foo::something(){
 </code></pre>
 <h4 id="stdinitializer_list"><a class="header" href="#stdinitializer_list"><em>std::initializer_list</em></a></h4>
 <p><a href="https://en.cppreference.com/w/cpp/utility/initializer_list">https://en.cppreference.com/w/cpp/utility/initializer_list</a></p>
+<p><code>&lt;initializer_list&gt;</code> header</p>
 <p>Ha szeretnénk a tömbünknek egy egyszerű inicializálási módszert adni, akkor átvehetünk egy <code>std::initializer_list</code> típusú objektumot konstruktor paraméterként.</p>
 <p>Az <code>std::initializer_list</code> egy read-only "view", azaz módosítani nem tudjuk, viszont másolni tudunk belőle. Nincs sem <code>at()</code> tagfüggvénye, sem indexelő operátora, csak range-for ciklussal tudunk végigiterálni rajta.</p>
 <pre><code class="language-cpp">template &lt;typename T&gt;

@@ -411,6 +411,8 @@ void foo::something(){
 #### *std::initializer_list*
 <https://en.cppreference.com/w/cpp/utility/initializer_list>
 
+`<initializer_list>` header
+
 Ha szeretnénk a tömbünknek egy egyszerű inicializálási módszert adni, akkor átvehetünk egy `std::initializer_list` típusú objektumot konstruktor paraméterként.
 
 Az `std::initializer_list` egy read-only "view", azaz módosítani nem tudjuk, viszont másolni tudunk belőle. Nincs sem `at()` tagfüggvénye, sem indexelő operátora, csak range-for ciklussal tudunk végigiterálni rajta.

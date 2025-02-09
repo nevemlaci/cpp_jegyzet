@@ -87,6 +87,8 @@ int main(){
 ```
 
 ### *Kitérő: std::unique_ptr* (C++11 -től)
+`<memory>` header
+
 *Ez a fejezet túlmutat a tárgy anyagán. A `unqiue_ptr` használatához sokszor szükségesebb bonyolultabb koncepciók, amelyeket a jegyzet végén "kitérő" fejezetekben tárgyal.*
 
 Gyakran szeretnénk egy dinamikusan foglalt objektumot valamilyen másik objektum élettartamához kötni. Erre az esetre létezik egy pointert csomagoló `std::unique_ptr` osztály. Ugyanúgy működik, mint egy pointer, van `*` és `->` operátora, viszont a `unique_ptr` objektum élettartama végén felszabadítja a tárolt pointert. Nem másolható(hiszen "unique"), ezzel biztosítja, hogy egyszerre csak egy objektum birtokolja a memóriát, amire mutat. Referencia paraméterként természetesen átvehető, ez nem okoz másolást.

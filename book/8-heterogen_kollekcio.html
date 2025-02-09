@@ -253,6 +253,7 @@ int main(){
 }
 </code></pre>
 <h3 id="kitérő-stdunique_ptr-c11--től"><a class="header" href="#kitérő-stdunique_ptr-c11--től"><em>Kitérő: std::unique_ptr</em> (C++11 -től)</a></h3>
+<p><code>&lt;memory&gt;</code> header</p>
 <p><em>Ez a fejezet túlmutat a tárgy anyagán. A <code>unqiue_ptr</code> használatához sokszor szükségesebb bonyolultabb koncepciók, amelyeket a jegyzet végén "kitérő" fejezetekben tárgyal.</em></p>
 <p>Gyakran szeretnénk egy dinamikusan foglalt objektumot valamilyen másik objektum élettartamához kötni. Erre az esetre létezik egy pointert csomagoló <code>std::unique_ptr</code> osztály. Ugyanúgy működik, mint egy pointer, van <code>*</code> és <code>-&gt;</code> operátora, viszont a <code>unique_ptr</code> objektum élettartama végén felszabadítja a tárolt pointert. Nem másolható(hiszen "unique"), ezzel biztosítja, hogy egyszerre csak egy objektum birtokolja a memóriát, amire mutat. Referencia paraméterként természetesen átvehető, ez nem okoz másolást.</p>
 <p>A <code>unqiue_ptr</code>-hez az <code>std::make_unique</code> függvénnyel tudunk objektumot foglalni. Amit paraméterként adunk neki, azt továbbadja az objektum konstruktorának.
