@@ -1910,7 +1910,7 @@ for(const int&amp; elem : list) { //ua. mint az előbb, csak konstans referenci�
 <p>Gondoljunk az iterátorokra úgy, mint a felturbózott pointerekre. Minden iterátor valamilyen tárolóhoz igazított, speciális mutató típus.</p>
 <p>A következő fejezetben azt láthatjuk, hogy valójában a pointerek a tömb féle tárolók iterátorai.</p>
 <h2 id="iterátorok-tömbök-és-pointerek"><a class="header" href="#iterátorok-tömbök-és-pointerek">Iterátorok, tömbök és pointerek</a></h2>
-<p>A pointerek kielégítik az iterátorok legmélyebb követelményét, a <a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"><em>LegacyRandomAccessIterator</em></a> követelményt.
+<p>Egy tömb egy elemére mutató pointer kielégíti az iterátorok legmélyebb követelményét, a <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator"><em>LegacyContiguousIterator</em></a> követelményt.
 Ez azt jelenti, hogy egy dinamikus tömbnél például nincs szükség külön iterátor osztályra, hiszen elég a pointereket léptetni és összehasonlítani.</p>
 <p>Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:</p>
 <pre><code class="language-cpp">    T* begin() {
@@ -2043,19 +2043,19 @@ std::cout &lt;&lt; m["foo"];
 <p><code>&lt;algorithm&gt;</code> header</p>
 <p>Az STL algoritmusok különböző típusú paraméterei:</p>
 <ul>
-<li><code>InIter</code> / <code>InputIt</code>: input iterátor</li>
-<li><code>OutIter</code>: output iterátor</li>
-<li><code>FwIter</code>: előre léptethető(Forward) iterátor</li>
-<li><code>BiIter</code>: kétirányú(bidirectional) iterátor</li>
-<li><code>RndIter</code>: Random Access iterátor(léptethető minden irányban akármekkora lépésben, pl. pointer, vektor iterátor)</li>
-<li><code>Pred</code> / <code>UnaryPred</code>: egy operandusú predikátum</li>
-<li><code>BinPred</code>: két operandusú predikátum</li>
-<li><code>UnOp</code>: egy operandusú művelet</li>
-<li><code>Cmp</code>: összehasonlító művelet</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/InputIterator"><code>InputIterator</code></a> : input iterátor, olvasni lehet amire mutat és előre léptethető</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/OutputIterator"><code>OutputIterator</code></a> : output iterátor, írni lehet amire mutat és előre léptethető</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/ForwardIterator"><code>ForwardIterator</code></a> : olyan iterátor, amely akár egyszerre több lépéssel is előre léptethető(Forward)</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator"><code>BidirectionalIterator</code></a> : kétirányú(bidirectional) iterátor, mindkét irányba léptethető, előre több lépésben is</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"><code>RandomAccessIterator</code></a> : Random Access iterátor, konstans időben léptethető minden irányban akármekkora lépésben, pl. pointer tömbelemre, vektor iterátora</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/Predicate"><code>Predicate</code></a> : egy operandusú predikátum</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate"><code>BinaryPredicate</code></a> : két operandusú predikátum</li>
+<li><code>UnaryOperation</code>: egy operandusú művelet</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/Compare"><code>Compare</code></a>: összehasonlító művelet, olyan bináris predikátum amely elemek sorrendjét határozza meg</li>
 </ul>
 <p>Ezeket a nevek találhatók a tárgyhoz tartozó STL puskán is, de fejből nem kötelező tudni őket. Érdemes viszont átgondolni, mikor miért az adott típusú paraméterre van szükség.</p>
 <h4 id="stdfind-stdfind_if"><a class="header" href="#stdfind-stdfind_if">std::find, std::find_if</a></h4>
-<p><code>InputIt find( InputIt first, InputIt last, const T&amp; value );</code></p>
+<p><code>InputIt find(InputIt first, InputIt last, const T&amp; value);</code></p>
 <p>Az <code>std::find</code> függvény két iterátort(a keresés doménjét), valamint egy értéket vesz át. A doménjében az <code>==</code> operátor segítségével keresi a kapott értéket, és ha megtalálja, akkor visszaad rá egy iterátort. Ha nem találja meg, akkor a domén végére mutató iterátort adja vissza.
 Az ilyen iterátor párokat gyakran <em>range</em>-nek nevezzük.</p>
 <pre><code class="language-cpp">    std::vector&lt;foo&gt; fs = {foo(1), foo(3), foo(-2)};
@@ -2067,7 +2067,7 @@ Az ilyen iterátor párokat gyakran <em>range</em>-nek nevezzük.</p>
         std::cout &lt;&lt; "foo(3) -ra nincs talalat\n";
     }
 </code></pre>
-<p><code>InputIt find_if( InputIt first, InputIt last, UnaryPred p );</code></p>
+<p><code>InputIt find_if(InputIt first, InputIt last, UnaryPred p);</code></p>
 <p>Az <code>std::find_if</code> 3. paraméterként egy érték helyett egy predikátumfüggvényt(vagy más függvényhívó operátorral rendelkező objektumot) vesz át, amely <code>bool</code> -t ad vissza és egyetlen paramétereként átveszi egy a doménben tárolt objektumok típusával megegyező típusú objektumot(<em>értsd: átveszi az éppen vizsgált elemet</em>).</p>
 <pre><code class="language-cpp">    auto elter_2_iterator = std::find_if(fs.begin(), fs.end(), isDivisibleBy2);
     if(elter_2_iterator != fs.end()) {
@@ -2077,8 +2077,8 @@ Az ilyen iterátor párokat gyakran <em>range</em>-nek nevezzük.</p>
     }
 </code></pre>
 <h4 id="stdcount-és-stdcount_if"><a class="header" href="#stdcount-és-stdcount_if">std::count és std::count_if</a></h4>
-<p><code>count( InputIt first, InputIt last, const T&amp; value );</code></p>
-<p><code>count_if( InputIt first, InputIt last, UnaryPred p );</code></p>
+<p><code>count(InputIt first, InputIt last, const T&amp; value);</code></p>
+<p><code>count_if(InputIt first, InputIt last, UnaryPred p);</code></p>
 <p>Ugyan az, mint a <code>find</code> és <code>find_if</code>, csak összeszámolja a feltételt kielégítő elemeket.</p>
 <p><a href="https://godbolt.org/z/E17se46PG">https://godbolt.org/z/E17se46PG</a></p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
@@ -2097,7 +2097,7 @@ int main(){
 </code></pre>
 <h4 id="stdfill-stdgenerate"><a class="header" href="#stdfill-stdgenerate">std::fill, std::generate</a></h4>
 <p>Az <code>std::fill</code> feltölti a kapott range-t egy értékkel.</p>
-<p><code>void fill( ForwardIt first, ForwardIt last, const T&amp; value );</code></p>
+<p><code>void fill(ForwardIt first, ForwardIt last, const T&amp; value);</code></p>
 <p><a href="https://godbolt.org/z/7qbYq17v3">https://godbolt.org/z/7qbYq17v3</a></p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;vector&gt;
