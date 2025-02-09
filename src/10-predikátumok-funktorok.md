@@ -4,15 +4,20 @@ Van, hogy egy függvényt szeretnénk paraméterként átvenni.
 
 Pl. írjunk függvényt, amely egy másik, predikátumfüggvény alapján megkeres egy elemet egy tömbben és visszaadja az indexét, vagy a tömb méretét(az első "invalid" elem indexét) ha nincs benne.
 
+<https://godbolt.org/z/h3xfrz7x1>
+
 ```cpp
+#include <iostream>
+#include <array>
+
 template<typename T, std::size_t N, typename P>
 std::size_t find_elem(const std::array<T, N>& a, P predicate){
     for(std::size_t i = 0; i < a.size(); ++i){
-        if(predicate<T>(a[i])){
+        if(predicate(a[i])){
             return i;
         }
     }
-    return a.size()
+    return a.size();
 }
 
 //egy példa predikátumfüggvény:
@@ -24,7 +29,7 @@ bool isDivisibleBy2(const T& x){
 
 int main(){
     std::array<int, 4> arr = {1, 3, 4, 5};
-    std::cout << find_elem(arr, isDivisbleBy2);
+    std::cout << find_elem(arr, isDivisibleBy2<int>);
 }
 ```
 
