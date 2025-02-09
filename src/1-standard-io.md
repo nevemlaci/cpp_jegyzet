@@ -55,6 +55,7 @@ std::cin.get(k3, 5); //5 karaktert olvasunk egy 5 méretű tömbbe. Ez a függv�
 
 ## std::getline
 <https://en.cppreference.com/w/cpp/string/basic_string/getline>
+
 Az std::getline függvény alapértelmezetten egy egész sort olvas be egy input streamről, viszont saját elválasztót is megadhatunk neki.
 
 ```cpp
