@@ -1336,9 +1336,11 @@ class B : protected Base {};
 class C : private Base {};
 </code></pre>
 <p>Ezt a következőképp kell érteni:</p>
-<p><strong>public</strong>: a subclass és a külső kód is tud a leszármazásról, a leszármazotton keresztül a subclass és a külső kód is eléri a base class <code>public</code> tagjait, a <code>private</code> és <code>protected</code> tagokat viszont nem
-<strong>protected</strong>: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class <code>public</code> tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
-<strong>private</strong>: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.</p>
+<ul>
+<li><strong>public</strong>: a subclass és a külső kód is tud a leszármazásról, a leszármazotton keresztül a subclass és a külső kód is eléri a base class <code>public</code> tagjait, a <code>private</code> és <code>protected</code> tagokat viszont nem</li>
+<li><strong>protected</strong>: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class <code>public</code> tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait</li>
+<li><strong>private</strong>: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.</li>
+</ul>
 <p>A <code>struct</code>-al definiált osztályoknál a leszármazásnál is <code>public</code> a default, míg a <code>class</code>-al definiáltaknál <code>private</code>.</p>
 <p>Gyakori kérdés: hogyan alakul a publikus, protected és privát tagok láthatósága publikus, protected és privát öröklés esetén?
 <em>... megoldását az olvasóra bízom</em></p>

@@ -82,9 +82,9 @@ class C : private Base {};
 
 Ezt a következőképp kell érteni:
 
-**public**: a subclass és a külső kód is tud a leszármazásról, a leszármazotton keresztül a subclass és a külső kód is eléri a base class `public` tagjait, a `private` és `protected` tagokat viszont nem
-**protected**: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class `public` tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
-**private**: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.
+* **public**: a subclass és a külső kód is tud a leszármazásról, a leszármazotton keresztül a subclass és a külső kód is eléri a base class `public` tagjait, a `private` és `protected` tagokat viszont nem
+* **protected**: csak a subclass tud a leszármazásról, a leszármazotton keresztül csak a subclass éri el a base class `public` tagjait, a külső kód viszont egyáltalán nem éri el a base class tagjait
+* **private**: a subclass sem tud a leszármazásról, a leszármazotton keresztül nem érhetőek el a base class tagjai.
 
 A `struct`-al definiált osztályoknál a leszármazásnál is `public` a default, míg a `class`-al definiáltaknál `private`.
 
