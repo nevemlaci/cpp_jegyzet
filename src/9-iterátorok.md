@@ -273,4 +273,6 @@ Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:
 
 ## Kiegészítés: Iterátorok besorolása
 
+Az iterátorokat besorolhatjuk az alapján, hogy mire képesek. Ezeket a csoportokat nem kell tudni, csak érdekességképp szerepelnek a jegyzetben:
+
 ![alt text](image-5.png)
