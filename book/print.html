@@ -1970,7 +1970,7 @@ int main(){
 </code></pre>
 <h2 id="nem-csak-függvények"><a class="header" href="#nem-csak-függvények">Nem csak függvények...</a></h2>
 <p>A fenti példában a <code>P</code> típus helyére minden olyan típus beilleszthető, amely <code>bool</code> -t(vagy <code>bool</code>-ra implicit konvertálható típust) ad vissza és egy <code>const T&amp;</code> -et vesz át paraméterként. Az a kérdés, hogy csak függvények elégíthetik -e ki ezt a követelményt.</p>
-<p>Nos a válasz erre az, hogy nem, ugyanis a függvényhívás operátor újratölthető. Azokat az osztályokat amelyeknek van függvényhívó operátora <em>funktor</em>nak nevezzük.</p>
+<p>Nos a válasz erre az, hogy nem, ugyanis a függvényhívás operátor túltölthető. Azokat az osztályokat amelyeknek van függvényhívó operátora <em>funktor</em>nak nevezzük.</p>
 <p>Pl. egy funktor, amelynek habár sok mindent nem csinál, példának jó lesz...
 <a href="https://godbolt.org/z/dGaEG3brT">https://godbolt.org/z/dGaEG3brT</a></p>
 <pre><code class="language-cpp">#include &lt;string&gt;

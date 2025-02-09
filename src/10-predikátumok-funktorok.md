@@ -37,7 +37,7 @@ int main(){
 
 A fenti példában a `P` típus helyére minden olyan típus beilleszthető, amely `bool` -t(vagy `bool`-ra implicit konvertálható típust) ad vissza és egy `const T&` -et vesz át paraméterként. Az a kérdés, hogy csak függvények elégíthetik -e ki ezt a követelményt.
 
-Nos a válasz erre az, hogy nem, ugyanis a függvényhívás operátor újratölthető. Azokat az osztályokat amelyeknek van függvényhívó operátora *funktor*nak nevezzük.
+Nos a válasz erre az, hogy nem, ugyanis a függvényhívás operátor túltölthető. Azokat az osztályokat amelyeknek van függvényhívó operátora *funktor*nak nevezzük.
 
 Pl. egy funktor, amelynek habár sok mindent nem csinál, példának jó lesz...
 <https://godbolt.org/z/dGaEG3brT>
