@@ -284,7 +284,7 @@ std::unqiue_ptr&lt;Foo&gt; p2(f); //p2 takes ownership of f, so delete f; is not
         std::vector&lt;std::unique_ptr&lt;Component&gt;&gt; components;
 };
 </code></pre>
-<p>Így már nem kell explicit dtor, az std::vector dtora meghívja az elemeinek dtorát. A <code>unqiue_ptr</code> destruktora pedig felszabadítja a memóriát.</p>
+<p>Így már nem kell explicit destruktor, az std::vector destruktora meghívja az elemeinek destruktorát. A <code>unqiue_ptr</code> destruktora pedig felszabadítja a memóriát.</p>
 
                     </main>
 
