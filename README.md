@@ -1,6 +1,6 @@
 ## Build
 
-Build using [mdbook](https://github.com/rust-lang/mdBook), an awesome project for writing digital content.
+[Mdbook](https://github.com/rust-lang/mdBook)-al buildelhető.
 
 ```
 git clone https://github.com/nevemlaci/cpp_jegyzet
@@ -8,6 +8,8 @@ cd cpp_jegyzet
 mdbook serve
 ```
 
-`mdbook serve` will deploy the book on `http://localhost:3000` and will listen for any changes to the book and update the site on any change.
+`mdbook serve` egy interaktív előnézeted ad a `http://localhost:3000` címen, minden változtatásra frissíteni fogja ezt az előnézetet.
 
-`mdbook build` will build the book and output it as HTML into the `book` directory
+`mdbook build` elkészíti a HTML leképzést a `book` könyvtárba.
+
+A `publish.bat` file segítségével automatikusan remote repoba pusholható a könyv forráskódja és a `book` almappa is.
