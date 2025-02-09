@@ -1,0 +1,35 @@
+name: Kódrészlet megváltoztatása, vagy új kódrészlet hozzáadása
+description: A jegyzet kódblokkjainak megváltoztatása, vagy új kódpélda hozzáadása
+body:
+  - type: dropdown
+    attributes:
+      label: Új kódblokkot vennél fel, vagy egy már meglévőt változtatnál meg?
+      options:
+        - Új kódblokk
+        - Kódblokk javítása
+  - type: input
+    attributes:
+      label: >-
+        Melyik fejezetben+alfejezetben található a javítandó tartalom, vagy
+        melyik fejezethez adnád hozzá az új kódblokkot?
+      description: Pl. Heterogén tárolók/Polimorphism by inheritance
+  - type: textarea
+    attributes:
+      label: 'Az eredeti kódblokk: (Ha változtatni szeretnél)'
+      description: A hibás formázás bemásolva, vagy képként beillesztve.
+  - type: textarea
+    attributes:
+      label: Az új kódblokk
+      description: >-
+        Teljesen új kódblokk/változtatások markdownként. Kérlek a változtatásaid
+        a kódon kívül emeld ki.
+  - type: textarea
+    attributes:
+      label: >-
+        Szerinted miért lenne jobb/hasznosabb a megváltoztatott kódblokk, vagy
+        miért lenne hasznos az új kódblokk
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)

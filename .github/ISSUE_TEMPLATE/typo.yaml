@@ -1,0 +1,22 @@
+name: Helyesírási hiba/elírás
+description: Ha helyesírási hibát, vagy elírást találsz a jegyzetben
+labels:
+  - Helyesírási hiba/typo
+body:
+  - type: input
+    attributes:
+      label: Melyik fejezetben+alfejezetben található a javítandó tartalom?
+      description: Pl. Heterogén tárolók/Polimorphism by inheritance
+  - type: textarea
+    attributes:
+      label: 'A hibás tartalom:'
+      description: A hibás formázás bemásolva, vagy képként beillesztve.
+  - type: textarea
+    attributes:
+      label: 'Javítás:'
+      description: A javított tartalom markdownként. Nyithatsz akár Pull Requestet is.
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)

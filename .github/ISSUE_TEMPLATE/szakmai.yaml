@@ -1,0 +1,27 @@
+name: Szakmai tartalmi hiba
+description: A jegyzet szakmai tartalmában talált hibák, pontatlanságok jelzésére
+labels:
+  - Szakmai Hiba
+body:
+  - type: input
+    attributes:
+      label: Melyik fejezetben+alfejezetben található a javítandó tartalom?
+      description: Pl. Heterogén tárolók/Polimorphism by inheritance
+  - type: textarea
+    attributes:
+      label: Mit szeretnél változtatni?
+      description: >-
+        A megváltoztatni kívánt tartalom idézve, esetleg a javítandó részek
+        aláhúzva.
+  - type: textarea
+    attributes:
+      label: Mire szeretnéd változtatni?
+      description: Új tartalom markdownként.
+  - type: textarea
+    attributes:
+      label: Szerinted miért lenne ez jó, hasznos változtatás?
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)
