@@ -126,4 +126,4 @@ struct ComponentStore{
         std::vector<std::unique_ptr<Component>> components;
 };
 ```
-Így már nem kell explicit dtor, az std::vector dtora meghívja az elemeinek dtorát. A `unqiue_ptr` destruktora pedig felszabadítja a memóriát.
+Így már nem kell explicit destruktor, az std::vector destruktora meghívja az elemeinek destruktorát. A `unqiue_ptr` destruktora pedig felszabadítja a memóriát.
