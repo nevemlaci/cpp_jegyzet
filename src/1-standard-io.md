@@ -74,7 +74,7 @@ std::cin.ignore(std::numeric_limits<std::streamsize>::max()); //ignorál mindent
 std::cin.ignore(x, c); //ignorál x karakter, vagy amíg nem kap c-vel azonos karaktert
 ```
 
-`std::numeric_limits<T>::max()` : adott `T` típusú numerikus típus maximum értékét adja vissza. (pl. `std::numeric_limits<std::size_t>::max()`)
+`std::numeric_limits<T>::max()` : adott `T` numerikus típus maximum értékét adja vissza. (pl. `std::numeric_limits<std::size_t>::max()`)
 
 Pl:
 ```cpp
