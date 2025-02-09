@@ -1,6 +1,7 @@
 # A jegyzetről
 
-Ha hibát találsz a jegyzetben, azt kérlek jelezd a <https://github.com/nevemlaci/cpp_jegyzet/issues> oldalon.
+* Ha hibát találsz a jegyzetben, azt kérlek jelezd a <https://github.com/nevemlaci/cpp_jegyzet/issues> oldalon.
+* Ha a jegyzetből használsz kódrészletet, kommentben jelezd, hogy innen van(főleg háziban, plágium elkerülése végett!)
 
 ***FONTOS!*** A C++ nyelv a népszerű nyelvek között az egyik legnehezebb, elsajátítása megfelelő figyelmet és erőbefektetést igényel. A jegyzetben minden sornak jelentése van, azokban potenciálisan olyan információ rejlik, amely később kritikus tudásként szolgálhat. Érdemes minden sort elolvasni és értelmezni a kódrészleteket. A programozás tényleges megtanulásához elengedhetetlen, hogy hallgatóként a programozásra hobbiként is tekintsünk.
 
