@@ -169,6 +169,18 @@ if(a) {
 ```
 kódrészletek.
 
+## `auto` (C++11)
+
+Az `auto` kulcsszó típus helyére írható, ahol a típus levezethető pl. visszatérési értékből. Fontos, hogy az `auto` nem vezeti le a `const`, `volatile` kvalifikáckat és a referenciákat.
+
+```cpp
+auto x = 5; //int x = 5;
+
+auto& y = array.at(5); //referencia egy tömb 5. elemére
+
+auto z = array.at(5); //egy tömb 5. elemének másolata
+```
+
 ## std::string
 <https://en.cppreference.com/w/cpp/string/basic_string>
 
