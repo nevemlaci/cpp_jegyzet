@@ -407,7 +407,7 @@ for(const int&amp; elem : list) { //ua. mint az előbb, csak konstans referenci�
 <p>Gondoljunk az iterátorokra úgy, mint a felturbózott pointerekre. Minden iterátor valamilyen tárolóhoz igazított, speciális mutató típus.</p>
 <p>A következő fejezetben azt láthatjuk, hogy valójában a pointerek a tömb féle tárolók iterátorai.</p>
 <h2 id="iterátorok-tömbök-és-pointerek"><a class="header" href="#iterátorok-tömbök-és-pointerek">Iterátorok, tömbök és pointerek</a></h2>
-<p>A pointerek kielégítik az iterátorok legmélyebb követelményét, a <a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"><em>LegacyRandomAccessIterator</em></a> követelményt.
+<p>Egy tömb egy elemére mutató pointer kielégíti az iterátorok legmélyebb követelményét, a <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator"><em>LegacyContiguousIterator</em></a> követelményt.
 Ez azt jelenti, hogy egy dinamikus tömbnél például nincs szükség külön iterátor osztályra, hiszen elég a pointereket léptetni és összehasonlítani.</p>
 <p>Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:</p>
 <pre><code class="language-cpp">    T* begin() {

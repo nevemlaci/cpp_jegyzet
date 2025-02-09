@@ -79,21 +79,21 @@ Azt, hogy egy kulcs a tárolóban van -e, a `contains(key)` tagfüggvénnyel ell
 
 Az STL algoritmusok különböző típusú paraméterei:
 
-* `InIter` / `InputIt`: input iterátor
-* `OutIter`: output iterátor
-* `FwIter`: előre léptethető(Forward) iterátor
-* `BiIter`: kétirányú(bidirectional) iterátor
-* `RndIter`: Random Access iterátor(léptethető minden irányban akármekkora lépésben, pl. pointer, vektor iterátor)
-* `Pred` / `UnaryPred`: egy operandusú predikátum
-* `BinPred`: két operandusú predikátum
-* `UnOp`: egy operandusú művelet
-* `Cmp`: összehasonlító művelet
+* [`InputIterator`](https://en.cppreference.com/w/cpp/named_req/InputIterator) : input iterátor, olvasni lehet amire mutat és előre léptethető
+* [`OutputIterator`](https://en.cppreference.com/w/cpp/named_req/OutputIterator) : output iterátor, írni lehet amire mutat és előre léptethető
+* [`ForwardIterator`](https://en.cppreference.com/w/cpp/named_req/ForwardIterator) : olyan iterátor, amely akár egyszerre több lépéssel is előre léptethető(Forward) 
+* [`BidirectionalIterator`](https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator) : kétirányú(bidirectional) iterátor, mindkét irányba léptethető, előre több lépésben is
+* [`RandomAccessIterator`](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) : Random Access iterátor, konstans időben léptethető minden irányban akármekkora lépésben, pl. pointer tömbelemre, vektor iterátora
+* [`Predicate`](https://en.cppreference.com/w/cpp/named_req/Predicate) : egy operandusú predikátum
+* [`BinaryPredicate`](https://en.cppreference.com/w/cpp/named_req/BinaryPredicate) : két operandusú predikátum
+* `UnaryOperation`: egy operandusú művelet
+* [`Compare`](https://en.cppreference.com/w/cpp/named_req/Compare): összehasonlító művelet, olyan bináris predikátum amely elemek sorrendjét határozza meg
 
 Ezeket a nevek találhatók a tárgyhoz tartozó STL puskán is, de fejből nem kötelező tudni őket. Érdemes viszont átgondolni, mikor miért az adott típusú paraméterre van szükség.
 
 #### std::find, std::find_if
 
-`InputIt find( InputIt first, InputIt last, const T& value );`
+`InputIt find(InputIt first, InputIt last, const T& value);`
 
 Az `std::find` függvény két iterátort(a keresés doménjét), valamint egy értéket vesz át. A doménjében az `==` operátor segítségével keresi a kapott értéket, és ha megtalálja, akkor visszaad rá egy iterátort. Ha nem találja meg, akkor a domén végére mutató iterátort adja vissza.
 Az ilyen iterátor párokat gyakran *range*-nek nevezzük.
@@ -109,7 +109,7 @@ Az ilyen iterátor párokat gyakran *range*-nek nevezzük.
     }
 ```
 
-`InputIt find_if( InputIt first, InputIt last, UnaryPred p );`
+`InputIt find_if(InputIt first, InputIt last, UnaryPred p);`
 
 Az `std::find_if` 3. paraméterként egy érték helyett egy predikátumfüggvényt(vagy más függvényhívó operátorral rendelkező objektumot) vesz át, amely `bool` -t ad vissza és egyetlen paramétereként átveszi egy a doménben tárolt objektumok típusával megegyező típusú objektumot(*értsd: átveszi az éppen vizsgált elemet*).
 
@@ -124,9 +124,9 @@ Az `std::find_if` 3. paraméterként egy érték helyett egy predikátumfüggvé
 
 #### std::count és std::count_if
 
-`count( InputIt first, InputIt last, const T& value );`
+`count(InputIt first, InputIt last, const T& value);`
 
-`count_if( InputIt first, InputIt last, UnaryPred p );`
+`count_if(InputIt first, InputIt last, UnaryPred p);`
 
 Ugyan az, mint a `find` és `find_if`, csak összeszámolja a feltételt kielégítő elemeket.
 
@@ -151,7 +151,7 @@ int main(){
 
 Az `std::fill` feltölti a kapott range-t egy értékkel.
 
-`void fill( ForwardIt first, ForwardIt last, const T& value );`
+`void fill(ForwardIt first, ForwardIt last, const T& value);`
 
 <https://godbolt.org/z/7qbYq17v3>
 ```cpp

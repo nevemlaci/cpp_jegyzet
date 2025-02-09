@@ -249,7 +249,7 @@ A következő fejezetben azt láthatjuk, hogy valójában a pointerek a tömb f�
 
 ## Iterátorok, tömbök és pointerek
 
-A pointerek kielégítik az iterátorok legmélyebb követelményét, a [*LegacyRandomAccessIterator*](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) követelményt. 
+Egy tömb egy elemére mutató pointer kielégíti az iterátorok legmélyebb követelményét, a [*LegacyContiguousIterator*](https://en.cppreference.com/w/cpp/named_req/ContiguousIterator) követelményt. 
 Ez azt jelenti, hogy egy dinamikus tömbnél például nincs szükség külön iterátor osztályra, hiszen elég a pointereket léptetni és összehasonlítani.
 
 Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:
