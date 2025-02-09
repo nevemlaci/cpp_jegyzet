@@ -170,7 +170,7 @@ int main(){
 ```
 
 ## Osztálysablonok
-Mint ahogyan a függvények, az osztályokhoz is lehet sablonokat készítnei. 
+Mint ahogyan a függvényekhez, az osztályokhoz is lehet sablonokat készítnei. 
 pl.
 ```cpp
 template <typename T>
