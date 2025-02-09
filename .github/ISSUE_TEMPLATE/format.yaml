@@ -1,0 +1,24 @@
+name: Formázás javítása
+description: A jegyzet formázásának javítása
+labels:
+  - Formázás
+body:
+  - type: input
+    attributes:
+      label: Melyik fejezetben+alfejezetben található a javítandó tartalom?
+      description: Pl. Heterogén tárolók/Polimorphism by inheritance
+  - type: textarea
+    attributes:
+      label: 'A hibás tartalom:'
+      description: A hibás formázás bemásolva, vagy képként beillesztve.
+  - type: textarea
+    attributes:
+      label: 'Javítás:'
+      description: >-
+        A javított tartalom markdownként. Ha ide írsz valamit, akkor érdemes
+        azonnal Pull Requestet is nyitni.
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)
