@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html lang="hu" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Operator overloading - A Programozás Alapjai 2. - Lipódi László jegyzete</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html" class="active"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Programozás Alapjai 2. - Lipódi László jegyzete</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="operator-overloading"><a class="header" href="#operator-overloading">Operator overloading</a></h1>
+<h2 id="mik-az-operátorok-valójában"><a class="header" href="#mik-az-operátorok-valójában">Mik az operátorok valójában?</a></h2>
+<p>Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni.</p>
+<h2 id="operátorok-és-osztályok"><a class="header" href="#operátorok-és-osztályok">Operátorok és osztályok</a></h2>
+<p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
+<p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
+A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
+<p>Nézzünk egy példát:</p>
+<pre><code class="language-cpp">class DinTomb{
+    /* 
+        ...
+    */
+
+    void operator+=(const T&amp; elem){
+        push_back(elem); //delegáljuk a beillesztést a push_back függvénynek, nem duplikálunk kódot.
+    }
+};
+
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+
+    return 0;
+}
+</code></pre>
+<h2 id="friend"><a class="header" href="#friend">Friend</a></h2>
+<p>Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az <code>operator&lt;&lt;</code> (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni.
+A <code>friend</code> kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class DinTomb{
+    /* 
+        ...
+    */
+
+    template&lt;typename K&gt;
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb);
+};
+
+template&lt;typename K&gt;
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb){
+    for(std::size_t i = 0; i &lt; dtomb.meret; ++i){
+        out &lt;&lt; dtomb.tomb[i] &lt;&lt; ' ';
+    }
+
+    return out;
+}
+
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+    tomb += 2.3;
+    tomb.push_back(8.7);
+
+    std::cout &lt;&lt; tomb; //értsd: operator&lt;&lt;(std::cout, tomb);
+    return 0;
+}
+</code></pre>
+<p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
+<p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
+<h2 id="copy-assignmentértékadó-operátor"><a class="header" href="#copy-assignmentértékadó-operátor">Copy assignment(értékadó operátor)</a></h2>
+<p>Vannak olyan esetek, amikor már egy kész objektumnak akarunk új értéket adni.
+Pl.</p>
+<pre><code class="language-cpp">tomb&lt;int&gt; tomb1;
+tomb1.push_back(5);
+
+tomb&lt;int&gt; tomb2;
+tomb2.push_back(1);
+
+tomb1 = tomb2;
+</code></pre>
+<p>Ilyen esetekben egy értékadó operátor(copy assignment operator) hívásról beszélünk.</p>
+<p>A másoló konstruktor testvére a copy assignment(értékadó) operator. A copy constructorhoz hasonlóan <code>const T&amp;</code> -ként veszi át a másolandó objektumot és a default is generálódik belőle.
+Fontos, hogy a copy assignment operátor nem új objektumot hoz létre így az előzőleg használt erőforrásokat fel kell szabadítani.</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class DinTomb{
+    T* tomb;
+    std::size_t meret;
+
+public:
+    /**
+     * @brief Default konstruktor, mindent 0-ra inicializál
+     */
+    DinTomb() : tomb(nullptr), meret(0) {}
+
+
+    /**
+     * @brief Másoló konstruktor
+     * @param other a másik tömb amit másolunk
+     */
+    DinTomb(const DinTomb&amp; other) : tomb(other.tomb != nullptr ? new T[other.meret] : nullptr), meret(other.meret) {
+        //                                          ^ ha nullptr a másik tömb(vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt(nem is lehetne...)
+        for(std::size_t i = 0; i &lt; other.meret; ++i){
+            tomb[i] = other.tomb[i];
+        }
+    }
+
+    /**
+     * @brief Értékadó operátor
+     * @param other a másik tömb amit másolunk
+     * @return referencia a tömbre aminek értéket adtunk
+     */
+    DinTomb&amp; operator=(const DinTomb&amp; other){
+        if(this == &amp;other) { //ha önmagát kapja paraméterül akkor nincs semmi teendő, ne vágjuk magunk alatt a fát
+            return *this; // *this -&gt; this pointer, *this referencia(az objektumra amin a hívás történt)
+        }
+        delete[] tomb;
+        tomb = new T[other.meret];
+        meret = other.meret;
+        for(std::size_t i = 0; i &lt; other.meret; ++i) {
+            tomb[i] = other.tomb[i];
+        }
+        return *this;
+    }
+
+    ~DinTomb() {
+        delete[] tomb;
+    }
+
+    std::size_t size() const;
+
+    void push_back(const T&amp; elem);
+
+    T&amp; at(std::size_t idx);
+
+    T&amp; at(std::size_t idx) const;
+};
+
+int main(){
+
+}
+</code></pre>
+<h2 id="rule-of-03"><a class="header" href="#rule-of-03">Rule of 0/3</a></h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a></p>
+<p>Rule of 3: Ha egy osztálynak szüksége van nem compiler-default destruktorra, másoló konstruktorra vagy copy assignment operátorra akkor majdnem biztosan szüksége van mindháromra.</p>
+<p><strong><em>advanced</em></strong><br>
+Rule of 0: Azok az osztályok, amelyeknek nem compiler-default destructora, copy constructora, copy assignment operátora van, azok valamilyen explicit erőforrás-birtoklást valósítanak meg. (<a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a>). Ettől eltérő osztályoknak ne legyen nem compiler-default destruktora, copy constructora vagy copy assignment operátora.</p>
+<h2 id="néhány-kötöttség"><a class="header" href="#néhány-kötöttség">Néhány kötöttség</a></h2>
+<p>Operátor túltöltéssel nem változtatható meg:</p>
+<ul>
+<li>precedencia</li>
+<li>asszocivitás</li>
+</ul>
+<p>Ezen felül egyes operátoroknak csak kötött számú paramétere lehet.<br>
+A logikai(<code>||</code> és <code>&amp;&amp;</code>) operátorok túltöltése esetén azok elvesztik a short-circuit tulajdonságukat.</p>
+<h2 id="Összehasonlító-operátorok"><a class="header" href="#Összehasonlító-operátorok">Összehasonlító operátorok</a></h2>
+<p>Természetesen mindenféle más operátorokat, pl összehasonlító, ennek negáltja, nagyobb, kisebb, stb. is overloadolhatunk.</p>
+<p>Pl. a tömbjeink összehasonlítása:</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
+
+public:
+    //...
+
+    bool operator==(const DinTomb&amp; other) {
+        if(meret != other.meret) {
+            return false;
+        }
+
+        for(std::size_t i = 0; i &lt; meret; ++i) {
+            if(tomb[i] != other.tomb[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool operator !=(const DinTomb&amp; other) {
+        return !(*this == other);
+    }
+};
+
+</code></pre>
+<p>Pl. indexelő operátor:</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class DinTomb{
+    T* tomb; //pointer a dinamikus tömbre
+    std::size_t meret; //a dinamikus tömb mérete
+
+public:
+    //...
+
+    T&amp; at(std::size_t idx);
+
+    const T&amp; at(std::size_t idx);
+
+    T&amp; operator[](std::size_t idx){
+        return at(idx); //delegáljuk a feladatot a már implementált at() tagfüggvénynek
+    }
+
+    const T&amp; operator[](std::size_t idx) const{
+        return at(idx);
+    }
+};
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="5-osztályok.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="7-inheritance.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="5-osztályok.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="7-inheritance.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

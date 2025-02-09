@@ -1,0 +1,485 @@
+<!DOCTYPE HTML>
+<html lang="hu" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>STL - A Programozás Alapjai 2. - Lipódi László jegyzete</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html" class="active"><strong aria-hidden="true">13.</strong> STL</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Programozás Alapjai 2. - Lipódi László jegyzete</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="a-c-standard-library"><a class="header" href="#a-c-standard-library">A C++ Standard Library</a></h1>
+<p>A C++ Standard Library(gyakran STL, stdlib, stb.) alatt általában a C++ standard által meghatározott, C++ nyelvhez tartozó szabványos könyvtár egy implementációját értjük (pl libc++, libstdc++, MSVC STL).</p>
+<h2 id="stl-tárolók"><a class="header" href="#stl-tárolók">STL Tárolók</a></h2>
+<p>A standard tárolók fontosabb közös tulajdonságai:</p>
+<ul>
+<li>mind osztálysablonok(Standard <strong>Template</strong> Library)</li>
+<li>begin és end iterátort visszaadó tagfüggvények foreach ciklushoz</li>
+<li>at tagfüggvény (ahol értelmes)</li>
+<li>indexelő operátor (ahol értelmes)</li>
+</ul>
+<h4 id="stdstring"><a class="header" href="#stdstring">std::string</a></h4>
+<p><code>&lt;string&gt;</code> header</p>
+<p>Egy egyszerű karakterlánc implementáció.</p>
+<pre><code class="language-cpp">std::string str = "foo";
+
+str.push_back("bar");
+str[0] = 'l';
+
+std::cout &lt;&lt; str;
+</code></pre>
+<h4 id="stdvector"><a class="header" href="#stdvector">std::vector</a></h4>
+<p><code>&lt;vector&gt;</code> header</p>
+<p>Egy általános dinamikus tömb típus. Nem mindig akkora helyet foglal, amennyire szüksége van, hanem kapacitás hiányában geometrikusan növeli a lefoglalt memória méretét(pl kétszerezi, vagy másfélszerezi)</p>
+<pre><code class="language-cpp">std::vector&lt;int&gt; x = {1, 2, 3};
+
+x.push_back(-5);
+
+std::cout &lt;&lt; *x.begin() &lt;&lt; '\n';
+
+for(int elem : x){
+    std::cout &lt;&lt; elem &lt;&lt; ' ';
+}
+</code></pre>
+<p>Az <code>at()</code> tagfüggvény kivételt dob, ha túlindexeljük a tárolót, az indexelő operátor viszont nem.</p>
+<p>Van egy konstruktora, amely egyetlen pozitív egészet vesz át, ezzel előre foglalható valamennyi elem. Az előre foglalt elemek előre default-constructolva lesznek.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int main(){
+    std::vector&lt;int&gt; v(10);
+    std::cout &lt;&lt; v.size();
+}
+</code></pre>
+<h4 id="stdmap-és-stdunordered_map"><a class="header" href="#stdmap-és-stdunordered_map">std::map és std::unordered_map</a></h4>
+<p><code>&lt;map&gt;</code> és <code>&lt;unordered_map&gt;</code> headerek</p>
+<p>A <code>map</code> és <code>unordered_map</code> kulcs-érték párok tárolására való tárolók. A <code>map</code> garantált olvasási sorrendet kínál, míg az <code>unordered_map</code> nem, cserébe viszont gyorsabb.</p>
+<p>Mindkét típus indexelő operátora beilleszti az adott kulcs-érték párt, ha az adott kulcs még nincs a tárolóban, ha pedig bent van, akkor megváltoztatja a hozzá tartozó értéket.</p>
+<pre><code class="language-cpp">std::map&lt;std::string, int&gt; m;
+
+m["foo"] = 5;
+m["foo"] = 1;
+std::cout &lt;&lt; m["foo"];
+</code></pre>
+<p>Az <code>at()</code> tagfüggvény nem így viselkedik, hanem kivételt dob, ha a kulcs nincs a tárolóban.</p>
+<p>Azt, hogy egy kulcs a tárolóban van -e, a <code>contains(key)</code> tagfüggvénnyel ellenőrizhetjük.</p>
+<h2 id="stl-algoritmusok"><a class="header" href="#stl-algoritmusok">STL algoritmusok</a></h2>
+<p><code>&lt;algorithm&gt;</code> header</p>
+<p>Az STL algoritmusok különböző típusú paraméterei:</p>
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/InputIterator"><code>InputIterator</code></a> : input iterátor, olvasni lehet amire mutat és előre léptethető</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/OutputIterator"><code>OutputIterator</code></a> : output iterátor, írni lehet amire mutat és előre léptethető</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/ForwardIterator"><code>ForwardIterator</code></a> : olyan iterátor, amely akár egyszerre több lépéssel is előre léptethető(Forward)</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator"><code>BidirectionalIterator</code></a> : kétirányú(bidirectional) iterátor, mindkét irányba léptethető, előre több lépésben is</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"><code>RandomAccessIterator</code></a> : Random Access iterátor, konstans időben léptethető minden irányban akármekkora lépésben, pl. pointer tömbelemre, vektor iterátora</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/Predicate"><code>Predicate</code></a> : egy operandusú predikátum</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate"><code>BinaryPredicate</code></a> : két operandusú predikátum</li>
+<li><code>UnaryOperation</code>: egy operandusú művelet</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/Compare"><code>Compare</code></a>: összehasonlító művelet, olyan bináris predikátum amely elemek sorrendjét határozza meg</li>
+</ul>
+<p>Ezeket a nevek találhatók a tárgyhoz tartozó STL puskán is, de fejből nem kötelező tudni őket. Érdemes viszont átgondolni, mikor miért az adott típusú paraméterre van szükség.</p>
+<h4 id="stdfind-stdfind_if"><a class="header" href="#stdfind-stdfind_if">std::find, std::find_if</a></h4>
+<p><code>InputIt find(InputIt first, InputIt last, const T&amp; value);</code></p>
+<p>Az <code>std::find</code> függvény két iterátort(a keresés doménjét), valamint egy értéket vesz át. A doménjében az <code>==</code> operátor segítségével keresi a kapott értéket, és ha megtalálja, akkor visszaad rá egy iterátort. Ha nem találja meg, akkor a domén végére mutató iterátort adja vissza.
+Az ilyen iterátor párokat gyakran <em>range</em>-nek nevezzük.</p>
+<pre><code class="language-cpp">    std::vector&lt;foo&gt; fs = {foo(1), foo(3), foo(-2)};
+
+    auto find_iterator = std::find(fs.begin(), fs.end(), foo(3));
+    if(find_iterator != fs.end()) {
+        std::cout &lt;&lt; "foo(3) pozicio: " &lt;&lt; find_iterator - fs.begin() &lt;&lt; '\n';
+    }else {
+        std::cout &lt;&lt; "foo(3) -ra nincs talalat\n";
+    }
+</code></pre>
+<p><code>InputIt find_if(InputIt first, InputIt last, UnaryPred p);</code></p>
+<p>Az <code>std::find_if</code> 3. paraméterként egy érték helyett egy predikátumfüggvényt(vagy más függvényhívó operátorral rendelkező objektumot) vesz át, amely <code>bool</code> -t ad vissza és egyetlen paramétereként átveszi egy a doménben tárolt objektumok típusával megegyező típusú objektumot(<em>értsd: átveszi az éppen vizsgált elemet</em>).</p>
+<pre><code class="language-cpp">    auto elter_2_iterator = std::find_if(fs.begin(), fs.end(), isDivisibleBy2);
+    if(elter_2_iterator != fs.end()) {
+        std::cout &lt;&lt; "foo(%2) pozicio: " &lt;&lt; elter_2_iterator - fs.begin() &lt;&lt; '\n';
+    }else {
+        std::cout &lt;&lt; "foo(%2) -re nincs talalat\n";
+    }
+</code></pre>
+<h4 id="stdcount-és-stdcount_if"><a class="header" href="#stdcount-és-stdcount_if">std::count és std::count_if</a></h4>
+<p><code>count(InputIt first, InputIt last, const T&amp; value);</code></p>
+<p><code>count_if(InputIt first, InputIt last, UnaryPred p);</code></p>
+<p>Ugyan az, mint a <code>find</code> és <code>find_if</code>, csak összeszámolja a feltételt kielégítő elemeket.</p>
+<p><a href="https://godbolt.org/z/E17se46PG">https://godbolt.org/z/E17se46PG</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+bool divisibleBy2(int x){
+    return x % 2 == 0;
+}
+
+int main(){
+    std::vector&lt;int&gt; v = {3, 2, 1, 5, 3, 2, 8, 3, 12};
+    std::cout &lt;&lt; "3-asok szama: " &lt;&lt; std::count(v.begin(), v.end(), 3);
+    std::cout &lt;&lt; "\n2-vel oszthatoak szama: " &lt;&lt; std::count_if(v.begin(), v.end(), divisibleBy2);
+}
+</code></pre>
+<h4 id="stdfill-stdgenerate"><a class="header" href="#stdfill-stdgenerate">std::fill, std::generate</a></h4>
+<p>Az <code>std::fill</code> feltölti a kapott range-t egy értékkel.</p>
+<p><code>void fill(ForwardIt first, ForwardIt last, const T&amp; value);</code></p>
+<p><a href="https://godbolt.org/z/7qbYq17v3">https://godbolt.org/z/7qbYq17v3</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+int main(){
+    std::vector&lt;int&gt; v(10); //előre foglalunk 10 objektumot, különben a range 0 elemű lenne
+    std::fill(v.begin(), v.end(), 9); 
+    for(auto&amp; elem : v){
+        std::cout &lt;&lt; elem &lt;&lt; ' ';
+    }
+}
+</code></pre>
+<p>Az std::generate feltölti a kapott range-t értékekkel.
+Ezt egy generátor segítségével teszi, amely a harmadik paramétere. A generátor paraméter nélkül hívható objektum, amely visszaadja a beillesztendő értéket.</p>
+<p><code>void generate(ForwardIt first, ForwardIt last, Generator g);</code></p>
+<p>Pl.
+<a href="https://godbolt.org/z/Mz78oP4Wb">https://godbolt.org/z/Mz78oP4Wb</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+struct generator{
+    int x;
+    generator() : x(0) {}
+
+    int operator()(){
+        return x++; //emlékezzünk vissza mit csinál a posztinkremens operátor(növeli, de régi értéket returnöl)
+    }
+};
+
+int main(){
+    std::vector&lt;int&gt; v(10); //előre foglalunk 10 objektumot, különben a range 0 elemű lenne
+    generator g; //készítünk egy generátor példányt
+    std::generate(v.begin(), v.end(), g); //átadjuk a generátort
+    for(auto&amp; elem : v){
+        std::cout &lt;&lt; elem &lt;&lt; ' ';
+    }
+}
+</code></pre>
+<p>A generálás gyakorlatilag a következőből áll:</p>
+<pre><code class="language-cpp">for(auto it = v.begin(), it != v.end(), ++it){
+    *it = g();
+}
+</code></pre>
+<h4 id="stdequal-stdmismatch"><a class="header" href="#stdequal-stdmismatch">std::equal, std::mismatch</a></h4>
+<p>Az <code>std::equal</code> megmondja, hogy két range minden eleme egyenlő -e.</p>
+<p><code>bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2);</code></p>
+<p><a href="https://godbolt.org/z/qsv57sPK5">https://godbolt.org/z/qsv57sPK5</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+int main(){
+    std::vector&lt;int&gt; v = {3, 2, 1, 5, 3, 2, 8, 3, 12};
+    std::vector&lt;int&gt; w = {1, 4, 3, 2, 1, 7, 8, 9, 14};
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; std::equal(v.begin(), v.end(), w.begin(), w.end()) &lt;&lt; '\n';
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; std::equal(v.begin(), v.end(), v.begin(), v.end());
+}
+</code></pre>
+<p>Az <code>std::mismatch</code> megkeresi az első olyan pontot két range-ben, ahol eltérnek.
+Első három paramétere:</p>
+<ul>
+<li>Első range eleje</li>
+<li>Első range vége</li>
+<li>Második range eleje</li>
+</ul>
+<p>Opcionális negyedik paramétere egy predikátum, amely ha igazat ad vissza, mismatch-nek számít az adott elempár.</p>
+<p><code>std::pair&lt;InputIt1, InputIt2&gt; mismatch( InputIt1 first1, InputIt1 last1, InputIt2 first2);</code></p>
+<p><code>std::pair&lt;InputIt1, InputIt2&gt; mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPred p);</code></p>
+<p>Visszatérési értéke egy <code>std::pair</code>, amely a két rangen belül a különbségre mutató iterátorokat tartalmazza.</p>
+<p><a href="https://godbolt.org/z/hvdWTxqqr">https://godbolt.org/z/hvdWTxqqr</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+template&lt;typename T&gt; //template hogy mindenféle vektorhoz jó legyen
+struct transformer{
+    T elozo;
+    
+    transformer() : elozo(0) {}
+
+    T operator()(const T&amp; elem){
+        int eredmeny = elem + elozo;
+        elozo = elem;
+        return eredmeny;
+    }
+};
+
+int main(){
+    std::vector&lt;int&gt; v = {3, 2, 1, 5, 3, 2, 8, 3, 12};
+    std::vector&lt;int&gt; w = {3, 2, 1, 5, 0, 2, 8, 0, 12};
+    
+    auto it_pair = std::mismatch(v.begin(), v.end(), w.begin());
+    std::cout &lt;&lt; "Mismatch at: " &lt;&lt; it_pair.first - v.begin();
+}
+</code></pre>
+<h4 id="stdtransform"><a class="header" href="#stdtransform">std::transform</a></h4>
+<p>Az <code>std::transform</code> végrehajt egy függvényt az adott range minden elemén és átmásolja egy másik rangebe. A függvény a range mindig aktuálisan változtatandó elemét veszi át.<br>
+Első két paramétere a domén range eleje és vége, a hardmadik paramétere a másolás céljának eleje, a negyedik paraméter pedig a végrehajtandó művelet(függvény vagy funktor).</p>
+<p><code>OutputIt transform(InputIt first1, InputIt last1, OutputIt d_first, UnaryOp unary_op);</code></p>
+<p><a href="https://godbolt.org/z/WKE977c8P">https://godbolt.org/z/WKE977c8P</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+template&lt;typename T&gt; //template hogy mindenféle vektorhoz jó legyen
+struct transformer{
+    T elozo;
+    
+    transformer() : elozo(0) {}
+
+    T operator()(const T&amp; elem){
+        int eredmeny = elem + elozo;
+        elozo = elem;
+        return eredmeny;
+    }
+};
+
+int main(){
+    std::vector&lt;int&gt; v = {3, 2, 1, 5, 3, 2, 8, 3, 12};
+    std::vector&lt;int&gt; w(v.size());
+    transformer&lt;int&gt; t;
+    std::transform(v.begin(), v.end(), w.begin(), t);
+
+    for(auto&amp; elem : w){
+        std::cout &lt;&lt; elem &lt;&lt; ' ';
+    }
+}
+</code></pre>
+<p>Az <code>std::transform</code>-nak létezik egy két range-n működő változata is:</p>
+<p><code>OutputIt transform(InputIt1 first1, InputIt1 last1, InputIt2 first2, OutputIt d_first, BinaryOp binary_op);</code></p>
+<p><a href="https://godbolt.org/z/q96zb98Ea">https://godbolt.org/z/q96zb98Ea</a></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+int main(){
+    std::vector&lt;int&gt; v = {3, 2, 1, 5, 3, 2, 8, 3, 12};
+    std::vector&lt;int&gt; w = {2, 5, 1, 5, 0, 2, 9, 0, 10};
+    
+    std::vector&lt;int&gt; x(v.size());
+
+    //std::plus&lt;T&gt; : funktor aminek a fgv.hívás operátora összeadja a két operandust
+    std::transform(v.begin(), v.end(), w.begin(), x.begin(), std::plus&lt;int&gt;()/*default constructed std::add instance*/);
+    for(int elem : x){
+        std::cout &lt;&lt; elem &lt;&lt; '\n';
+    }
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="10-predikátumok-funktorok.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="10-predikátumok-funktorok.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
