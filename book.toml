@@ -4,3 +4,7 @@ language = "hu"
 multilingual = false
 src = "src"
 title = "A Programozás Alapjai 2. - Lipódi László jegyzete"
+
+[output.html]
+
+[output.pdf]
