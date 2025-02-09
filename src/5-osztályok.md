@@ -237,7 +237,7 @@ Ezt a példát sokáig fogjuk használni.
 
 Szóval szükségünk lesz egy `typename T` sablonparaméterre, egy pointerre, ami a tömbre mutat, valamint tárolni kell a tömb méretét
 ```cpp
-#include <cstdint>
+#include <cstddef>
 
 template <typename T>
 class DinTomb{
