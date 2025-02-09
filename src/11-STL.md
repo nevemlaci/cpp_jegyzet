@@ -83,13 +83,22 @@ Az STL algoritmusok különböző típusú paraméterei:
 * [`OutputIterator`](https://en.cppreference.com/w/cpp/named_req/OutputIterator) : output iterátor, írni lehet amire mutat és előre léptethető
 * [`ForwardIterator`](https://en.cppreference.com/w/cpp/named_req/ForwardIterator) : olyan iterátor, amely akár egyszerre több lépéssel is előre léptethető(Forward) 
 * [`BidirectionalIterator`](https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator) : kétirányú(bidirectional) iterátor, mindkét irányba léptethető, előre több lépésben is
-* [`RandomAccessIterator`](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) : Random Access iterátor, konstans időben léptethető minden irányban akármekkora lépésben, pl. pointer tömbelemre, vektor iterátora
+* [`RandomAccessIterator`](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) : Random Access iterátor, konstans időben léptethető minden irányban akármekkora lépésben, kivonhatók egymásból, pl. pointer tömbelemre, vektor iterátora
 * [`Predicate`](https://en.cppreference.com/w/cpp/named_req/Predicate) : egy operandusú predikátum
 * [`BinaryPredicate`](https://en.cppreference.com/w/cpp/named_req/BinaryPredicate) : két operandusú predikátum
 * `UnaryOperation`: egy operandusú művelet
 * [`Compare`](https://en.cppreference.com/w/cpp/named_req/Compare): összehasonlító művelet, olyan bináris predikátum amely elemek sorrendjét határozza meg
 
 Ezeket a nevek találhatók a tárgyhoz tartozó STL puskán is, de fejből nem kötelező tudni őket. Érdemes viszont átgondolni, mikor miért az adott típusú paraméterre van szükség.
+
+#### std::distance
+
+Megadja két `RandomAccessIterator` távolságát.
+
+```cpp
+std::vector<int> v{3, 1, 4};
+std::cout << "distance(first, last) = " << std::distance(v.begin(), v.end()) << '\n';
+```
 
 #### std::find, std::find_if
 
@@ -211,6 +220,7 @@ for(auto it = v.begin(), it != v.end(), ++it){
 Az `std::equal` megmondja, hogy két range minden eleme egyenlő -e.
 
 `bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2);`
+`bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPred p);`
 
 <https://godbolt.org/z/qsv57sPK5>
 ```cpp

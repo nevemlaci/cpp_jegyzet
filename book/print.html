@@ -2061,13 +2061,18 @@ std::cout &lt;&lt; m["foo"];
 <li><a href="https://en.cppreference.com/w/cpp/named_req/OutputIterator"><code>OutputIterator</code></a> : output iterátor, írni lehet amire mutat és előre léptethető</li>
 <li><a href="https://en.cppreference.com/w/cpp/named_req/ForwardIterator"><code>ForwardIterator</code></a> : olyan iterátor, amely akár egyszerre több lépéssel is előre léptethető(Forward)</li>
 <li><a href="https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator"><code>BidirectionalIterator</code></a> : kétirányú(bidirectional) iterátor, mindkét irányba léptethető, előre több lépésben is</li>
-<li><a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"><code>RandomAccessIterator</code></a> : Random Access iterátor, konstans időben léptethető minden irányban akármekkora lépésben, pl. pointer tömbelemre, vektor iterátora</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"><code>RandomAccessIterator</code></a> : Random Access iterátor, konstans időben léptethető minden irányban akármekkora lépésben, kivonhatók egymásból, pl. pointer tömbelemre, vektor iterátora</li>
 <li><a href="https://en.cppreference.com/w/cpp/named_req/Predicate"><code>Predicate</code></a> : egy operandusú predikátum</li>
 <li><a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate"><code>BinaryPredicate</code></a> : két operandusú predikátum</li>
 <li><code>UnaryOperation</code>: egy operandusú művelet</li>
 <li><a href="https://en.cppreference.com/w/cpp/named_req/Compare"><code>Compare</code></a>: összehasonlító művelet, olyan bináris predikátum amely elemek sorrendjét határozza meg</li>
 </ul>
 <p>Ezeket a nevek találhatók a tárgyhoz tartozó STL puskán is, de fejből nem kötelező tudni őket. Érdemes viszont átgondolni, mikor miért az adott típusú paraméterre van szükség.</p>
+<h4 id="stddistance"><a class="header" href="#stddistance">std::distance</a></h4>
+<p>Megadja két <code>RandomAccessIterator</code> távolságát.</p>
+<pre><code class="language-cpp">std::vector&lt;int&gt; v{3, 1, 4};
+std::cout &lt;&lt; "distance(first, last) = " &lt;&lt; std::distance(v.begin(), v.end()) &lt;&lt; '\n';
+</code></pre>
 <h4 id="stdfind-stdfind_if"><a class="header" href="#stdfind-stdfind_if">std::find, std::find_if</a></h4>
 <p><code>InputIt find(InputIt first, InputIt last, const T&amp; value);</code></p>
 <p>Az <code>std::find</code> függvény két iterátort(a keresés doménjét), valamint egy értéket vesz át. A doménjében az <code>==</code> operátor segítségével keresi a kapott értéket, és ha megtalálja, akkor visszaad rá egy iterátort. Ha nem találja meg, akkor a domén végére mutató iterátort adja vissza.
@@ -2159,7 +2164,8 @@ int main(){
 </code></pre>
 <h4 id="stdequal-stdmismatch"><a class="header" href="#stdequal-stdmismatch">std::equal, std::mismatch</a></h4>
 <p>Az <code>std::equal</code> megmondja, hogy két range minden eleme egyenlő -e.</p>
-<p><code>bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2);</code></p>
+<p><code>bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2);</code>
+<code>bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPred p);</code></p>
 <p><a href="https://godbolt.org/z/qsv57sPK5">https://godbolt.org/z/qsv57sPK5</a></p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;vector&gt;
