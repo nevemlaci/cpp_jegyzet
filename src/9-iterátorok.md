@@ -151,29 +151,17 @@ public:
             return &(it->data);
         }
     };
+};
+```
 
-private:
-    node* m_head; //lista első eleme
-    node* m_back; //lista utolsó, még érvényes eleme
-    std::size_t m_size; //lista mérete
+Természetesen kellenek tagfüggvények, amelyek ennek a listának az iterátorait adják vissza:
+`begin()` : A tároló elejére mutató iterátort ad vissza.
+`end()` : A tároló vége utáni("utolsó valid elem utána") iterátort ad vissza, "szentinel" iterátort. Ez egy lista esetében pl. `nullptr` -re mutató iterátor.
+
+```cpp
+//List class-on belül
 
 public:
-    List() : m_head{nullptr}, m_back(nullptr), m_size(0) {}
-
-    List(const List& other) : m_head(nullptr), m_back(nullptr), m_size(0) {
-        for(const auto& elem : other) {
-            push_back(elem);
-        }
-    }
-
-    ~List();
-
-    void push_front(T data);
-
-    void push_back(const T& data);
-
-    std::size_t size() const;
-
     /**
      * @brief begin tagfüggvény az iteráláshoz
      * @return az első elemre mutató iterátor
@@ -198,8 +186,11 @@ public:
     const iterator end() const {
         return m_back == nullptr ? iterator(m_back) : iterator(m_back->next);
     }
-};
+```
 
+Iteráotrok használata:
+
+```cpp
 int main(){
     List<int> list;
 
