@@ -318,29 +318,14 @@ public:
             return &amp;(it-&gt;data);
         }
     };
-
-private:
-    node* m_head; //lista első eleme
-    node* m_back; //lista utolsó, még érvényes eleme
-    std::size_t m_size; //lista mérete
+};
+</code></pre>
+<p>Természetesen kellenek tagfüggvények, amelyek ennek a listának az iterátorait adják vissza:
+<code>begin()</code> : A tároló elejére mutató iterátort ad vissza.
+<code>end()</code> : A tároló vége utáni("utolsó valid elem utána") iterátort ad vissza, "szentinel" iterátort. Ez egy lista esetében pl. <code>nullptr</code> -re mutató iterátor.</p>
+<pre><code class="language-cpp">//List class-on belül
 
 public:
-    List() : m_head{nullptr}, m_back(nullptr), m_size(0) {}
-
-    List(const List&amp; other) : m_head(nullptr), m_back(nullptr), m_size(0) {
-        for(const auto&amp; elem : other) {
-            push_back(elem);
-        }
-    }
-
-    ~List();
-
-    void push_front(T data);
-
-    void push_back(const T&amp; data);
-
-    std::size_t size() const;
-
     /**
      * @brief begin tagfüggvény az iteráláshoz
      * @return az első elemre mutató iterátor
@@ -365,9 +350,9 @@ public:
     const iterator end() const {
         return m_back == nullptr ? iterator(m_back) : iterator(m_back-&gt;next);
     }
-};
-
-int main(){
+</code></pre>
+<p>Iteráotrok használata:</p>
+<pre><code class="language-cpp">int main(){
     List&lt;int&gt; list;
 
     for(int i = -3; i &lt; 5; ++i){
