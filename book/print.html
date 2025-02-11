@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">14.</strong> Visual Studio Beállítása</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -2276,6 +2276,58 @@ int main(){
     }
 }
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="visual-studio"><a class="header" href="#visual-studio">Visual Studio</a></h1>
+<p>A Visual Studio a Microsoft fejlesztőkörnyezete, beépített devkitekkel, debuggerrel, profilerrel és egyéb finom dolgokkal. Works out of the box, nem bonyolult a setup. Hátránya, hogy Windows rendszeren kívül nem
+létezik a Windowson használható verziója.</p>
+<p><em><strong>Nem összekeverendő a Visual Studio Code -al.</strong></em></p>
+<h2 id="ajánlott-platformok"><a class="header" href="#ajánlott-platformok">Ajánlott platformok</a></h2>
+<p>Windows</p>
+<h2 id="vs-community-edition"><a class="header" href="#vs-community-edition">VS Community Edition</a></h2>
+<p>A Visual Studio Community Edition teljesen ingyenesen letölthető a <a href="https://visualstudio.microsoft.com/free-developer-offers/">https://visualstudio.microsoft.com/free-developer-offers/</a> linkről. Fontos, hogy a bal oldali, "Visual Studio Community" opciót válasszuk,
+a Visual Studio Code egy teljesen más szoftver.</p>
+<h2 id="vs-enterprise-edition"><a class="header" href="#vs-enterprise-edition">VS Enterprise Edition</a></h2>
+<p>Egyetemistaként elérhető ingyenes licensz a Visual Studio Enterprise verziójához. Ehhez először, ha még nem tetted meg, a <a href="https://login.bme.hu/admin/username/">https://login.bme.hu/admin/username/</a> oldalon kell beállíts egy Office 365 emailt.
+Ebbe az emailbe egyébként Outlook-on keresztül egyszerűen be tudsz lépni. Ezután a <a href="https://azureforeducation.microsoft.com/devtools">https://azureforeducation.microsoft.com/devtools</a> oldalon ezzel a fiókkal belépve tudod a VS és más hasznos(pl. Windows)
+aktiváló kulcsokat elérni.</p>
+<h2 id="telepítés"><a class="header" href="#telepítés">Telepítés</a></h2>
+<p>A Visual Studio Installer program központosítva tud VS verziókat telepíteni és módosítnai. Ezt megnyitva, ha az "Installed" fülön még nincs ott a kívánt verzió(Visual Studio 2022), akkor ezt az "Available" fülről lehet telepíteni.<br>
+A felugró ablakból a tárgyhoz a "Desktop Development with C++" Workload-ra lesz csak szükség. Emellett az "Individual components" fülről ajánlott még a "C++ AddressSanitizer" komponens.<br>
+<img src="image-7.png" alt="alt text" />
+<br>
+<img src="image-8.png" alt="alt text" /></p>
+<h2 id="projekt-létrehozása"><a class="header" href="#projekt-létrehozása">Projekt létrehozása</a></h2>
+<p>Visual Studioban a fő struktúra a következő: A root egy "solution" amiben több project is lehet. Ez teszi lehetővé azt, hogy komplex programokat akár részenként is használhassunk.<br>
+Új projekt létrehozásához indítsuk el a Visual Studiot, majd kattintsunk a "Create a new project" gombra.<br>
+Ezután válasszuk az alábbi opciót:<br>
+<img src="image-9.png" alt="alt text" /><br>
+Ezután adunk egy nevet a projectnek, kiválasztjuk hogy hova kerüljön(egyetem mappa, stb.), valamint, ha nem szeretnénk hogy a project és a solution ugyanabban a mappában legyen(nagyobb projekteknél nem ajánlott), akkor adunk egy külö nevet a solutionnek is.</p>
+<p><img src="image-11.png" alt="alt text" /></p>
+<p>A Solution Explorert, ha nem jelent meg, érdemes előhozni a View&gt;Solution Explorer opcióval.</p>
+<h2 id="ajánlott-beállítások"><a class="header" href="#ajánlott-beállítások">Ajánlott beállítások</a></h2>
+<p>A Projektünk beállításait a "Solution Explorer"-ben a projektre jobbklikk&gt;Properties -re kattintva érhetjük el.
+<img src="image-6.png" alt="alt text" /></p>
+<h3 id="command-line-opciók"><a class="header" href="#command-line-opciók">Command Line opciók</a></h3>
+<p>A Project Properties -en belül a C/C++&gt;Command Line fülön az "Additional Options" részbe tudunk command line flageket írni.</p>
+<p>Ajánlott flagek:</p>
+<ul>
+<li><code>/Wall</code></li>
+<li><code>/WX</code> (ez a <code>Werror</code> megfelelője)</li>
+<li><code>/fpermissive-</code></li>
+<li><code>/fsanitize=address</code></li>
+</ul>
+<h2 id="hello-world"><a class="header" href="#hello-world">Hello World!</a></h2>
+<p>Hozzunk létre egy új file-t <code>main.cpp</code> néven. Ezt a Solution Explorer-ben a "Source Files"-re jobb kattintva <code>Add&gt;New item...&gt;C++ file</code> opciókkal tehetjük meg.</p>
+<p>A <code>main.cpp</code> fileba az alábbi kódrészletet illesztve:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main(){
+	std::cout &lt;&lt; "Hello, World!";
+	return 0;
+}
+</code></pre>
+<p>Majd az <code>F5</code> billenytűt leütve letesztelhetjük, hogy műküdik -e a setupunk.<br>
+<img src="image-10.png" alt="alt text" /></p>
+<p>Új fileokat hasonlóan tudunk létrehozni. A "Source Files", "Header Files" stb. nem valódi mappák, a Visual Studio "Filer"-nek nevezi őket, a fileok valójában mind ugyanabban a mappában vannak. Ez megsegíti a headerekkel való munkát.</p>
 
                     </main>
 
