@@ -54,7 +54,7 @@ Ajánlott flagek:
 
 * `/Wall`
 * `/WX` (ez a `Werror` megfelelője)
-* `/fpermissive-`
+* `/permissive-`
 * `/fsanitize=address`
 
 ## Hello World!
