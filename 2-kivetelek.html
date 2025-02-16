@@ -186,9 +186,9 @@ double oszt(double x, double y){
 </code></pre>
 <h2 id="c--ban"><a class="header" href="#c--ban">C++ -ban</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/exceptions">https://en.cppreference.com/w/cpp/language/exceptions</a></p>
-<p>A C++ egy fontos nyelvi elemei a kivételek(exception). Ezek segítségével <em>kivétel</em>es esetekkor dobhatunk egy "hibát", amit a program elkaphat. Ez egy megosztó feature a közösségben(ld. "hidden control flow"), viszont sokszor hasznos lehet. Például nullával való osztás esetén valószínűleg nem nekünk, hanem a hívó kódnak kéne kezelnie a hibát.</p>
+<p>A C++ egy fontos nyelvi elemei a kivételek (exception). Ezek segítségével <em>kivétel</em>es esetekkor dobhatunk egy "hibát", amit a program elkaphat. Ez egy megosztó feature a közösségben (ld. "hidden control flow"), viszont sokszor hasznos lehet. Például nullával való osztás esetén valószínűleg nem nekünk, hanem a hívó kódnak kéne kezelnie a hibát.</p>
 <p>Kivételt a <code>throw</code> kulcsszóval dobhatunk, valamint a <code>try</code> kulcsszóval nyitott scope-ban dobott kivételeket a <code>catch</code> kulcsszóval kaphatunk el.</p>
-<p>Kivételként bármilyen típust dobhatunk(int, const char*, stb.), viszont érdemes az <code>std::exception</code> és a belőle leszármazó(később) típusú objekutmokat dobni. Ezekhez a típusokhoz az <code>stdexcept</code> nevű header-re van szükség.</p>
+<p>Kivételként bármilyen típust dobhatunk (int, const char*, stb.), viszont érdemes az <code>std::exception</code> és a belőle leszármazó (később) típusú objekutmokat dobni. Ezekhez a típusokhoz az <code>stdexcept</code> nevű header-re van szükség.</p>
 <p><a href="https://en.cppreference.com/w/cpp/error/exception">https://en.cppreference.com/w/cpp/error/exception</a></p>
 <p><a href="https://godbolt.org/z/axWfMGxxK">https://godbolt.org/z/axWfMGxxK</a></p>
 <pre><code class="language-cpp">#include &lt;stdexcept&gt;

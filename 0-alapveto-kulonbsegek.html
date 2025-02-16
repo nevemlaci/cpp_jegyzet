@@ -194,7 +194,7 @@ int main(){
 <p>A C standard library header-jei a C++ nyelvben is léteznek, viszont a <code>.h</code> kiterjesztést elvesztették, és egy <code>c</code> előtagot kaptak. Pl.</p>
 <pre><code>#include &lt;stdio.h&gt; -&gt; #include &lt;cstdio&gt;
 </code></pre>
-<h2 id="névtereknamespace"><a class="header" href="#névtereknamespace">Névterek(namespace)</a></h2>
+<h2 id="névterek-namespace"><a class="header" href="#névterek-namespace">Névterek (namespace)</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/namespace">https://en.cppreference.com/w/cpp/language/namespace</a></p>
 <p>C-ben gyakori az, hogy egy név már használva van például egy header file-ban ezért bárhol, ahol ez a header include-olva van, ez a név "foglalt" lesz. Ezt sok könyvtár a név prefixelésével oldja meg, pl. <code>SDL_Texture</code>.</p>
 <p>Erre a C++ -nak beépített nyelvi eleme van, ezek pedig a névterek.</p>
@@ -217,7 +217,7 @@ int main(){
     foo::bar::f();
 }
 </code></pre>
-<p>A névtereken belüli neveket a <code>::</code> operátorral érhetjük el. A <code>printf</code> előtti <code>std</code> névtér a standard library névtere, ez tartalmazza az összes standard library által tartalmazott szimbólumot(függvények, struktúrák, stb.), éppen azért, hogy az stdlib által használt gyakori nevek(pl. vector) ne ütközzenek más kóddal.</p>
+<p>A névtereken belüli neveket a <code>::</code> operátorral érhetjük el. A <code>printf</code> előtti <code>std</code> névtér a standard library névtere, ez tartalmazza az összes standard library által tartalmazott szimbólumot (függvények, struktúrák, stb.), éppen azért, hogy az stdlib által használt gyakori nevek (pl. vector) ne ütközzenek más kóddal.</p>
 <h2 id="function-overloading"><a class="header" href="#function-overloading">Function overloading</a></h2>
 <p>C++ -ban ugyanazon nevű függvény többféle paramétereket vehet át.</p>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
@@ -296,7 +296,7 @@ int&amp; r = pi;
 </code></pre>
 <h2 id="null-pointer"><a class="header" href="#null-pointer">Null pointer</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/nullptr">https://en.cppreference.com/w/cpp/language/nullptr</a></p>
-<p>A régebbi(prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <a href=""><code>nullptr</code></a> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
+<p>A régebbi (prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <a href=""><code>nullptr</code></a> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
 <pre><code class="language-cpp">int* a = nullptr;
 
 if(a) {

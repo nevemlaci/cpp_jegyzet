@@ -184,7 +184,7 @@ void foo_szamol(struct foo f) {}
 </code></pre>
 <p>és társai. Jó lenne, ha a <code>foo_szamol</code> függvényt valahogyan a <code>foo</code> struktúrához köthetnénk.</p>
 <p>Az osztályok ezt a problémát oldják meg, valamint néhány nagyon hasznos utility-t adnak a programozó kezébe.</p>
-<p>Egy osztályt a <code>class</code> vagy a <code>struct</code> kulcsszóval(különbség később) tudunk definiálni, <code>typedef</code> használatára egyáltalán nincs szükség.</p>
+<p>Egy osztályt a <code>class</code> vagy a <code>struct</code> kulcsszóval (különbség később) tudunk definiálni, <code>typedef</code> használatára egyáltalán nincs szükség.</p>
 <p>Egy osztályból "példányokat" hozhatunk létre, ez gyakorlatilag azt jelenti, hogy az adott osztály típusú változót hozunk létre a C struktúrákhoz hasonlóan.</p>
 <pre><code class="language-cpp">class Foo {};
 
@@ -193,7 +193,7 @@ int main(){
 }
 </code></pre>
 <h2 id="publikus-és-privát-elérés"><a class="header" href="#publikus-és-privát-elérés">Publikus és privát elérés</a></h2>
-<p>Egy osztály tartalmazhat "member"-eket(tagokat), amelyeknek különböző láthatóságai lehetnek.
+<p>Egy osztály tartalmazhat "member"-eket (tagokat), amelyeknek különböző láthatóságai lehetnek.
 Ezt a <code>public</code>, <code>private</code> és <code>protected</code> (később) szavakkal állíthatjuk be. Ezeket a kulcsszavakat <em>access specifier</em>-nek hívjuk.
 A privát tagokat csak az osztályon belülről, a public-okat kívülről is elérhetjük. Egy osztályban alapból minden private, amíg ezt meg nem változtatjuk.</p>
 <p><a href="https://godbolt.org/z/vYb75s41a">https://godbolt.org/z/vYb75s41a</a></p>
@@ -208,9 +208,10 @@ int main(){
     Foo f;
     f.x = 5;
     f.y = 2.3; //nem ok, y private
+}
 </code></pre>
 <h2 id="tagfüggvények-member-functions"><a class="header" href="#tagfüggvények-member-functions">Tagfüggvények (member functions)</a></h2>
-<p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton(state) operálnak.</p>
+<p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton (state) operálnak.</p>
 <p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.<br>
 <em><strong>FONTOS</strong></em> egy tagfüggvény túltölthető az alapján, hogy <code>const</code> -e, vagy nem, így a <code>const</code> qualifier része a függvény fejlécének! (signature)</p>
 <p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
@@ -251,8 +252,8 @@ public:
 </code></pre>
 <p>Felfedezhetjük azonban azt a problémát, hogy egy <code>const</code> négyzet objektummal sok mindent nem tudunk kezdeni, ugyanis annak nem változtathatjuk meg az oldalhosszát, mután az objektum "elkészült". Ezt a problémát később, a konstruktorral oldjuk meg.</p>
 <h2 id="konstruktor-destruktor-és-raii"><a class="header" href="#konstruktor-destruktor-és-raii">Konstruktor, destruktor és RAII</a></h2>
-<p>Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is, módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
-<p>A C++ nyelvben a "konstruktor"(constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.</p>
+<p>Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is, módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
+<p>A C++ nyelvben a "konstruktor" (constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.</p>
 <p>A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig <code>~osztaly_neve</code>.
 Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal, vagy a <code>new</code> operátorral dinamikus élettartamú objektumot hozunk létre.
 Lokális változó élettartama a definiálásától a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(<code>new</code>) a felszabadításáig(<code>delete</code>) tart.</p>
@@ -321,7 +322,7 @@ public:
 <p>Nagyon hasonlóan működik a függvényparaméterekhez, szimpla kódgenerálásról van szó.</p>
 <h2 id="gyakori-félreértések-static-tagfüggvények"><a class="header" href="#gyakori-félreértések-static-tagfüggvények">Gyakori félreértések, static tagfüggvények</a></h2>
 <p><em>adatbázisok referencia következik</em>
-Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy <em>valami</em> leírása. Ez az objektumorientált programozás alapelve. A való világ(vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre <em>példányokat</em>. Egy osztály egy példányát nevezzük általában objektumnak.</p>
+Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy <em>valami</em> leírása. Ez az objektumorientált programozás alapelve. A való világ (vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre <em>példányokat</em>. Egy osztály egy példányát nevezzük általában objektumnak.</p>
 <p>Pl.</p>
 <pre><code class="language-cpp">class foo{};
 
@@ -377,7 +378,7 @@ public:
 
     /**
      * @brief hozzáad egy új elemet a tömb végéhez. Nagyon hasonlít a C-ben megismert algoritmushoz, csak malloc-free helyett new-delete[] van
-     * @param elem az elem amit hozzáadunk(lemásolható kell, hogy legyen)
+     * @param elem az elem amit hozzáadunk (lemásolható kell, hogy legyen)
      */
     void push_back(const T&amp; elem) {
         T* uj_tomb = new T[meret + 1];
@@ -429,9 +430,9 @@ int main(){
 }
 </code></pre>
 <p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.</p>
-<p>Jó RAII példák a már megismert filestream osztályok. A konstruktorukban megnyitják a filet(elkérik a file handle-t az OS-től), majd a destruktorukban automatikusan bezárják a file-t.</p>
+<p>Jó RAII példák a már megismert filestream osztályok. A konstruktorukban megnyitják a filet (elkérik a file handle-t az OS-től), majd a destruktorukban automatikusan bezárják a file-t.</p>
 <h2 id="objektumok-másolása"><a class="header" href="#objektumok-másolása">Objektumok másolása</a></h2>
-<p>Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy <code>T</code> típusú objektumból <code>T</code> típusú objektumot készít <em>másoló konstruktor</em>(copy constructor)-nak nevezzük.</p>
+<p>Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy <code>T</code> típusú objektumból <code>T</code> típusú objektumot készít <em>másoló konstruktor</em> (copy constructor)-nak nevezzük.</p>
 <p>A copy constructor valójában azt mondja meg, hogyan is kéne lemásolni egy objektumot. Ez sok esetben triviális, pl.</p>
 <pre><code class="language-cpp">class foo{
     public:
@@ -440,11 +441,11 @@ int main(){
         double t;
 };
 </code></pre>
-<p>Ha egy osztálynak minden tagváltozója lemásolható(van copy constructora, vagy pl. primitív típus), akkor lesz automatikusan generált copy constructora is.</p>
-<p>A copy constructor paramétereként <code>const T&amp;</code> -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a nem referenciaként átvételhet(lemásolásához) copy constructorra lenne szükség.
-Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni(deep copy).
-Ennek oka az, hogy a pointer lemásolásával(shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <a href="https://en.wikipedia.org/wiki/Object_copying">https://en.wikipedia.org/wiki/Object_copying</a></p>
-<p><em><strong>FONTOS!</strong></em> Néhány olvasó esetleg ismerheti a <code>memcpy</code> függvényt. C++ objektumokat <code>memcpy</code>-vel(és <code>std::memcpy</code>-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!</p>
+<p>Ha egy osztálynak minden tagváltozója lemásolható (van copy constructora, vagy pl. primitív típus), akkor lesz automatikusan generált copy constructora is.</p>
+<p>A copy constructor paramétereként <code>const T&amp;</code> -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a nem referenciaként átvételhez (lemásolásához) copy constructorra lenne szükség.
+Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni (deep copy).
+Ennek oka az, hogy a pointer lemásolásával (shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <a href="https://en.wikipedia.org/wiki/Object_copying">https://en.wikipedia.org/wiki/Object_copying</a></p>
+<p><em><strong>FONTOS!</strong></em> Néhány olvasó esetleg ismerheti a <code>memcpy</code> függvényt. C++ objektumokat <code>memcpy</code>-vel (és <code>std::memcpy</code>-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!</p>
 <pre><code class="language-cpp">template &lt;typename T&gt;
 class DinTomb{
     T* tomb; //pointer a dinamikus tömbre
@@ -461,7 +462,7 @@ public:
      * @param other a másik tömb amit másolunk
      */
     DinTomb(const DinTomb&amp; other) : tomb(other.tomb != nullptr ? new T[other.meret] : nullptr), meret(other.meret) {
-        //                                          ^ ha nullptr a másik tömb(vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt(nem is lehetne...)
+        //                                          ^ ha nullptr a másik tömb (vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt (nem is lehetne...)
         for(std::size_t i = 0; i &lt; other.meret; ++i){
             tomb[i] = other.tomb[i];
         }
@@ -473,7 +474,7 @@ public:
 };
 </code></pre>
 <h2 id="class-vs-struct"><a class="header" href="#class-vs-struct">class vs struct</a></h2>
-<p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne(C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
+<p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne (C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
 <h2 id="osztályok-tagfüggvényei-többmodulos-programokban"><a class="header" href="#osztályok-tagfüggvényei-többmodulos-programokban">Osztályok tagfüggvényei többmodulos programokban</a></h2>
 <p>Ha egy osztálynak saját header és cpp file-t dezignálunk, akkor azt a következő szintaxissal tehetjük meg:</p>
 <p><code>foo.hpp</code> (a .hpp kiterjesztés gyakori c++ header fileokhoz, de természetesen a .h ugyanígy gyakori)</p>

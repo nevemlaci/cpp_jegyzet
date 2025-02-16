@@ -222,15 +222,15 @@ Pl.</p>
 }
 </code></pre>
 <p>kód generálódik. A <code>T</code> helyére mindenhol <code>int</code> kerül. Ezt a generált kódot nekük természetesen nem kell látnunk, vagy foglalkoznunk vele.</p>
-<p>A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből(template parameter deduction).
-Például:</p>
+<p>A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből (template parameter deduction).</p>
+<p>Például:</p>
 <pre><code class="language-cpp">double a = 5.2;
 double b = 1.2;
 cpp_swap(a, b); //nem kell megadni, hogy double típus, mivel a és b double típusúak
 
 cpp_swap&lt;double&gt;(a, x); //meg kell adni, hogy double típus, mivel a és x különböző típusúak, így a fordító nem tud dönteni
 </code></pre>
-<p>A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL, EA Games STL).</p>
+<p>A sablonok (template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library (STL) -nek nevezi magát (pl. MSVC STL, EA Games STL).</p>
 <h2 id="duck-typing"><a class="header" href="#duck-typing">Duck typing</a></h2>
 <p>A sablonokkal felmerül egy újabb kérdés: milyen típusokat fogadunk el? A válasz erre egyszerű: mindent, amivel a függvény kódja lefordul.</p>
 <p>Ezt "duck typing" -nak hívjuk: <em>"If it walks like a duck and it quacks like a duck, then it must be a duck"</em></p>
@@ -247,7 +247,7 @@ Hát azokra, amelyek ezeket a feltételeket teljesítik:</p>
 <li>összehasonlíthatók a <code>&gt;</code> operátorral</li>
 </ul>
 <p><em>Vegyük észre</em>: ezek pontosan azok a feltételek, amelyek ahhoz kellenek, hogy a kódban az adott típust T helyére beillesztve a kód leforduljon.</p>
-<p>A sablonok korlátozására léteznek további technikák(SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.</p>
+<p>A sablonok korlátozására léteznek további technikák (SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.</p>
 <h2 id="nem-típus-sablonparaméterek-nem-függvény-sablonok"><a class="header" href="#nem-típus-sablonparaméterek-nem-függvény-sablonok">Nem-típus sablonparaméterek, nem-függvény sablonok</a></h2>
 <p>Sablonparaméterként átadható nem csak típus, hanem gyakorlatilag bármilyen más objektum is. Pl. a standard library egy típusa az <code>std::array</code>, amely első függvényparamétere a tömbben tárolt típus, második függvényparamétere egy pozitív egész szám, a tömb mérete.</p>
 <pre><code class="language-cpp">std::array&lt;int, 5&gt; tomb; //5 méretű int-eket tároló tömb
