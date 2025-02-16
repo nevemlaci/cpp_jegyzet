@@ -35,7 +35,7 @@ Visual Studioban a fő struktúra a következő: A root egy "solution" amiben t�
 Új projekt létrehozásához indítsuk el a Visual Studiot, majd kattintsunk a "Create a new project" gombra.<br>
 Ezután válasszuk az alábbi opciót:<br>
 ![alt text](image-9.png)<br>
-Ezután adunk egy nevet a projectnek, kiválasztjuk hogy hova kerüljön(egyetem mappa, stb.), valamint, ha nem szeretnénk hogy a project és a solution ugyanabban a mappában legyen(nagyobb projekteknél nem ajánlott), akkor adunk egy külö nevet a solutionnek is. 
+Ezután adunk egy nevet a projectnek, kiválasztjuk hogy hova kerüljön(egyetem mappa, stb.), valamint, ha nem szeretnénk hogy a project és a solution ugyanabban a mappában legyen(nagyobb projekteknél nem ajánlott), akkor adunk egy külön nevet a solutionnek is. 
 
 ![alt text](image-11.png)
 
