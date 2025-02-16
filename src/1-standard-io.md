@@ -2,7 +2,7 @@
 
 ## Problémák a C standard IO-val
 
-A `printf` és `scanf` fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A `scanf` függvénynél ezen felül nem szabad elfelejteni a címképző operátort(`&`) sem, a `printf` pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.
+A `printf` és `scanf` fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A `scanf` függvénynél ezen felül nem szabad elfelejteni a címképző operátort (`&`) sem, a `printf` pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.
 
 ## C++ alternatívák
 <https://en.cppreference.com/w/cpp/io/cout>
@@ -11,7 +11,7 @@ A `printf` és `scanf` fő problémája a compile time hibaellenőrzés hiánya.
 
 `<iostream>` header
 
-C++ban a standard input és output két fő globális objektum(`std::cin` és `std::cout`) és a C-ből shiftelő operátorokként(`>>` és `<<`) ismert szimbólumokkal lett megoldva. A standard IO használatához az `iostream` headerre van szükség.
+C++ban a standard input és output két fő globális objektum (`std::cin` és `std::cout`) és a C-ből shiftelő operátorokként, (`>>` és `<<`) ismert szimbólumokkal lett megoldva. A standard IO használatához az `iostream` headerre van szükség.
 
 Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:
 ```cpp
@@ -35,8 +35,8 @@ char c;
 std::cin >> x >> d >> c;
 std::cout << "int: " << x << " double: " << d << " char: " << c;
 ```
-Ez a "szintaktika" operátorok túltöltésén(overload) alapul.
-Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy `operator<<` függvényt hívunk meg az `std::cout`(referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az `std::cout` -ot, így tudjuk őket láncolni is.
+Ez a "szintaktika" operátorok túltöltésén (overload) alapul.
+Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy `operator<<` függvényt hívunk meg az `std::cout` (referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az `std::cout` -ot, így tudjuk őket láncolni is.
 Később azt is megtanuljuk, hogy pontosan hogyan működik az operátorok overload-olása és láncolása, valamint megtanítjuk majd a saját típusaink beolvasását és kiírását is.
 
 ### Get
@@ -105,7 +105,7 @@ int main(){
 ## File IO
 `<fstream>` header
 
-C++ -ban a file IO *API*-ja(az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.
+C++ -ban a file IO *API*-ja (az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.
 
 File olvasásra megnyitásához  és nyilvántartásához az `std::ifstream` (Input Filestream) típust, írásra az `std::ofstream` (Output Filestream) típust használjuk.
 
@@ -121,7 +121,7 @@ int main(){
 }
 ```
 
-Az `std::ifstream` és `std::ofstream` típusó objektumok automatikusan(ld. [osztályok](./5-osztályok.md)) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (`.close()`)
+Az `std::ifstream` és `std::ofstream` típusó objektumok automatikusan (ld. [osztályok](./5-osztályok.md)) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (`.close()`)
 
 ## IO manipulátorok
 `<ios>` és `<iomanip>` headerek
@@ -145,10 +145,10 @@ A manipulátorok hatóköre változó, vannak olyanok, amelyek csak a következ�
 Fontosabb mainpulátorok:
 * `std::setw(size)` : megadja, hogy a számok hány karakter szélesek legyene
 * `std::setfill(ch)` : a paraméterként kapott karakterrel lesz kitöltve a maradék hely, ha egy kiírt érték nem tölti ki a megadott szélességet
-* `std::setprecision(p)` : a lebegőpontos számok tizedesjegyeinek pontosságát(számát) állítja be
+* `std::setprecision(p)` : a lebegőpontos számok tizedesjegyeinek pontosságát (számát) állítja be
 * `std::oct`, `std::dec`, `std::hex` : 8-as, 10-es és 16-os számrenszerre állítja az adott streamet
 * `std::skipws`, `std::noskipws` : Be/kikapcsolja a leading whitespace átugrását
-* `std::boolalpha`, `std::noboolalpha` : Be/kikapcsolja a `bool` értékek alfanumerikus megjelenítését(be: `true`/`false`, ki: `1`/`0`)
+* `std::boolalpha`, `std::noboolalpha` : Be/kikapcsolja a `bool` értékek alfanumerikus megjelenítését. (be: `true`/`false`, ki: `1`/`0`)
 
 Több IO manipulátor és egyéb kapcsolódó foszlányok itt: <https://en.cppreference.com/w/cpp/io/manip>
 
@@ -168,7 +168,7 @@ int main(){
 }
 ```
 
-A másik lehetőség az, hogy a stream beállításait(flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.
+A másik lehetőség az, hogy a stream beállításait (flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.
 
 <https://godbolt.org/z/o1hxqvnzz>
 ```cpp

@@ -6,7 +6,7 @@ A C dinamikus memóriakezelése a kőkorszakban jár. Megkérdezi hány bájtnyi
 
 ## C++ memóriakezelés
 
-A C++ `malloc` függvényét a `new` operátor(igen, ezek operátorok), a `free` függvényt pedig a `delete` és `delete[]` operátor váltotta fel.
+A C++ `malloc` függvényét a `new` operátor (igen, ezek operátorok), a `free` függvényt pedig a `delete` és `delete[]` operátor váltotta fel.
 
 A `new` egy intelligens eszköz. Nem memóriamennyiséget, hanem egy típust és opcionálisan egy tömbméretet kap. 
 Pl.
@@ -45,4 +45,4 @@ int a[x];
 
 *A non-standard extension-ök kikapcsolása:*
 * GCC/Clang: `-pedantic-errors` flag
-* MSVC: `/fpermissive-` flag
+* MSVC: `/permissive-` flag

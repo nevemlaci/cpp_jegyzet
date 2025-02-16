@@ -61,7 +61,8 @@ void cpp_swap(int& x, int& y){
 ```
 kód generálódik. A `T` helyére mindenhol `int` kerül. Ezt a generált kódot nekük természetesen nem kell látnunk, vagy foglalkoznunk vele.
 
-A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből(template parameter deduction).
+A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből (template parameter deduction).
+
 Például:
 ```cpp
 double a = 5.2;
@@ -71,7 +72,7 @@ cpp_swap(a, b); //nem kell megadni, hogy double típus, mivel a és b double tí
 cpp_swap<double>(a, x); //meg kell adni, hogy double típus, mivel a és x különböző típusúak, így a fordító nem tud dönteni
 ```
 
-A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL, EA Games STL).
+A sablonok (template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library (STL) -nek nevezi magát (pl. MSVC STL, EA Games STL).
 
 ## Duck typing
 
@@ -95,7 +96,7 @@ Hát azokra, amelyek ezeket a feltételeket teljesítik:
 
 *Vegyük észre*: ezek pontosan azok a feltételek, amelyek ahhoz kellenek, hogy a kódban az adott típust T helyére beillesztve a kód leforduljon.
 
-A sablonok korlátozására léteznek további technikák(SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.
+A sablonok korlátozására léteznek további technikák (SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.
 
 ## Nem-típus sablonparaméterek, nem-függvény sablonok
 

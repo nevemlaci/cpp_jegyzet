@@ -175,12 +175,12 @@
                     <main>
                         <h1 id="standard-io"><a class="header" href="#standard-io">Standard IO</a></h1>
 <h2 id="problémák-a-c-standard-io-val"><a class="header" href="#problémák-a-c-standard-io-val">Problémák a C standard IO-val</a></h2>
-<p>A <code>printf</code> és <code>scanf</code> fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A <code>scanf</code> függvénynél ezen felül nem szabad elfelejteni a címképző operátort(<code>&amp;</code>) sem, a <code>printf</code> pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.</p>
+<p>A <code>printf</code> és <code>scanf</code> fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A <code>scanf</code> függvénynél ezen felül nem szabad elfelejteni a címképző operátort (<code>&amp;</code>) sem, a <code>printf</code> pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.</p>
 <h2 id="c-alternatívák"><a class="header" href="#c-alternatívák">C++ alternatívák</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/io/cout">https://en.cppreference.com/w/cpp/io/cout</a></p>
 <p><a href="https://en.cppreference.com/w/cpp/io/cin">https://en.cppreference.com/w/cpp/io/cin</a></p>
 <p><code>&lt;iostream&gt;</code> header</p>
-<p>C++ban a standard input és output két fő globális objektum(<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként(<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
+<p>C++ban a standard input és output két fő globális objektum (<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként, (<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
 <p>Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -199,8 +199,8 @@ char c;
 std::cin &gt;&gt; x &gt;&gt; d &gt;&gt; c;
 std::cout &lt;&lt; "int: " &lt;&lt; x &lt;&lt; " double: " &lt;&lt; d &lt;&lt; " char: " &lt;&lt; c;
 </code></pre>
-<p>Ez a "szintaktika" operátorok túltöltésén(overload) alapul.
-Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy <code>operator&lt;&lt;</code> függvényt hívunk meg az <code>std::cout</code>(referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az <code>std::cout</code> -ot, így tudjuk őket láncolni is.
+<p>Ez a "szintaktika" operátorok túltöltésén (overload) alapul.
+Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy <code>operator&lt;&lt;</code> függvényt hívunk meg az <code>std::cout</code> (referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az <code>std::cout</code> -ot, így tudjuk őket láncolni is.
 Később azt is megtanuljuk, hogy pontosan hogyan működik az operátorok overload-olása és láncolása, valamint megtanítjuk majd a saját típusaink beolvasását és kiírását is.</p>
 <h3 id="get"><a class="header" href="#get">Get</a></h3>
 <p><a href="https://en.cppreference.com/w/cpp/io/basic_istream/get">https://en.cppreference.com/w/cpp/io/basic_istream/get</a></p>
@@ -253,7 +253,7 @@ int main(){
 <p><em>Nem összekeverendő a teljesen más jelentésű <code>std::ignore</code>-al.</em></p>
 <h2 id="file-io"><a class="header" href="#file-io">File IO</a></h2>
 <p><code>&lt;fstream&gt;</code> header</p>
-<p>C++ -ban a file IO <em>API</em>-ja(az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.</p>
+<p>C++ -ban a file IO <em>API</em>-ja (az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.</p>
 <p>File olvasásra megnyitásához  és nyilvántartásához az <code>std::ifstream</code> (Input Filestream) típust, írásra az <code>std::ofstream</code> (Output Filestream) típust használjuk.</p>
 <pre><code class="language-cpp">#include &lt;fstream&gt;
 
@@ -265,7 +265,7 @@ int main(){
     output &lt;&lt; x;
 }
 </code></pre>
-<p>Az <code>std::ifstream</code> és <code>std::ofstream</code> típusó objektumok automatikusan(ld. <a href="./5-oszt%C3%A1lyok.html">osztályok</a>) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (<code>.close()</code>)</p>
+<p>Az <code>std::ifstream</code> és <code>std::ofstream</code> típusó objektumok automatikusan (ld. <a href="./5-oszt%C3%A1lyok.html">osztályok</a>) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (<code>.close()</code>)</p>
 <h2 id="io-manipulátorok"><a class="header" href="#io-manipulátorok">IO manipulátorok</a></h2>
 <p><code>&lt;ios&gt;</code> és <code>&lt;iomanip&gt;</code> headerek</p>
 <p>Az IO műveletek viselkesését ún. manipulátorok segítségével változtathatjuk meg. Ezeket úgy használjuk, mintha ők maguk is input/output lennének. Pl. ha az egészeket mindenképp 7 számjeggyel szeretnénk kiírni, és 0-val kitölteni a maradék helyet.</p>
@@ -283,10 +283,10 @@ int main(){
 <ul>
 <li><code>std::setw(size)</code> : megadja, hogy a számok hány karakter szélesek legyene</li>
 <li><code>std::setfill(ch)</code> : a paraméterként kapott karakterrel lesz kitöltve a maradék hely, ha egy kiírt érték nem tölti ki a megadott szélességet</li>
-<li><code>std::setprecision(p)</code> : a lebegőpontos számok tizedesjegyeinek pontosságát(számát) állítja be</li>
+<li><code>std::setprecision(p)</code> : a lebegőpontos számok tizedesjegyeinek pontosságát (számát) állítja be</li>
 <li><code>std::oct</code>, <code>std::dec</code>, <code>std::hex</code> : 8-as, 10-es és 16-os számrenszerre állítja az adott streamet</li>
 <li><code>std::skipws</code>, <code>std::noskipws</code> : Be/kikapcsolja a leading whitespace átugrását</li>
-<li><code>std::boolalpha</code>, <code>std::noboolalpha</code> : Be/kikapcsolja a <code>bool</code> értékek alfanumerikus megjelenítését(be: <code>true</code>/<code>false</code>, ki: <code>1</code>/<code>0</code>)</li>
+<li><code>std::boolalpha</code>, <code>std::noboolalpha</code> : Be/kikapcsolja a <code>bool</code> értékek alfanumerikus megjelenítését. (be: <code>true</code>/<code>false</code>, ki: <code>1</code>/<code>0</code>)</li>
 </ul>
 <p>Több IO manipulátor és egyéb kapcsolódó foszlányok itt: <a href="https://en.cppreference.com/w/cpp/io/manip">https://en.cppreference.com/w/cpp/io/manip</a></p>
 <p>Sokszor állítunk el dolgokat egy IO streamen, viszont nem szeretnénk egyesével visszaállítani az eredeti értékeket.
@@ -302,7 +302,7 @@ int main(){
     std::cout &lt;&lt; buf.str();
 }
 </code></pre>
-<p>A másik lehetőség az, hogy a stream beállításait(flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.</p>
+<p>A másik lehetőség az, hogy a stream beállításait (flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.</p>
 <p><a href="https://godbolt.org/z/o1hxqvnzz">https://godbolt.org/z/o1hxqvnzz</a></p>
 <pre><code class="language-cpp">#include &lt;sstream&gt;
 #include &lt;iostream&gt;

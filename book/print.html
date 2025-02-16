@@ -177,22 +177,21 @@
                         <h1 id="a-jegyzetről"><a class="header" href="#a-jegyzetről">A jegyzetről</a></h1>
 <ul>
 <li>Ha hibát találsz a jegyzetben, azt kérlek jelezd a <a href="https://github.com/nevemlaci/cpp_jegyzet/issues">https://github.com/nevemlaci/cpp_jegyzet/issues</a> oldalon.</li>
-<li>Ha a jegyzetből használsz kódrészletet, kommentben jelezd, hogy innen van(főleg háziban, plágium elkerülése végett!)</li>
+<li>Ha a jegyzetből használsz kódrészletet, kommentben jelezd, hogy innen van. (főleg háziban, plágium elkerülése végett!)</li>
 </ul>
 <p><em><strong>FONTOS!</strong></em> A C++ nyelv a népszerű nyelvek között az egyik legnehezebb, elsajátítása megfelelő figyelmet és erőbefektetést igényel. A jegyzetben minden sornak jelentése van, azokban potenciálisan olyan információ rejlik, amely később kritikus tudásként szolgálhat. Érdemes minden sort elolvasni és értelmezni a kódrészleteket. A programozás tényleges megtanulásához elengedhetetlen, hogy hallgatóként a programozásra hobbiként is tekintsünk.</p>
 <p>A jegyzet A Programozás Alapjai 2 című tárgyhoz készült, viszont egyes esetekben kitérőket tesz, hogy az esetleges C++ nyelv iránt érdeklődő hallgatókat elmélyítse a nyelv szépségeiben.</p>
 <p>A jegyzetben próbáltam a tananyag menetéhez alkalmazkodni, csak akkor változtattam, amikor a tananyagban esetleg érdemesebbnek láttam egyes fogalmakat hamarabb bevezetni.</p>
 <p>A legtöbb anyaghoz találhatóak külső linkek hasznos oldalakhoz, azonban egyesek(pl. cppreference) kicsit bővebben elmagyaráznak egyes aspektusokat, mint ami a tárgyhoz szükséges.</p>
 <p>Ezen felül fontos azt megjegyezni, hogy a tárgy C++ verzióban inkonzisztens(pl. egyes ellenőrző feladatok C++03-ra vannak állítva), néhány laboron működni fog az, ami a másikon nem. Viszont a házi feladatban <em>elvileg</em> C++17 verzióval fordul minden.
-A laborokon elvileg lehet(és Windowson ezt ajánlom!) Visual Studioban dolgozni, ami viszont C++14-nél régebbi verziókat nem támogat.</p>
-<h1 id="compiler-explorergodbolt"><a class="header" href="#compiler-explorergodbolt">Compiler Explorer(Godbolt)</a></h1>
-<p>A <a href="https://godbolt.org/z/xPK1P37P8">Compiler Explorer</a> egy weboldal, ahol mindenféle nyelven írt programok különböző fordítókkal készített kimenetét lehet megnézni. A linkre kattintva egy egyszerű setupot kapunk, amelyen a bal oldalra írt kódot a jobb oldalon optimalizálás nélküli Assemblyként láthatjuk, valamint egy "Executor" is jelen van, amely a kód futtatását szimulálja.
-(Ha nem érdekel az assembly, azt a tabot nyugodtan bezárhatod, telhesen független az Executor-tól.)</p>
+A laborokon elvileg lehet (és Windowson ezt ajánlom!) Visual Studioban dolgozni, ami viszont C++14-nél régebbi verziókat nem támogat.</p>
+<h1 id="compiler-explorer-godbolt"><a class="header" href="#compiler-explorer-godbolt">Compiler Explorer (Godbolt)</a></h1>
+<p>A <a href="https://godbolt.org/z/xPK1P37P8">Compiler Explorer</a> egy weboldal, ahol mindenféle nyelven írt programok különböző fordítókkal készített kimenetét lehet megnézni. A linkre kattintva egy egyszerű setupot kapunk, amelyen a bal oldalra írt kódot a jobb oldalon optimalizálás nélküli Assemblyként láthatjuk, valamint egy "Executor" is jelen van, amely a kód futtatását szimulálja. (Ha nem érdekel az assembly, azt a tabot nyugodtan bezárhatod, telhesen független az Executor-tól.)</p>
 <p>A jegyzetben a hosszabb/bonyolultabb kódrészletekhez csatoltam godbolt linkeket, így gyorsan csekkolható a program futása, valamint így gyorsan bele lehet piszkálni a kódba.</p>
 <p><img src="image-4.png" alt="alt text" /></p>
 <h1 id="inspiráció"><a class="header" href="#inspiráció">Inspiráció</a></h1>
 <p>A jegyzet inspirációt merít az <a href="https://infocpp.iit.bme.hu">infocpp</a>(hivatalos tárgyhonlap, tananyag), <a href="https://prog2.cppftw.org">CPPFTW</a>(hallgatók által készített majdnem kész jegyzet) és a <a href="https://en.cppreference.com/w/">cppreference</a> weboldal tartalmából.</p>
-<p>Köszönöm a <a href="https://discord.gg/tccpp">TCCPP</a> Discord szerver tapasztalt(gcc közreműködők, C++ ISO tanács tagok) tagjainak az esetleges szakmai kérdések megválaszolását.</p>
+<p>Köszönöm a <a href="https://discord.gg/tccpp">TCCPP</a> Discord szerver tapasztalt (gcc közreműködők, C++ ISO tanács tagok) tagjainak az esetleges szakmai kérdések megválaszolását.</p>
 <ul>
 <li>volatile</li>
 <li>Mr. Σ</li>
@@ -222,7 +221,7 @@ int main(){
 <p>A C standard library header-jei a C++ nyelvben is léteznek, viszont a <code>.h</code> kiterjesztést elvesztették, és egy <code>c</code> előtagot kaptak. Pl.</p>
 <pre><code>#include &lt;stdio.h&gt; -&gt; #include &lt;cstdio&gt;
 </code></pre>
-<h2 id="névtereknamespace"><a class="header" href="#névtereknamespace">Névterek(namespace)</a></h2>
+<h2 id="névterek-namespace"><a class="header" href="#névterek-namespace">Névterek (namespace)</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/namespace">https://en.cppreference.com/w/cpp/language/namespace</a></p>
 <p>C-ben gyakori az, hogy egy név már használva van például egy header file-ban ezért bárhol, ahol ez a header include-olva van, ez a név "foglalt" lesz. Ezt sok könyvtár a név prefixelésével oldja meg, pl. <code>SDL_Texture</code>.</p>
 <p>Erre a C++ -nak beépített nyelvi eleme van, ezek pedig a névterek.</p>
@@ -245,7 +244,7 @@ int main(){
     foo::bar::f();
 }
 </code></pre>
-<p>A névtereken belüli neveket a <code>::</code> operátorral érhetjük el. A <code>printf</code> előtti <code>std</code> névtér a standard library névtere, ez tartalmazza az összes standard library által tartalmazott szimbólumot(függvények, struktúrák, stb.), éppen azért, hogy az stdlib által használt gyakori nevek(pl. vector) ne ütközzenek más kóddal.</p>
+<p>A névtereken belüli neveket a <code>::</code> operátorral érhetjük el. A <code>printf</code> előtti <code>std</code> névtér a standard library névtere, ez tartalmazza az összes standard library által tartalmazott szimbólumot (függvények, struktúrák, stb.), éppen azért, hogy az stdlib által használt gyakori nevek (pl. vector) ne ütközzenek más kóddal.</p>
 <h2 id="function-overloading"><a class="header" href="#function-overloading">Function overloading</a></h2>
 <p>C++ -ban ugyanazon nevű függvény többféle paramétereket vehet át.</p>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
@@ -324,7 +323,7 @@ int&amp; r = pi;
 </code></pre>
 <h2 id="null-pointer"><a class="header" href="#null-pointer">Null pointer</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/nullptr">https://en.cppreference.com/w/cpp/language/nullptr</a></p>
-<p>A régebbi(prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <a href=""><code>nullptr</code></a> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
+<p>A régebbi (prog1en oktatott) C verziókban a <code>NULL</code> valójában a konstans 0 void* -é kasztolása. C++ban a <code>void*</code> -&gt; <code>T*</code> konverzió nem implicit, így C++ban a null pointernek saját <code>std::nullptr_t</code> típusa van, és <a href=""><code>nullptr</code></a> -ként hivatkozunk rá a kódban. Az <code>std::nullptr_t</code> típust a saját kódunkban nem fogjuk használni, viszont annyit kell tudni róla, hogy bármilyen pointer típussá és <code>bool</code>-ra is képes implicit konvertálódni, azaz működnek a</p>
 <pre><code class="language-cpp">int* a = nullptr;
 
 if(a) {
@@ -371,12 +370,12 @@ int main(){
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="standard-io"><a class="header" href="#standard-io">Standard IO</a></h1>
 <h2 id="problémák-a-c-standard-io-val"><a class="header" href="#problémák-a-c-standard-io-val">Problémák a C standard IO-val</a></h2>
-<p>A <code>printf</code> és <code>scanf</code> fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A <code>scanf</code> függvénynél ezen felül nem szabad elfelejteni a címképző operátort(<code>&amp;</code>) sem, a <code>printf</code> pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.</p>
+<p>A <code>printf</code> és <code>scanf</code> fő problémája a compile time hibaellenőrzés hiánya. Nincs típusellenőrzés, így gyakran lesznek ezekkel a függvényekkel kapcsolatban problémáink. A <code>scanf</code> függvénynél ezen felül nem szabad elfelejteni a címképző operátort (<code>&amp;</code>) sem, a <code>printf</code> pedig nem képes kiírni a saját típusainkat, valamint ezt megtanítani sem tudjuk neki.</p>
 <h2 id="c-alternatívák"><a class="header" href="#c-alternatívák">C++ alternatívák</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/io/cout">https://en.cppreference.com/w/cpp/io/cout</a></p>
 <p><a href="https://en.cppreference.com/w/cpp/io/cin">https://en.cppreference.com/w/cpp/io/cin</a></p>
 <p><code>&lt;iostream&gt;</code> header</p>
-<p>C++ban a standard input és output két fő globális objektum(<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként(<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
+<p>C++ban a standard input és output két fő globális objektum (<code>std::cin</code> és <code>std::cout</code>) és a C-ből shiftelő operátorokként, (<code>&gt;&gt;</code> és <code>&lt;&lt;</code>) ismert szimbólumokkal lett megoldva. A standard IO használatához az <code>iostream</code> headerre van szükség.</p>
 <p>Ha egy változóba szeretnénk beolvasni, majd ezt kiírni:</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -395,8 +394,8 @@ char c;
 std::cin &gt;&gt; x &gt;&gt; d &gt;&gt; c;
 std::cout &lt;&lt; "int: " &lt;&lt; x &lt;&lt; " double: " &lt;&lt; d &lt;&lt; " char: " &lt;&lt; c;
 </code></pre>
-<p>Ez a "szintaktika" operátorok túltöltésén(overload) alapul.
-Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy <code>operator&lt;&lt;</code> függvényt hívunk meg az <code>std::cout</code>(referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az <code>std::cout</code> -ot, így tudjuk őket láncolni is.
+<p>Ez a "szintaktika" operátorok túltöltésén (overload) alapul.
+Jelenleg annyi említest teszek ezzel kapcsolatban, hogy valójában egy <code>operator&lt;&lt;</code> függvényt hívunk meg az <code>std::cout</code> (referencia rá) és a "kiírandó dolog" paraméterekkel, ami aztán referenciaként újra visszaadja az <code>std::cout</code> -ot, így tudjuk őket láncolni is.
 Később azt is megtanuljuk, hogy pontosan hogyan működik az operátorok overload-olása és láncolása, valamint megtanítjuk majd a saját típusaink beolvasását és kiírását is.</p>
 <h3 id="get"><a class="header" href="#get">Get</a></h3>
 <p><a href="https://en.cppreference.com/w/cpp/io/basic_istream/get">https://en.cppreference.com/w/cpp/io/basic_istream/get</a></p>
@@ -449,7 +448,7 @@ int main(){
 <p><em>Nem összekeverendő a teljesen más jelentésű <code>std::ignore</code>-al.</em></p>
 <h2 id="file-io"><a class="header" href="#file-io">File IO</a></h2>
 <p><code>&lt;fstream&gt;</code> header</p>
-<p>C++ -ban a file IO <em>API</em>-ja(az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.</p>
+<p>C++ -ban a file IO <em>API</em>-ja (az, amit a programozó lát belőle, Application Programming Interface) megegyezik a standard IO-val.</p>
 <p>File olvasásra megnyitásához  és nyilvántartásához az <code>std::ifstream</code> (Input Filestream) típust, írásra az <code>std::ofstream</code> (Output Filestream) típust használjuk.</p>
 <pre><code class="language-cpp">#include &lt;fstream&gt;
 
@@ -461,7 +460,7 @@ int main(){
     output &lt;&lt; x;
 }
 </code></pre>
-<p>Az <code>std::ifstream</code> és <code>std::ofstream</code> típusó objektumok automatikusan(ld. <a href="./5-oszt%C3%A1lyok.html">osztályok</a>) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (<code>.close()</code>)</p>
+<p>Az <code>std::ifstream</code> és <code>std::ofstream</code> típusó objektumok automatikusan (ld. <a href="./5-oszt%C3%A1lyok.html">osztályok</a>) bezárják a fileokat, ha scopeon kívül kerülnek, így nem szükséges a fileokat manuálisan bezárni, viszont a lehetőségünk megvan rá. (<code>.close()</code>)</p>
 <h2 id="io-manipulátorok"><a class="header" href="#io-manipulátorok">IO manipulátorok</a></h2>
 <p><code>&lt;ios&gt;</code> és <code>&lt;iomanip&gt;</code> headerek</p>
 <p>Az IO műveletek viselkesését ún. manipulátorok segítségével változtathatjuk meg. Ezeket úgy használjuk, mintha ők maguk is input/output lennének. Pl. ha az egészeket mindenképp 7 számjeggyel szeretnénk kiírni, és 0-val kitölteni a maradék helyet.</p>
@@ -479,10 +478,10 @@ int main(){
 <ul>
 <li><code>std::setw(size)</code> : megadja, hogy a számok hány karakter szélesek legyene</li>
 <li><code>std::setfill(ch)</code> : a paraméterként kapott karakterrel lesz kitöltve a maradék hely, ha egy kiírt érték nem tölti ki a megadott szélességet</li>
-<li><code>std::setprecision(p)</code> : a lebegőpontos számok tizedesjegyeinek pontosságát(számát) állítja be</li>
+<li><code>std::setprecision(p)</code> : a lebegőpontos számok tizedesjegyeinek pontosságát (számát) állítja be</li>
 <li><code>std::oct</code>, <code>std::dec</code>, <code>std::hex</code> : 8-as, 10-es és 16-os számrenszerre állítja az adott streamet</li>
 <li><code>std::skipws</code>, <code>std::noskipws</code> : Be/kikapcsolja a leading whitespace átugrását</li>
-<li><code>std::boolalpha</code>, <code>std::noboolalpha</code> : Be/kikapcsolja a <code>bool</code> értékek alfanumerikus megjelenítését(be: <code>true</code>/<code>false</code>, ki: <code>1</code>/<code>0</code>)</li>
+<li><code>std::boolalpha</code>, <code>std::noboolalpha</code> : Be/kikapcsolja a <code>bool</code> értékek alfanumerikus megjelenítését. (be: <code>true</code>/<code>false</code>, ki: <code>1</code>/<code>0</code>)</li>
 </ul>
 <p>Több IO manipulátor és egyéb kapcsolódó foszlányok itt: <a href="https://en.cppreference.com/w/cpp/io/manip">https://en.cppreference.com/w/cpp/io/manip</a></p>
 <p>Sokszor állítunk el dolgokat egy IO streamen, viszont nem szeretnénk egyesével visszaállítani az eredeti értékeket.
@@ -498,7 +497,7 @@ int main(){
     std::cout &lt;&lt; buf.str();
 }
 </code></pre>
-<p>A másik lehetőség az, hogy a stream beállításait(flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.</p>
+<p>A másik lehetőség az, hogy a stream beállításait (flag, precision, width) elmentjük, majd ezeket visszaállítjuk. Ez elég nagy szenvedés és nem érdemes csinálni, csak ha nagyon muszály.</p>
 <p><a href="https://godbolt.org/z/o1hxqvnzz">https://godbolt.org/z/o1hxqvnzz</a></p>
 <pre><code class="language-cpp">#include &lt;sstream&gt;
 #include &lt;iostream&gt;
@@ -530,9 +529,9 @@ double oszt(double x, double y){
 </code></pre>
 <h2 id="c--ban"><a class="header" href="#c--ban">C++ -ban</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/exceptions">https://en.cppreference.com/w/cpp/language/exceptions</a></p>
-<p>A C++ egy fontos nyelvi elemei a kivételek(exception). Ezek segítségével <em>kivétel</em>es esetekkor dobhatunk egy "hibát", amit a program elkaphat. Ez egy megosztó feature a közösségben(ld. "hidden control flow"), viszont sokszor hasznos lehet. Például nullával való osztás esetén valószínűleg nem nekünk, hanem a hívó kódnak kéne kezelnie a hibát.</p>
+<p>A C++ egy fontos nyelvi elemei a kivételek (exception). Ezek segítségével <em>kivétel</em>es esetekkor dobhatunk egy "hibát", amit a program elkaphat. Ez egy megosztó feature a közösségben (ld. "hidden control flow"), viszont sokszor hasznos lehet. Például nullával való osztás esetén valószínűleg nem nekünk, hanem a hívó kódnak kéne kezelnie a hibát.</p>
 <p>Kivételt a <code>throw</code> kulcsszóval dobhatunk, valamint a <code>try</code> kulcsszóval nyitott scope-ban dobott kivételeket a <code>catch</code> kulcsszóval kaphatunk el.</p>
-<p>Kivételként bármilyen típust dobhatunk(int, const char*, stb.), viszont érdemes az <code>std::exception</code> és a belőle leszármazó(később) típusú objekutmokat dobni. Ezekhez a típusokhoz az <code>stdexcept</code> nevű header-re van szükség.</p>
+<p>Kivételként bármilyen típust dobhatunk (int, const char*, stb.), viszont érdemes az <code>std::exception</code> és a belőle leszármazó (később) típusú objekutmokat dobni. Ezekhez a típusokhoz az <code>stdexcept</code> nevű header-re van szükség.</p>
 <p><a href="https://en.cppreference.com/w/cpp/error/exception">https://en.cppreference.com/w/cpp/error/exception</a></p>
 <p><a href="https://godbolt.org/z/axWfMGxxK">https://godbolt.org/z/axWfMGxxK</a></p>
 <pre><code class="language-cpp">#include &lt;stdexcept&gt;
@@ -567,7 +566,7 @@ int main(){
 <h2 id="c-dinamikus-memóriakezelés"><a class="header" href="#c-dinamikus-memóriakezelés">C dinamikus memóriakezelés</a></h2>
 <p>A C dinamikus memóriakezelése a kőkorszakban jár. Megkérdezi hány bájtnyi memóriára van szükségünk, majd visszadob rá egy pointert.</p>
 <h2 id="c-memóriakezelés"><a class="header" href="#c-memóriakezelés">C++ memóriakezelés</a></h2>
-<p>A C++ <code>malloc</code> függvényét a <code>new</code> operátor(igen, ezek operátorok), a <code>free</code> függvényt pedig a <code>delete</code> és <code>delete[]</code> operátor váltotta fel.</p>
+<p>A C++ <code>malloc</code> függvényét a <code>new</code> operátor (igen, ezek operátorok), a <code>free</code> függvényt pedig a <code>delete</code> és <code>delete[]</code> operátor váltotta fel.</p>
 <p>A <code>new</code> egy intelligens eszköz. Nem memóriamennyiséget, hanem egy típust és opcionálisan egy tömbméretet kap.
 Pl.</p>
 <pre><code class="language-cpp">
@@ -597,7 +596,7 @@ int a[x];
 <p><em>A non-standard extension-ök kikapcsolása:</em></p>
 <ul>
 <li>GCC/Clang: <code>-pedantic-errors</code> flag</li>
-<li>MSVC: <code>/fpermissive-</code> flag</li>
+<li>MSVC: <code>/permissive-</code> flag</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sablonok-template"><a class="header" href="#sablonok-template">Sablonok (template)</a></h1>
 <h2 id="sablon-alapok"><a class="header" href="#sablon-alapok">Sablon alapok</a></h2>
@@ -648,15 +647,15 @@ Pl.</p>
 }
 </code></pre>
 <p>kód generálódik. A <code>T</code> helyére mindenhol <code>int</code> kerül. Ezt a generált kódot nekük természetesen nem kell látnunk, vagy foglalkoznunk vele.</p>
-<p>A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből(template parameter deduction).
-Például:</p>
+<p>A sablonparamétereket a fordító néha le tudja vezetni a kapott függvényparaméterekből (template parameter deduction).</p>
+<p>Például:</p>
 <pre><code class="language-cpp">double a = 5.2;
 double b = 1.2;
 cpp_swap(a, b); //nem kell megadni, hogy double típus, mivel a és b double típusúak
 
 cpp_swap&lt;double&gt;(a, x); //meg kell adni, hogy double típus, mivel a és x különböző típusúak, így a fordító nem tud dönteni
 </code></pre>
-<p>A sablonok(template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library(STL) -nek nevezi magát(pl. MSVC STL, EA Games STL).</p>
+<p>A sablonok (template) használata nagyon elterjedt a C++ programozásban, ezért néhány standard library implementáció gyakran Standard Template Library (STL) -nek nevezi magát (pl. MSVC STL, EA Games STL).</p>
 <h2 id="duck-typing"><a class="header" href="#duck-typing">Duck typing</a></h2>
 <p>A sablonokkal felmerül egy újabb kérdés: milyen típusokat fogadunk el? A válasz erre egyszerű: mindent, amivel a függvény kódja lefordul.</p>
 <p>Ezt "duck typing" -nak hívjuk: <em>"If it walks like a duck and it quacks like a duck, then it must be a duck"</em></p>
@@ -673,7 +672,7 @@ Hát azokra, amelyek ezeket a feltételeket teljesítik:</p>
 <li>összehasonlíthatók a <code>&gt;</code> operátorral</li>
 </ul>
 <p><em>Vegyük észre</em>: ezek pontosan azok a feltételek, amelyek ahhoz kellenek, hogy a kódban az adott típust T helyére beillesztve a kód leforduljon.</p>
-<p>A sablonok korlátozására léteznek további technikák(SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.</p>
+<p>A sablonok korlátozására léteznek további technikák (SFINAE, concept), azonban ezek messze túlmutatnak a tárgy anyagán.</p>
 <h2 id="nem-típus-sablonparaméterek-nem-függvény-sablonok"><a class="header" href="#nem-típus-sablonparaméterek-nem-függvény-sablonok">Nem-típus sablonparaméterek, nem-függvény sablonok</a></h2>
 <p>Sablonparaméterként átadható nem csak típus, hanem gyakorlatilag bármilyen más objektum is. Pl. a standard library egy típusa az <code>std::array</code>, amely első függvényparamétere a tömbben tárolt típus, második függvényparamétere egy pozitív egész szám, a tömb mérete.</p>
 <pre><code class="language-cpp">std::array&lt;int, 5&gt; tomb; //5 méretű int-eket tároló tömb
@@ -726,7 +725,7 @@ void foo_szamol(struct foo f) {}
 </code></pre>
 <p>és társai. Jó lenne, ha a <code>foo_szamol</code> függvényt valahogyan a <code>foo</code> struktúrához köthetnénk.</p>
 <p>Az osztályok ezt a problémát oldják meg, valamint néhány nagyon hasznos utility-t adnak a programozó kezébe.</p>
-<p>Egy osztályt a <code>class</code> vagy a <code>struct</code> kulcsszóval(különbség később) tudunk definiálni, <code>typedef</code> használatára egyáltalán nincs szükség.</p>
+<p>Egy osztályt a <code>class</code> vagy a <code>struct</code> kulcsszóval (különbség később) tudunk definiálni, <code>typedef</code> használatára egyáltalán nincs szükség.</p>
 <p>Egy osztályból "példányokat" hozhatunk létre, ez gyakorlatilag azt jelenti, hogy az adott osztály típusú változót hozunk létre a C struktúrákhoz hasonlóan.</p>
 <pre><code class="language-cpp">class Foo {};
 
@@ -735,7 +734,7 @@ int main(){
 }
 </code></pre>
 <h2 id="publikus-és-privát-elérés"><a class="header" href="#publikus-és-privát-elérés">Publikus és privát elérés</a></h2>
-<p>Egy osztály tartalmazhat "member"-eket(tagokat), amelyeknek különböző láthatóságai lehetnek.
+<p>Egy osztály tartalmazhat "member"-eket (tagokat), amelyeknek különböző láthatóságai lehetnek.
 Ezt a <code>public</code>, <code>private</code> és <code>protected</code> (később) szavakkal állíthatjuk be. Ezeket a kulcsszavakat <em>access specifier</em>-nek hívjuk.
 A privát tagokat csak az osztályon belülről, a public-okat kívülről is elérhetjük. Egy osztályban alapból minden private, amíg ezt meg nem változtatjuk.</p>
 <p><a href="https://godbolt.org/z/vYb75s41a">https://godbolt.org/z/vYb75s41a</a></p>
@@ -750,9 +749,10 @@ int main(){
     Foo f;
     f.x = 5;
     f.y = 2.3; //nem ok, y private
+}
 </code></pre>
 <h2 id="tagfüggvények-member-functions"><a class="header" href="#tagfüggvények-member-functions">Tagfüggvények (member functions)</a></h2>
-<p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton(state) operálnak.</p>
+<p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton (state) operálnak.</p>
 <p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.<br>
 <em><strong>FONTOS</strong></em> egy tagfüggvény túltölthető az alapján, hogy <code>const</code> -e, vagy nem, így a <code>const</code> qualifier része a függvény fejlécének! (signature)</p>
 <p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
@@ -793,8 +793,8 @@ public:
 </code></pre>
 <p>Felfedezhetjük azonban azt a problémát, hogy egy <code>const</code> négyzet objektummal sok mindent nem tudunk kezdeni, ugyanis annak nem változtathatjuk meg az oldalhosszát, mután az objektum "elkészült". Ezt a problémát később, a konstruktorral oldjuk meg.</p>
 <h2 id="konstruktor-destruktor-és-raii"><a class="header" href="#konstruktor-destruktor-és-raii">Konstruktor, destruktor és RAII</a></h2>
-<p>Most jön talán a C++ legfontosabb része. A RAII(Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is, módszer szerint egy objektum élettartama kezdetén(construction) átveszi és lefoglalja a számára szükséges erőforrásokat(memória, adatbázishoz csatlakozás, stb.) és élettartama végén(destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
-<p>A C++ nyelvben a "konstruktor"(constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.</p>
+<p>Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is, módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
+<p>A C++ nyelvben a "konstruktor" (constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.</p>
 <p>A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig <code>~osztaly_neve</code>.
 Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal, vagy a <code>new</code> operátorral dinamikus élettartamú objektumot hozunk létre.
 Lokális változó élettartama a definiálásától a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(<code>new</code>) a felszabadításáig(<code>delete</code>) tart.</p>
@@ -863,7 +863,7 @@ public:
 <p>Nagyon hasonlóan működik a függvényparaméterekhez, szimpla kódgenerálásról van szó.</p>
 <h2 id="gyakori-félreértések-static-tagfüggvények"><a class="header" href="#gyakori-félreértések-static-tagfüggvények">Gyakori félreértések, static tagfüggvények</a></h2>
 <p><em>adatbázisok referencia következik</em>
-Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy <em>valami</em> leírása. Ez az objektumorientált programozás alapelve. A való világ(vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre <em>példányokat</em>. Egy osztály egy példányát nevezzük általában objektumnak.</p>
+Amikor egy osztályt hozunk létre, azzal még nem jön létre objektum. Az osztály egy tervrajz, egy <em>valami</em> leírása. Ez az objektumorientált programozás alapelve. A való világ (vagy esetleg kitalált világ) dolgairól készült tervrajzokból hozunk létre <em>példányokat</em>. Egy osztály egy példányát nevezzük általában objektumnak.</p>
 <p>Pl.</p>
 <pre><code class="language-cpp">class foo{};
 
@@ -919,7 +919,7 @@ public:
 
     /**
      * @brief hozzáad egy új elemet a tömb végéhez. Nagyon hasonlít a C-ben megismert algoritmushoz, csak malloc-free helyett new-delete[] van
-     * @param elem az elem amit hozzáadunk(lemásolható kell, hogy legyen)
+     * @param elem az elem amit hozzáadunk (lemásolható kell, hogy legyen)
      */
     void push_back(const T&amp; elem) {
         T* uj_tomb = new T[meret + 1];
@@ -971,9 +971,9 @@ int main(){
 }
 </code></pre>
 <p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.</p>
-<p>Jó RAII példák a már megismert filestream osztályok. A konstruktorukban megnyitják a filet(elkérik a file handle-t az OS-től), majd a destruktorukban automatikusan bezárják a file-t.</p>
+<p>Jó RAII példák a már megismert filestream osztályok. A konstruktorukban megnyitják a filet (elkérik a file handle-t az OS-től), majd a destruktorukban automatikusan bezárják a file-t.</p>
 <h2 id="objektumok-másolása"><a class="header" href="#objektumok-másolása">Objektumok másolása</a></h2>
-<p>Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy <code>T</code> típusú objektumból <code>T</code> típusú objektumot készít <em>másoló konstruktor</em>(copy constructor)-nak nevezzük.</p>
+<p>Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy <code>T</code> típusú objektumból <code>T</code> típusú objektumot készít <em>másoló konstruktor</em> (copy constructor)-nak nevezzük.</p>
 <p>A copy constructor valójában azt mondja meg, hogyan is kéne lemásolni egy objektumot. Ez sok esetben triviális, pl.</p>
 <pre><code class="language-cpp">class foo{
     public:
@@ -982,11 +982,11 @@ int main(){
         double t;
 };
 </code></pre>
-<p>Ha egy osztálynak minden tagváltozója lemásolható(van copy constructora, vagy pl. primitív típus), akkor lesz automatikusan generált copy constructora is.</p>
-<p>A copy constructor paramétereként <code>const T&amp;</code> -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a nem referenciaként átvételhet(lemásolásához) copy constructorra lenne szükség.
-Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni(deep copy).
-Ennek oka az, hogy a pointer lemásolásával(shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <a href="https://en.wikipedia.org/wiki/Object_copying">https://en.wikipedia.org/wiki/Object_copying</a></p>
-<p><em><strong>FONTOS!</strong></em> Néhány olvasó esetleg ismerheti a <code>memcpy</code> függvényt. C++ objektumokat <code>memcpy</code>-vel(és <code>std::memcpy</code>-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!</p>
+<p>Ha egy osztálynak minden tagváltozója lemásolható (van copy constructora, vagy pl. primitív típus), akkor lesz automatikusan generált copy constructora is.</p>
+<p>A copy constructor paramétereként <code>const T&amp;</code> -et vesz át. Persze, hiszen a másolandó objektumot nem változtatjuk és a nem referenciaként átvételhez (lemásolásához) copy constructorra lenne szükség.
+Ha például az osztályunk egy dinamikusan növő tömböt kezel, nem másolhatjuk le egyszerűen a tömbre mutató pointert, hanem a tömböt elemenként le kell másolni (deep copy).
+Ennek oka az, hogy a pointer lemásolásával (shallow copy, ez a default) az egyik tömb destruktora felszabadítja mindkét tömböt. <a href="https://en.wikipedia.org/wiki/Object_copying">https://en.wikipedia.org/wiki/Object_copying</a></p>
+<p><em><strong>FONTOS!</strong></em> Néhány olvasó esetleg ismerheti a <code>memcpy</code> függvényt. C++ objektumokat <code>memcpy</code>-vel (és <code>std::memcpy</code>-vel) másolni óriási hiba, mivel ilyenkor nem hívódnak meg az objektumok másoló konstruktorai!</p>
 <pre><code class="language-cpp">template &lt;typename T&gt;
 class DinTomb{
     T* tomb; //pointer a dinamikus tömbre
@@ -1003,7 +1003,7 @@ public:
      * @param other a másik tömb amit másolunk
      */
     DinTomb(const DinTomb&amp; other) : tomb(other.tomb != nullptr ? new T[other.meret] : nullptr), meret(other.meret) {
-        //                                          ^ ha nullptr a másik tömb(vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt(nem is lehetne...)
+        //                                          ^ ha nullptr a másik tömb (vagy 0 a mérete), akkor nem foglalunk 0 méretű tömböt (nem is lehetne...)
         for(std::size_t i = 0; i &lt; other.meret; ++i){
             tomb[i] = other.tomb[i];
         }
@@ -1015,7 +1015,7 @@ public:
 };
 </code></pre>
 <h2 id="class-vs-struct"><a class="header" href="#class-vs-struct">class vs struct</a></h2>
-<p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne(C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
+<p>A <code>struct</code> keyword C++ -ban gyakorlatilag egy alternatíva osztályok definiálására. A <code>class</code> -tól annyiban különbözik, hogy <code>private</code> helyett alapértelmezetten minden <code>public</code> benne (C kompatibilitás miatt). Az, hogy valaki <code>class</code>-t vagy <code>struct</code>-ot használ, preferencia.</p>
 <h2 id="osztályok-tagfüggvényei-többmodulos-programokban"><a class="header" href="#osztályok-tagfüggvényei-többmodulos-programokban">Osztályok tagfüggvényei többmodulos programokban</a></h2>
 <p>Ha egy osztálynak saját header és cpp file-t dezignálunk, akkor azt a következő szintaxissal tehetjük meg:</p>
 <p><code>foo.hpp</code> (a .hpp kiterjesztés gyakori c++ header fileokhoz, de természetesen a .h ugyanígy gyakori)</p>
