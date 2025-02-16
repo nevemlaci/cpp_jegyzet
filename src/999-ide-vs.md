@@ -77,3 +77,15 @@ Majd az `F5` billenytűt leütve letesztelhetjük, hogy műküdik -e a setupunk.
 A "Source Files", "Header Files" stb. nem valódi mappák, a Visual Studio "Filer"-nek nevezi őket, a fileok valójában mind ugyanabban a mappában vannak. Ez megsegíti a headerekkel való munkát.
 
 Meglévő fileokat az új fileok létrehozásához hasonlóan tudunk létrehozni, a `New item...` helyett az `Existing item...` menüpontot kell választanunk.
+
+## CPPSwap feladat beállítása
+
+Töltsük le a <https://git.ik.bme.hu/Prog2/ell_feladat/CPPswap> oldalról a feladat alapját. Ezek a fileok közül a `.h` és `.cpp` fileokra lesz szükség. 
+
+![alt text](image-12.png)
+
+Hozzunk létre egy új Visual Studio projektet. Másoljuk a fentebb említett fileokat a projekt mappájába (ahol a `.vcxproj` file van). Ezután adjuk hozzá a fileokat a projekthez.
+
+Ezután futtassuk a projektet.
+
+Néhány feladathoz jön Visual Studio projekt és solution file, alternatívaként ezek is használatók. Amikor a VS felajánlja, hogy upgradeljük a Windows SDK-t, akkor fogadjuk el a promptot. 
