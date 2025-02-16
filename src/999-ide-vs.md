@@ -74,7 +74,7 @@ int main(){
 Majd az `F5` billenytűt leütve letesztelhetjük, hogy műküdik -e a setupunk.<br>
 ![alt text](image-10.png)
 
-A "Source Files", "Header Files" stb. nem valódi mappák, a Visual Studio "Filer"-nek nevezi őket, a fileok valójában mind ugyanabban a mappában vannak. Ez megsegíti a headerekkel való munkát.
+A "Source Files", "Header Files" stb. nem valódi mappák, a Visual Studio "Filter"-nek nevezi őket, a fileok valójában mind ugyanabban a mappában vannak. Ez megsegíti a headerekkel való munkát.
 
 Meglévő fileokat az új fileok létrehozásához hasonlóan tudunk létrehozni, a `New item...` helyett az `Existing item...` menüpontot kell választanunk.
 
