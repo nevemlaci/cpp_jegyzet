@@ -39,7 +39,7 @@ Ezután adunk egy nevet a projectnek, kiválasztjuk hogy hova kerüljön(egyetem
 
 ![alt text](image-11.png)
 
-A Solution Explorert, ha nem jelent meg, érdemes előhozni a View>Solution Explorer opcióval.
+A Solution Explorert, ha nem jelent meg, érdemes előhozni a View>Solution Explorer opcióval. Általában az ablak jobb oldalán jelenik meg, de személyes preferencia, hogy ki hova helyezi el.
 
 ## Ajánlott beállítások
 
@@ -84,20 +84,32 @@ Töltsük le a <https://git.ik.bme.hu/Prog2/ell_feladat/CPPswap> oldalról a fel
 
 ![alt text](image-12.png)
 
-Hozzunk létre egy új Visual Studio projektet. Másoljuk a fentebb említett fileokat a projekt mappájába (ahol a `.vcxproj` file van). Ezután adjuk hozzá a fileokat a projekthez.
+Hozzunk létre egy új Visual Studio projektet. 
 
+![alt text](image-16.png)
 
+Másoljuk a fentebb említett fileokat a projekt mappájába (ahol a `.vcxproj` file van). Csak üres mappába hozzunk létre VS Projektet, aztán másoljuk be a szükséges fileokat.
+
+![alt text](image-17.png)
+
+Ezután adjuk hozzá a fileokat a projekthez.
+
+![alt text](image-18.png)
+
+![alt text](image-19.png)
 
 Ezután futtassuk a projektet.
-
-Néhány feladathoz jön Visual Studio projekt és solution file, alternatívaként ezek is használatók. Amikor a VS felajánlja, hogy upgradeljük a Windows SDK-t, akkor fogadjuk el a promptot. 
-
-![alt text](image-13.png)
-
-![alt text](image-14.png)
 
 A Solution Explorerből keressük ki a `swap.cpp` filet és nyissuk meg.
 
 (A `#error` preprocesszor direktívával lehet szándékos fordításidejű hibát tenni a kódba hibaüzenettel együtt)
 
 ![alt text](image-15.png)
+
+#### Megjegyzés a laborfeladatokhoz:
+
+Néhány feladathoz jön Visual Studio projekt és solution file, alternatívaként ezek is használatók. Amikor a VS felajánlja, hogy upgradeljük a Windows SDK-t, akkor fogadjuk el a promptot. 
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
