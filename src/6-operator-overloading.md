@@ -6,7 +6,7 @@ Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ug
 
 ## Operátorok és osztályok
 
-Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a `this` pointer lesz.
+Ha egy operátor az adott osztály típust veszi át baloldali paraméterként (vagy unáris, egyparaméterű operátor), akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a `this` pointer lesz.
 
 Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
 A += operátorra "függvényként" az `operator+=` kifejezéssel hivatkozhatunk.

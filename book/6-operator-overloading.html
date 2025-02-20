@@ -177,7 +177,7 @@
 <h2 id="mik-az-operátorok-valójában"><a class="header" href="#mik-az-operátorok-valójában">Mik az operátorok valójában?</a></h2>
 <p>Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni.</p>
 <h2 id="operátorok-és-osztályok"><a class="header" href="#operátorok-és-osztályok">Operátorok és osztályok</a></h2>
-<p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként, akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
+<p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként (vagy unáris, egyparaméterű operátor), akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
 <p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
 A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
 <p>Nézzünk egy példát:</p>
