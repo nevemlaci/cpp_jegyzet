@@ -253,10 +253,13 @@ public:
 <p>Felfedezhetjük azonban azt a problémát, hogy egy <code>const</code> négyzet objektummal sok mindent nem tudunk kezdeni, ugyanis annak nem változtathatjuk meg az oldalhosszát, mután az objektum "elkészült". Ezt a problémát később, a konstruktorral oldjuk meg.</p>
 <h2 id="konstruktor-destruktor-és-raii"><a class="header" href="#konstruktor-destruktor-és-raii">Konstruktor, destruktor és RAII</a></h2>
 <p>Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is, módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
-<p>A C++ nyelvben a "konstruktor" (constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.</p>
+<p>Konstruktor: <br>
+Az objektum létrejöttekor hívódik. Feladata, hogy alapállapotba hozza az objektumot. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor.</p>
+<p>Destruktor: <br>
+Az objektum megszüntetésekor hívódik. Alapvető feladata, hogy megszüntesse az objektum által lefoglalt dinamikus erőforrásokat (pl. dinamikus memóriafoglalás, adatbázis csatlakozás)</p>
 <p>A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig <code>~osztaly_neve</code>.
-Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal, vagy a <code>new</code> operátorral dinamikus élettartamú objektumot hozunk létre.
-Lokális változó élettartama a definiálásától a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(<code>new</code>) a felszabadításáig(<code>delete</code>) tart.</p>
+Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal (automatikus élettartamú objektumot hozunk létre), vagy a <code>new</code> operátorral dinamikus élettartamú objektumot hozunk létre.
+Lokális változóhoz kötött objektum élettartama a változó definiálásától legfeljebb a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(<code>new</code>) a felszabadításáig(<code>delete</code>) tart.</p>
 <pre><code class="language-cpp">class Foo{
     Foo() {
         std::cout &lt;&lt; "Foo ctor\n";
@@ -276,9 +279,9 @@ int main(){
     return 0; //foo dtor lefut
 }
 </code></pre>
-<p>Azt a konstruktort, amely paraméter nélkül hívható, <em>defualt konstruktor</em>nak nevezzük. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor.</p>
+<p>Azt a konstruktort, amely paraméter nélkül hívható, <em>defualt konstruktor</em>nak nevezzük.</p>
 <p>Egy osztályból csak akkor hozható létre (C értelemben vett) tömb, ha annak van default konstruktora.</p>
-<p>A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat, vagy konstans objektum tagváltozóit nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: <code>classname() : member1(value1), member2(value2)</code><br>
+<p>A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: <code>classname() : member1(value1), member2(value2)</code><br>
 Vegyük újra példának a <code>Square</code> osztályt.</p>
 <p><a href="https://godbolt.org/z/hK479jPbY">https://godbolt.org/z/hK479jPbY</a></p>
 <pre><code class="language-cpp">class Square{
@@ -338,7 +341,6 @@ int main(){
     public:
         static void s_bar() {}
         void m_bar() {}
-        int s_x;
         int m_x;
 };
 
@@ -348,6 +350,7 @@ int main(){
     f.m_x = 4; //ok
     f.s_bar; //nem ok
     foo::s_bar(); //ok
+    foo::m_x = 4; // nem ok
 }
 </code></pre>
 <h2 id="egyetlen-felelősség-elve"><a class="header" href="#egyetlen-felelősség-elve">Egyetlen felelősség elve</a></h2>
@@ -355,7 +358,7 @@ int main(){
 Nos ez egy kicsit furcsa lehet, szóval vegyünk egy érthetőbb megfogalmazást:
 Egy osztálynak egyetlen felelősséget kell lefednie, viszont azt teljes mértékben.</p>
 <p>Pl. A <code>string</code> osztályunk kezeli a dinamikus karaktertömböt, viszont azzal nem foglalkozik, hogy a karaktereit egyesével hogy írjuk ki.</p>
-<h2 id="komolyabb-raii-példa"><a class="header" href="#komolyabb-raii-példa">Komolyabb RAII példa</a></h2>
+<h2 id="komolyabb-osztály-példa"><a class="header" href="#komolyabb-osztály-példa">Komolyabb osztály példa</a></h2>
 <p>Most pedig nézzünk egy komolyabb RAII példát.
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
 Ezt a példát sokáig fogjuk használni.</p>
