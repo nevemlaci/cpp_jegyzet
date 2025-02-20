@@ -113,3 +113,5 @@ Néhány feladathoz jön Visual Studio projekt és solution file, alternatívak�
 ![alt text](image-13.png)
 
 ![alt text](image-14.png)
+
+### Preprocessor makró definíciók megadása
