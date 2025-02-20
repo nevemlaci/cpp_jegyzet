@@ -104,11 +104,15 @@ Felfedezhetjük azonban azt a problémát, hogy egy `const` négyzet objektummal
 
 Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk *"Scope Based Resource Management*-nek is, módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.
 
-A C++ nyelvben a "konstruktor" (constructor, ctor) speciális tagfüggvény fut az objektum élettartamának kezdetekor, és a destruktor fut az élettartam legvégén. Erre nézzünk egy egyszerű példát.
+Konstruktor: <br>
+Az objektum létrejöttekor hívódik. Feladata, hogy alapállapotba hozza az objektumot. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor. 
+
+Destruktor: <br>
+Az objektum megszüntetésekor hívódik. Alapvető feladata, hogy megszüntesse az objektum által lefoglalt dinamikus erőforrásokat (pl. dinamikus memóriafoglalás, adatbázis csatlakozás)
 
 A konstruktornak és destruktornak nincs visszatérési értéke. A konstruktor függvény neve mindig megegyezik az osztály nevével, a destruktor neve pedig `~osztaly_neve`.
-Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal, vagy a `new` operátorral dinamikus élettartamú objektumot hozunk létre.
-Lokális változó élettartama a definiálásától a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(`new`) a felszabadításáig(`delete`) tart.
+Objektum létrehozása alatt azt értjük, amikor egy lokális változót definiálunk az adott osztálytípussal (automatikus élettartamú objektumot hozunk létre), vagy a `new` operátorral dinamikus élettartamú objektumot hozunk létre.
+Lokális változóhoz kötött objektum élettartama a változó definiálásától legfeljebb a scope végéig, dinamikus élettartamú objektum élettartama a lefoglalásától(`new`) a felszabadításáig(`delete`) tart.
 
 ```cpp
 class Foo{
@@ -131,11 +135,11 @@ int main(){
 }
 ```
 
-Azt a konstruktort, amely paraméter nélkül hívható, *defualt konstruktor*nak nevezzük. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor. 
+Azt a konstruktort, amely paraméter nélkül hívható, *defualt konstruktor*nak nevezzük. 
 
 Egy osztályból csak akkor hozható létre (C értelemben vett) tömb, ha annak van default konstruktora.
 
-A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat, vagy konstans objektum tagváltozóit nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: `classname() : member1(value1), member2(value2)`<br>
+A konstruktor arra való, hogy egy példány alap értékeit beállítsuk, viszont a konstruktorba írt kód valójában az objektum létrejötte után fut, így pl. konstans tagváltozókat nem tudunk beállítani itt, ezért a tagváltozók inicializálását általában a "member initialization list" -en tesszük meg. Ennek kicsit furcsa szintaxisa van: `classname() : member1(value1), member2(value2)`<br>
 Vegyük újra példának a `Square` osztályt.
 
 <https://godbolt.org/z/hK479jPbY>
@@ -209,7 +213,6 @@ class foo{
     public:
         static void s_bar() {}
         void m_bar() {}
-        int s_x;
         int m_x;
 };
 
@@ -219,6 +222,7 @@ int main(){
     f.m_x = 4; //ok
     f.s_bar; //nem ok
     foo::s_bar(); //ok
+    foo::m_x = 4; // nem ok
 }
 ```
 
@@ -230,7 +234,7 @@ Egy osztálynak egyetlen felelősséget kell lefednie, viszont azt teljes mért�
 
 Pl. A `string` osztályunk kezeli a dinamikus karaktertömböt, viszont azzal nem foglalkozik, hogy a karaktereit egyesével hogy írjuk ki.
 
-## Komolyabb RAII példa
+## Komolyabb osztály példa
 
 Most pedig nézzünk egy komolyabb RAII példát. 
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
