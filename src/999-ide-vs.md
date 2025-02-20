@@ -115,3 +115,7 @@ Néhány feladathoz jön Visual Studio projekt és solution file, alternatívak�
 ![alt text](image-14.png)
 
 ### Preprocessor makró definíciók megadása
+
+A Project Properties > C/C++ > Preprocessor menüpontban a "Preprocessor Definitions" pontosvesszővel ellátott listába lehet makrókat definiálni.
+
+![alt text](image-20.png)
