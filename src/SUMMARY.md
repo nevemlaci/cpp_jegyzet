@@ -13,3 +13,4 @@
 - [Predikátumok, funktorok](./10-predikátumok-funktorok.md)
 - [STL](./11-STL.md)
 - [Visual Studio Beállítása](./999-ide-vs.md)
+- [CMake](./999-ide-cmake.md)

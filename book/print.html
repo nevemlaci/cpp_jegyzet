@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">14.</strong> Visual Studio Beállítása</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">14.</strong> Visual Studio Beállítása</a></li><li class="chapter-item expanded "><a href="999-ide-cmake.html"><strong aria-hidden="true">15.</strong> CMake</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -2385,6 +2385,27 @@ int main(){
 <h3 id="preprocessor-makró-definíciók-megadása"><a class="header" href="#preprocessor-makró-definíciók-megadása">Preprocessor makró definíciók megadása</a></h3>
 <p>A Project Properties &gt; C/C++ &gt; Preprocessor menüpontban a "Preprocessor Definitions" pontosvesszővel ellátott listába lehet makrókat definiálni.</p>
 <p><img src="image-20.png" alt="alt text" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cmake"><a class="header" href="#cmake">CMake</a></h1>
+<p>A CMake egy meta-build system. Ez azt jelenti, hogy önmagában nem funkcionális, szükség van mellé egy C++ compilerre (pl. MSVC, g++, stb.) és egy build systemre is. Emellé szükség lesz még egy build systemre. Egy egyszerű de nagyon gyors build system a <a href="https://github.com/ninja-build/ninja/releases">Ninja</a>.</p>
+<p>A CMake előnye, hogy operációs rendszertől és fordítótól függetlenül működik.</p>
+<h3 id="miért-pont-cmake"><a class="header" href="#miért-pont-cmake">Miért pont CMake?</a></h3>
+<p>A VS Code beépített task rendszere elég janky egy normális build system nélkül, a CLion pedig kb. csak a CMake projekteket képes értelmesen kezelni.</p>
+<h2 id="cmake-alapok"><a class="header" href="#cmake-alapok">CMake alapok</a></h2>
+<p>A <code>CMakeLists.txt</code> file írja le a projekt buildelését. Gondolhatunk rá úgy, mint a "script"re.</p>
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.25) #megadunk egy cmake verziót amire minimum szükség lesz
+
+project(prog2) #csinálunk egy projektet
+
+set(CMAKE_CXX_STANDARD 11) # a set() függvénnyel változóknak adhatunk értéket.
+
+
+#az add_executable függvényben megadunk konkrét futtatható végeredményeket, mellette felsoroljuk a hozzá tartozó forrásfájlokat
+add_executable(labor1 fuggvenyeim.h fuggvenyeim.cpp)
+
+#egy projekthez több executable is tartozhat
+add_executable(labor1_test test.cpp)
+</code></pre>
+<p>CLionban ezek az executable <em>target</em>ek között jobb fent váltogathatunk.</p>
 
                     </main>
 
