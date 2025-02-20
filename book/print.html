@@ -245,6 +245,53 @@ int main(){
 }
 </code></pre>
 <p>A névtereken belüli neveket a <code>::</code> operátorral érhetjük el. A <code>printf</code> előtti <code>std</code> névtér a standard library névtere, ez tartalmazza az összes standard library által tartalmazott szimbólumot (függvények, struktúrák, stb.), éppen azért, hogy az stdlib által használt gyakori nevek (pl. vector) ne ütközzenek más kóddal.</p>
+<h3 id="using-namespace"><a class="header" href="#using-namespace">using, namespace</a></h3>
+<p>A <code>using namespace</code> kulcsszavakkal bevonható egy egész névtér szimbólumtára a jelenlegi fordítási egységbe (forrásfájl).</p>
+<pre><code class="language-cpp">using namespace std;
+
+int main() {
+    printf("bar");
+}
+</code></pre>
+<p>Habár a lehetőség megvan rá, ezt soha ne használjuk, főleg nem az <code>std</code> névtérrel!</p>
+<p>Lehetőség van adott szimbólumok beemelésére, pl.</p>
+<pre><code class="language-cpp">using std::printf
+
+int main() {
+    printf("bar");
+}
+</code></pre>
+<h4 id="argument-dependent-lookup"><a class="header" href="#argument-dependent-lookup">Argument Dependent Lookup</a></h4>
+<p>A non-qualified függvények hívásakor a függvény argumentumainak a névterében található szimbólumok közt is történik keresés.</p>
+<p><em>Non-qualified</em> : Minden olyan név, ami nem egy scope (::) operátortól jobbra áll.</p>
+<p>Pl. <code>foo</code> -&gt; non-qualified , <code>::foo</code> -&gt; qualified</p>
+<pre><code class="language-cpp">namespace A
+{
+    struct X;
+    struct Y;
+ 
+    void f(int);
+    void g(X);
+}
+ 
+namespace B
+{
+    void f(int i)
+    {
+        f(i); // B::f -et hívja
+    }
+ 
+    void g(A::X x)
+    {
+        g(x); // Error: nem tudunk B::g és A::g között dönteni, mert az A::X miatt az A namespaceben is keres
+    }
+ 
+    void h(A::Y y)
+    {
+        h(y); // B::h hívás: ADL keresi A::h -t, de nem talál ilyet, szóval B::h hívás történik
+    }
+}
+</code></pre>
 <h2 id="function-overloading"><a class="header" href="#function-overloading">Function overloading</a></h2>
 <p>C++ -ban ugyanazon nevű függvény többféle paramétereket vehet át.</p>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;

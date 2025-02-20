@@ -20,7 +20,7 @@ A [Compiler Explorer](https://godbolt.org/z/xPK1P37P8) egy weboldal, ahol minden
 
 A jegyzetben a hosszabb/bonyolultabb kódrészletekhez csatoltam godbolt linkeket, így gyorsan csekkolható a program futása, valamint így gyorsan bele lehet piszkálni a kódba.
 
-![alt text](image-4.png)
+![alt text](image-4.png)    
 
 
 

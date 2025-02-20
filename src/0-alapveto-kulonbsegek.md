@@ -61,7 +61,66 @@ int main(){
 
 A névtereken belüli neveket a `::` operátorral érhetjük el. A `printf` előtti `std` névtér a standard library névtere, ez tartalmazza az összes standard library által tartalmazott szimbólumot (függvények, struktúrák, stb.), éppen azért, hogy az stdlib által használt gyakori nevek (pl. vector) ne ütközzenek más kóddal.
 
+### using, namespace
 
+A `using namespace` kulcsszavakkal bevonható egy egész névtér szimbólumtára a jelenlegi fordítási egységbe (forrásfájl). 
+
+```cpp
+using namespace std;
+
+int main() {
+    printf("bar");
+}
+```
+
+Habár a lehetőség megvan rá, ezt soha ne használjuk, főleg nem az `std` névtérrel!
+
+Lehetőség van adott szimbólumok beemelésére, pl. 
+
+```cpp
+using std::printf
+
+int main() {
+    printf("bar");
+}
+```
+
+#### Argument Dependent Lookup
+
+A non-qualified függvények hívásakor a függvény argumentumainak a névterében található szimbólumok közt is történik keresés.
+
+*Non-qualified* : Minden olyan név, ami nem egy scope (::) operátortól jobbra áll.
+
+Pl. `foo` -> non-qualified , `::foo` -> qualified
+
+```cpp
+namespace A
+{
+    struct X;
+    struct Y;
+ 
+    void f(int);
+    void g(X);
+}
+ 
+namespace B
+{
+    void f(int i)
+    {
+        f(i); // B::f -et hívja
+    }
+ 
+    void g(A::X x)
+    {
+        g(x); // Error: nem tudunk B::g és A::g között dönteni, mert az A::X miatt az A namespaceben is keres
+    }
+ 
+    void h(A::Y y)
+    {
+        h(y); // B::h hívás: ADL keresi A::h -t, de nem talál ilyet, szóval B::h hívás történik
+    }
+}
+```
 
 ## Function overloading
 
