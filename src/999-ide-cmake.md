@@ -26,5 +26,3 @@ add_executable(labor1 fuggvenyeim.h fuggvenyeim.cpp)
 #egy projekthez több executable is tartozhat
 add_executable(labor1_test test.cpp)
 ```
-
-CLionban ezek az executable *target*ek között jobb fent váltogathatunk.
