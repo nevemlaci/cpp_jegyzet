@@ -24,6 +24,12 @@ Törlünk mindent, ami nem C/C++ header / source file:
 
 ![alt text](image-23.png)
 
+Ha még sosem volt megnyitva a CLion, vagy még nem lett egy CMake preset sem beállítva, akkor ezt az ablakot látjuk:
+
+![alt text](image-29.png)
+
+A tárgy számára az alapértelmezett beállítások tökéletesen megfelelnek.
+
 Jobbklikk a projekt mappára > New > CMakeLists.txt
 
 ![alt text](image-24.png)
