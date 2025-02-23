@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">14.</strong> Visual Studio Beállítása</a></li><li class="chapter-item expanded "><a href="999-ide-cmake.html"><strong aria-hidden="true">15.</strong> CMake</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">14.</strong> Visual Studio beállítása</a></li><li class="chapter-item expanded "><a href="999-ide-cmake.html"><strong aria-hidden="true">15.</strong> CMake</a></li><li class="chapter-item expanded "><a href="999-ide-clion.html"><strong aria-hidden="true">16.</strong> CLion beállítása</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -2405,6 +2405,39 @@ add_executable(labor1 fuggvenyeim.h fuggvenyeim.cpp)
 #egy projekthez több executable is tartozhat
 add_executable(labor1_test test.cpp)
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="clion"><a class="header" href="#clion">CLion</a></h1>
+<h2 id="aktiválás"><a class="header" href="#aktiválás">Aktiválás</a></h2>
+<p>A CLion egyetemisták számára ingyenes, ehhez licenszet kell igényelni.</p>
+<p>A <a href="https://www.jetbrains.com/shop/eform/students">https://www.jetbrains.com/shop/eform/students</a> oldalon az <code>edu.bme.hu</code> emaillel (címtárból készíthető) kell jelentkezni a licenszért.</p>
+<p>Egy JetBrains account -ot is kér majd az applikáció végén, ennek az adatait érdemes megjegyezni, ehhez lesz kötve a licensz. Ha esetlen visszaigazoló email jön, az edus email címet pl. Outlook -ból (vagy bármilyen más email kliensből) lehet elérni.</p>
+<h2 id="cmake-1"><a class="header" href="#cmake-1">CMake</a></h2>
+<p>A CLion a CMake nevű build systemet használja. Bővebben itt: <a href="https://nevemlaci.github.io/cpp_jegyzet/999-ide-cmake.html">https://nevemlaci.github.io/cpp_jegyzet/999-ide-cmake.html</a></p>
+<p>Különböző CMake targetek közt váltani az ablak jobb felső részében tudunk.</p>
+<h2 id="példa-cppswap-feladat-betöltésére"><a class="header" href="#példa-cppswap-feladat-betöltésére">Példa CPPSwap feladat betöltésére</a></h2>
+<p>Törlünk mindent, ami nem C/C++ header / source file:</p>
+<p><img src="image-21.png" alt="alt text" /></p>
+<p><img src="image-22.png" alt="alt text" /></p>
+<p><img src="image-23.png" alt="alt text" /></p>
+<p>Jobbklikk a projekt mappára &gt; New &gt; CMakeLists.txt</p>
+<p><img src="image-24.png" alt="alt text" /></p>
+<p>Bemásoljuk a CMakeLists -be ezt:</p>
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.25) 
+
+project(prog2_elofeladatok)
+
+set(CMAKE_CXX_STANDARD 11)
+
+add_executable(cppswap)
+</code></pre>
+<p>CMake -ről bővebben egy másik fejezetben már írtam.</p>
+<p>Kiválasztjuk az összes C/C++ header / source file -t &gt; Jobb klikk &gt; Add to CMake Project</p>
+<p><img src="image-25.png" alt="alt text" /></p>
+<p><img src="image-26.png" alt="alt text" /></p>
+<p>Jobb klikk CMakeLists.txt -re &gt; Reload CMake Project</p>
+<p><img src="image-27.png" alt="alt text" /></p>
+<p>Jobb fent valami ilyesminek kéne megjelennie:</p>
+<p><img src="image-28.png" alt="alt text" /></p>
+<p>A zöld háromszögre kattintva lehet a kiválasztott target-et elindítani, a bogárra kattintva lehet debuggert indítani.</p>
 
                     </main>
 
