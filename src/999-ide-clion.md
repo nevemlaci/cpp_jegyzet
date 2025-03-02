@@ -48,7 +48,7 @@ add_executable(cppswap)
 
 CMake -ről bővebben egy másik fejezetben már írtam.
 
-Kiválasztjuk az összes C/C++ header / source file -t > Jobb klikk > Add to CMake Project
+Kiválasztjuk az összes C/C++ header / source file -t > Jobb klikk > Add to CMake Project <br>(Ha ez az opció nem jelenik meg, akkor a CMakeLists.txt -re jobb klikk > Load CMake Project)
 
 ![alt text](image-25.png)
 
