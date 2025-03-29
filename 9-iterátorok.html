@@ -238,7 +238,7 @@ public:
 </code></pre>
 <p>Ha ezen a listán végig szeretnénk iterálni, akkor az valamilyen ronda <code>-&gt;next</code> és <code>==nullptr</code> -el teli kódot eredményezne.</p>
 <p>Ehelyett készíthetünk egy segédosztályt, amely az iterálás lépéseit absztraktálja el. Az ilyen osztályokat nevezzük iterátornak.
-Ahhoz, hogy egy iterátor használható legyen legalább szükség van valamilyen léptető operátorra, dereferencia operátorokra, valamint összehasonlító(== != stb.) operátorokra is.</p>
+Ahhoz, hogy egy iterátor használható legyen legalább szükség van valamilyen léptető operátorra, valamint összehasonlító(== != stb.) operátorokra is.</p>
 <p>Pl.:</p>
 <p><a href="https://godbolt.org/z/qchjxE9en">https://godbolt.org/z/qchjxE9en</a></p>
 <pre><code class="language-cpp">template &lt;typename T&gt;
@@ -321,8 +321,8 @@ public:
 };
 </code></pre>
 <p>Természetesen kellenek tagfüggvények, amelyek ennek a listának az iterátorait adják vissza:
-<code>begin()</code> : A tároló elejére mutató iterátort ad vissza.
-<code>end()</code> : A tároló vége utáni("utolsó valid elem utána") iterátort ad vissza, "szentinel" iterátort. Ez egy lista esetében pl. <code>nullptr</code> -re mutató iterátor.</p>
+<code>begin()</code> : A tároló elejére mutató iterátort ad vissza.<br>
+<code>end()</code> : A tároló vége utáni("utolsó valid elem utáni") iterátort ad vissza, "szentinel" iterátort. Ez egy lista esetében pl. <code>nullptr</code> -re mutató iterátor.</p>
 <pre><code class="language-cpp">//List class-on belül
 
 public:
@@ -351,7 +351,7 @@ public:
         return m_back == nullptr ? iterator(m_back) : iterator(m_back-&gt;next);
     }
 </code></pre>
-<p>Iteráotrok használata:</p>
+<p>Iterátorok használata:</p>
 <pre><code class="language-cpp">int main(){
     List&lt;int&gt; list;
 
@@ -365,12 +365,15 @@ public:
 
     std::cout &lt;&lt; '\n';
     *list.begin() = 5;
-
-    for(int elem : list) { //minden elemet lemásolunk egyesével
-        std::cout &lt;&lt; elem &lt;&lt; ' ';
-    }
 }
 </code></pre>
+<p><em>Megjegyzés:</em> Az iterátorok típusai nagyon hosszúak is lehetnek, ezért általában az <code>auto</code> kulcsszót szokás használni. Ez futásidőben levezeti és behelyettesíti a helyes típust ahol lehet. Pl.</p>
+<pre><code class="language-cpp">List&lt;int&gt;::iterator it = list.begin();
+//helyett
+auto it = list.begin();
+</code></pre>
+<p>Egy példa egy brutál hosszú típusnévre, amit senkinek sincs kedve kiírni (ennek fele az iterátor) :
+<img src="image-30.png" alt="alt text" /></p>
 <p>A fent látott</p>
 <pre><code class="language-cpp">for(List&lt;int&gt;::iterator it = list.begin(); it != list.end(); ++it) {
         std::cout &lt;&lt; *it &lt;&lt; ' ';
