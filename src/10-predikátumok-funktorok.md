@@ -4,6 +4,8 @@ Van, hogy egy függvényt szeretnénk paraméterként átvenni.
 
 Pl. írjunk függvényt, amely egy másik, predikátumfüggvény alapján megkeres egy elemet egy tömbben és visszaadja az indexét, vagy a tömb méretét(az első "invalid" elem indexét) ha nincs benne.
 
+A predikátumfüggvény típusát akár ki is írhatnánk, de az csúnyán nézne ki: `bool(*)(const T&)`, vagy valami hasonló szörnyeteg, úgyhogy inkább template paraméterként átvesszük ezt a típust is, a fordító úgyis levezeti a függvényparaméterből.
+
 <https://godbolt.org/z/h3xfrz7x1>
 
 ```cpp

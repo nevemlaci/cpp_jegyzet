@@ -2075,6 +2075,7 @@ Ez azt jelenti, hogy egy dinamikus tömbnél például nincs szükség külön i
 <div style="break-before: page; page-break-before: always;"></div><h2 id="predikátumok"><a class="header" href="#predikátumok">Predikátumok</a></h2>
 <p>Van, hogy egy függvényt szeretnénk paraméterként átvenni.</p>
 <p>Pl. írjunk függvényt, amely egy másik, predikátumfüggvény alapján megkeres egy elemet egy tömbben és visszaadja az indexét, vagy a tömb méretét(az első "invalid" elem indexét) ha nincs benne.</p>
+<p>A predikátumfüggvény típusát akár ki is írhatnánk, de az csúnyán nézne ki: <code>bool(*)(const T&amp;)</code>, vagy valami hasonló szörnyeteg, úgyhogy inkább template paraméterként átvesszük ezt a típust is, a fordító úgyis levezeti a függvényparaméterből.</p>
 <p><a href="https://godbolt.org/z/h3xfrz7x1">https://godbolt.org/z/h3xfrz7x1</a></p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;array&gt;
