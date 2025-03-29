@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html" class="active"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">14.</strong> Visual Studio beállítása</a></li><li class="chapter-item expanded "><a href="999-ide-cmake.html"><strong aria-hidden="true">15.</strong> CMake</a></li><li class="chapter-item expanded "><a href="999-ide-clion.html"><strong aria-hidden="true">16.</strong> CLion beállítása</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="4.1 - operator_no_class.html"><strong aria-hidden="true">7.</strong> Operátorok 101</a></li><li class="chapter-item expanded "><a href="5-osztályok.html" class="active"><strong aria-hidden="true">8.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html"><strong aria-hidden="true">9.</strong> Operátorok újra, most osztályokkal</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">10.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">11.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">12.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">13.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">14.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">15.</strong> Visual Studio beállítása</a></li><li class="chapter-item expanded "><a href="999-ide-cmake.html"><strong aria-hidden="true">16.</strong> CMake</a></li><li class="chapter-item expanded "><a href="999-ide-clion.html"><strong aria-hidden="true">17.</strong> CLion beállítása</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -180,10 +180,14 @@
 <p>A C nyelvben már megismerhettük a <code>struct</code> kulcsszót, ami azonos dologhoz tartozó adatokat tárolt. Valószínűleg sok olyan függvényt írtunk ekkor, hogy</p>
 <pre><code class="language-c">struct foo {};
 
-void foo_szamol(struct foo f) {}
+void foo_szamol(struct foo* this) {}
 </code></pre>
-<p>és társai. Jó lenne, ha a <code>foo_szamol</code> függvényt valahogyan a <code>foo</code> struktúrához köthetnénk.</p>
-<p>Az osztályok ezt a problémát oldják meg, valamint néhány nagyon hasznos utility-t adnak a programozó kezébe.</p>
+<p>és társai. Jó lenne, ha a <code>foo_szamol</code> függvényt valahogyan a <code>foo</code> struktúrához köthetnénk. (A paraméter neve nem véletlenül <code>this</code> !)</p>
+<p>Osztály: állapot (state), valamint ezen az állapoton elvégzett műveletek.<br></p>
+<ul>
+<li>A belső működés az osztályt használó programozó elől rejtve marad: <strong>absztrakció</strong>.</li>
+<li>Cél: újrafelhasználhatóság, általánosíthatóság</li>
+</ul>
 <p>Egy osztályt a <code>class</code> vagy a <code>struct</code> kulcsszóval (különbség később) tudunk definiálni, <code>typedef</code> használatára egyáltalán nincs szükség.</p>
 <p>Egy osztályból "példányokat" hozhatunk létre, ez gyakorlatilag azt jelenti, hogy az adott osztály típusú változót hozunk létre a C struktúrákhoz hasonlóan.</p>
 <pre><code class="language-cpp">class Foo {};
@@ -211,12 +215,12 @@ int main(){
 }
 </code></pre>
 <h2 id="tagfüggvények-member-functions"><a class="header" href="#tagfüggvények-member-functions">Tagfüggvények (member functions)</a></h2>
-<p>Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton (state) operálnak.</p>
-<p>Egy tagváltozó lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.<br>
-<em><strong>FONTOS</strong></em> egy tagfüggvény túltölthető az alapján, hogy <code>const</code> -e, vagy nem, így a <code>const</code> qualifier része a függvény fejlécének! (signature)</p>
-<p>A <code>this</code> pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
+<p>Az osztályok függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton (state) operálnak.</p>
+<p>A <code>this</code> pointer egy osztályon belül arr az adott példányra vonatkozik amire a tagfüggvény meg lett hívva, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
 A tagfüggvények gyakorlatilag speciális függvények, amelyek első paramétere a rejtett <code>this</code> pointer.</p>
-<p>A szintaxis a következő:</p>
+<p>Egy tagfüggvény lehet <code>const</code>, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így <code>const</code> objektumon is működik.<br>
+<em><strong>FONTOS</strong></em> egy tagfüggvény túltölthető az alapján, hogy <code>const</code> -e, vagy nem, a <code>const</code> qualifier része a függvény fejlécének! (signature)</p>
+<p>Nézzünk meg egy példát: a <code>Square</code> osztály tárol egy privát valós értéket, amely az oldalhosszát reprezentálja. Vannak ezen felül az oldalhosszt lekérő és beállító (getter/setter) tagfüggvények, valamint egy tagfüggvény amely megadja, hogy a négyzetnek mennyi a területe. Vegyük észre, hogy a terület számításához nem kell paraméter, hiszen a <code>this</code> paraméteren keresztül tudjuk annak a négyzetnek az oldalhosszát, amelyre a tagfüggvényt meghívtuk.</p>
 <p><a href="https://godbolt.org/z/E3YP9scPq">https://godbolt.org/z/E3YP9scPq</a></p>
 <pre><code class="language-cpp">class Square{
 private:
@@ -250,9 +254,8 @@ public:
     std::cout &lt;&lt; square.calculate_area();
 }
 </code></pre>
-<p>Felfedezhetjük azonban azt a problémát, hogy egy <code>const</code> négyzet objektummal sok mindent nem tudunk kezdeni, ugyanis annak nem változtathatjuk meg az oldalhosszát, mután az objektum "elkészült". Ezt a problémát később, a konstruktorral oldjuk meg.</p>
 <h2 id="konstruktor-destruktor-és-raii"><a class="header" href="#konstruktor-destruktor-és-raii">Konstruktor, destruktor és RAII</a></h2>
-<p>Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is, módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
+<p>Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk <em>"Scope Based Resource Management</em>-nek is (inkább jegyezzük meg ezt, ez sokkal érthetőbb), módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.</p>
 <p>Konstruktor: <br>
 Az objektum létrejöttekor hívódik. Feladata, hogy alapállapotba hozza az objektumot. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor.</p>
 <p>Destruktor: <br>
@@ -358,6 +361,56 @@ int main(){
 Nos ez egy kicsit furcsa lehet, szóval vegyünk egy érthetőbb megfogalmazást:
 Egy osztálynak egyetlen felelősséget kell lefednie, viszont azt teljes mértékben.</p>
 <p>Pl. A <code>string</code> osztályunk kezeli a dinamikus karaktertömböt, viszont azzal nem foglalkozik, hogy a karaktereit egyesével hogy írjuk ki.</p>
+<h2 id="ownership"><a class="header" href="#ownership">Ownership</a></h2>
+<p>Van egy nagyon fontos téma, amit tisztázni kell. Minden erőforrásért felel valaki (<em>"owns"</em>). Az, hogy valami felel valamiért annyit jelent (legalábbis C++ programozás kontextusában), hogy kinek a dolga felszabadítani egy objektumhoz tartozó erőforrásokat (pl. memória)</p>
+<p>Egy lokális, "érték" változó gondoskodik saját magáról, amikor scope-on kívül kerül, tisztességesen feltakarít maga után. pl.</p>
+<pre><code class="language-cpp">struct Foo{
+    int x;
+};
+
+int main(){
+    Foo f; // f itt eltakarítja az általa tárolt x-et is
+}
+</code></pre>
+<p>Nézzük mi történik akkor, ha dinamikusan foglaljuk Foo -n belül x-et.</p>
+<pre><code class="language-cpp">struct Foo{
+    int* x;
+};
+
+int main(){
+    Foo f;
+    f.x = new int;
+    //ki fogja felszabadítani a memóriát??
+}
+</code></pre>
+<p>A kérdés a következő: ki felel az x által mutatott memóriáért? A válasz nem túl egyértelmű, a programozó döntése. Megoldható például, hogy <code>Foo</code> feleljen érte, ekkor <code>Foo</code> destruktora felszabadítja a foglalt memóriát. Nézzünk egy szebb példát</p>
+<pre><code class="language-cpp">struct Tarolo{
+    Tarolo(int ertek) : x(new int) {
+        *x = ertek;
+    }
+
+    ~Tarolo(){
+        delete x;
+    }
+
+    private:
+    int x;
+};
+</code></pre>
+<p>A fenti a modellben a tároló foglalja le és kezeli a memóriát. Ezt alkalmazzuk pl. sima tárolóknál, ahol a dinamikusan foglalt tömböt az osztály kezeli.</p>
+<p>Van azonban egy másik lehetőség is:</p>
+<pre><code class="language-cpp">struct Tarolo{
+    Tarolo(int* x) : x(x) {}
+
+    ~Tarolo(){
+        delete x;
+    }
+
+    private:
+    int x;
+};
+</code></pre>
+<p>Most a tároló a hívó féltől már egy pointert kap, viszont <strong>átveszi a felelősséget</strong> a memória kezelése felet. Ezt a technikát alkalmazzuk pl. heterogén kollekcióknál</p>
 <h2 id="komolyabb-osztály-példa"><a class="header" href="#komolyabb-osztály-példa">Komolyabb osztály példa</a></h2>
 <p>Most pedig nézzünk egy komolyabb RAII példát.
 A tervünk egy dinamikusan növő tömb osztálysablon létrehozása ami bármilyen lemásolható típust képes tárolni.
@@ -432,7 +485,7 @@ int main(){
     return 0; // nem kell semmi manuális memóriakezelés, mert a destruktor automatikusan felszabadítja amit kell, mert egyszer megírtuk
 }
 </code></pre>
-<p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.</p>
+<p>Nos igen, ez a RAII lényege. Nem kell manuálisan sehol <code>delete</code> és <code>new</code> -t írnunk az osztályt használó kódban, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.</p>
 <p>Jó RAII példák a már megismert filestream osztályok. A konstruktorukban megnyitják a filet (elkérik a file handle-t az OS-től), majd a destruktorukban automatikusan bezárják a file-t.</p>
 <h2 id="objektumok-másolása"><a class="header" href="#objektumok-másolása">Objektumok másolása</a></h2>
 <p>Tegyük fel, hogy a tömbünkből másolatot szeretnénk csinálni. Ez valójában nem más, mint egy tömbből egy új tömböt csinálunk. Azt a konstruktort, amely egy <code>T</code> típusú objektumból <code>T</code> típusú objektumot készít <em>másoló konstruktor</em> (copy constructor)-nak nevezzük.</p>
@@ -557,7 +610,7 @@ int main(){
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="4-sablonok.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="4.1 - operator_no_class.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -571,7 +624,7 @@ int main(){
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="4-sablonok.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="4.1 - operator_no_class.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

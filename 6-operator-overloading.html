@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Operator overloading - A Programozás Alapjai 2. - Lipódi László jegyzete</title>
+        <title>Operátorok újra, most osztályokkal - A Programozás Alapjai 2. - Lipódi László jegyzete</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">7.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html" class="active"><strong aria-hidden="true">8.</strong> Operator overloading</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">9.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">10.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">11.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">12.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">13.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">14.</strong> Visual Studio beállítása</a></li><li class="chapter-item expanded "><a href="999-ide-cmake.html"><strong aria-hidden="true">15.</strong> CMake</a></li><li class="chapter-item expanded "><a href="999-ide-clion.html"><strong aria-hidden="true">16.</strong> CLion beállítása</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="-Inspiracio.html"><strong aria-hidden="true">1.</strong> Kezdőoldal</a></li><li class="chapter-item expanded "><a href="0-alapveto-kulonbsegek.html"><strong aria-hidden="true">2.</strong> Alapvető különbségek a C nyelvtől</a></li><li class="chapter-item expanded "><a href="1-standard-io.html"><strong aria-hidden="true">3.</strong> Standard IO</a></li><li class="chapter-item expanded "><a href="2-kivetelek.html"><strong aria-hidden="true">4.</strong> Kivételek</a></li><li class="chapter-item expanded "><a href="3-dinamikus-memoriakezeles.html"><strong aria-hidden="true">5.</strong> Dinamikus memóriakezelés</a></li><li class="chapter-item expanded "><a href="4-sablonok.html"><strong aria-hidden="true">6.</strong> Sablonok</a></li><li class="chapter-item expanded "><a href="4.1 - operator_no_class.html"><strong aria-hidden="true">7.</strong> Operátorok 101</a></li><li class="chapter-item expanded "><a href="5-osztályok.html"><strong aria-hidden="true">8.</strong> Osztályok, RAII</a></li><li class="chapter-item expanded "><a href="6-operator-overloading.html" class="active"><strong aria-hidden="true">9.</strong> Operátorok újra, most osztályokkal</a></li><li class="chapter-item expanded "><a href="7-inheritance.html"><strong aria-hidden="true">10.</strong> Objektumorientált programozás idióma</a></li><li class="chapter-item expanded "><a href="8-heterogen_kollekcio.html"><strong aria-hidden="true">11.</strong> Heterogén kollekció</a></li><li class="chapter-item expanded "><a href="9-iterátorok.html"><strong aria-hidden="true">12.</strong> Iterátorok</a></li><li class="chapter-item expanded "><a href="10-predikátumok-funktorok.html"><strong aria-hidden="true">13.</strong> Predikátumok, funktorok</a></li><li class="chapter-item expanded "><a href="11-STL.html"><strong aria-hidden="true">14.</strong> STL</a></li><li class="chapter-item expanded "><a href="999-ide-vs.html"><strong aria-hidden="true">15.</strong> Visual Studio beállítása</a></li><li class="chapter-item expanded "><a href="999-ide-cmake.html"><strong aria-hidden="true">16.</strong> CMake</a></li><li class="chapter-item expanded "><a href="999-ide-clion.html"><strong aria-hidden="true">17.</strong> CLion beállítása</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -178,62 +178,7 @@
 <p>Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni.</p>
 <h2 id="operátorok-és-osztályok"><a class="header" href="#operátorok-és-osztályok">Operátorok és osztályok</a></h2>
 <p>Ha egy operátor az adott osztály típust veszi át baloldali paraméterként (vagy unáris, egyparaméterű operátor), akkor az operátort az osztályon belül tagfüggvényként kezelhetjük. Ekkor valójában egy paramétert adunk neki, ami a jobb oldali operandus. A bal oldali operandusa implicit a <code>this</code> pointer lesz.</p>
-<p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
-A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
-<p>Nézzünk egy példát:</p>
-<pre><code class="language-cpp">class DinTomb{
-    /* 
-        ...
-    */
-
-    void operator+=(const T&amp; elem){
-        push_back(elem); //delegáljuk a beillesztést a push_back függvénynek, nem duplikálunk kódot.
-    }
-};
-
-int main(){
-    DinTomb tomb;
-    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
-
-    return 0;
-}
-</code></pre>
-<h2 id="friend"><a class="header" href="#friend">Friend</a></h2>
-<p>Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az <code>operator&lt;&lt;</code> (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni.
-A <code>friend</code> kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.</p>
-<pre><code class="language-cpp">#include &lt;iostream&gt;
-
-class DinTomb{
-    /* 
-        ...
-    */
-
-    template&lt;typename K&gt;
-    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb);
-};
-
-template&lt;typename K&gt;
-std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb){
-    for(std::size_t i = 0; i &lt; dtomb.meret; ++i){
-        out &lt;&lt; dtomb.tomb[i] &lt;&lt; ' ';
-    }
-
-    return out;
-}
-
-int main(){
-    DinTomb tomb;
-    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
-    tomb += 2.3;
-    tomb.push_back(8.7);
-
-    std::cout &lt;&lt; tomb; //értsd: operator&lt;&lt;(std::cout, tomb);
-    return 0;
-}
-</code></pre>
-<p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
-<p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
-<h2 id="copy-assignmentértékadó-operátor"><a class="header" href="#copy-assignmentértékadó-operátor">Copy assignment(értékadó operátor)</a></h2>
+<h3 id="copy-assignmentértékadó-operátor"><a class="header" href="#copy-assignmentértékadó-operátor">Copy assignment(értékadó operátor)</a></h3>
 <p>Vannak olyan esetek, amikor már egy kész objektumnak akarunk új értéket adni.
 Pl.</p>
 <pre><code class="language-cpp">tomb&lt;int&gt; tomb1;
@@ -305,6 +250,62 @@ int main(){
 
 }
 </code></pre>
+<h3 id="egyéb-operátorok"><a class="header" href="#egyéb-operátorok">Egyéb operátorok</a></h3>
+<p>Szeretnénk, hogy a tömbünkhöz a += operátorral is lehessen új elemet hozzáadni. Ehhez túl kell töltenünk += operátort.
+A += operátorra "függvényként" az <code>operator+=</code> kifejezéssel hivatkozhatunk.</p>
+<p>Nézzünk egy példát:</p>
+<pre><code class="language-cpp">class DinTomb{
+    /* 
+        ...
+    */
+
+    void operator+=(const T&amp; elem){
+        push_back(elem); //delegáljuk a beillesztést a push_back függvénynek, nem duplikálunk kódot.
+    }
+};
+
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+
+    return 0;
+}
+</code></pre>
+<h2 id="friend"><a class="header" href="#friend">Friend</a></h2>
+<p>Most szeretnénk, ha a tömbünket ki is lehetne írni. Viszont ezzel van egy kis gond. Azt, hogy hova írjuk ki a tömböt(stdout, file, stb.) balértékként veszi át az <code>operator&lt;&lt;</code> (stream insertion operator), ezért ezt az osztályon kívük kell túltölteni.
+A <code>friend</code> kulcsszó használatával az osztályon belül deklaráljuk a függvényt, ezzel "megengedjuk" neki, hogy a privát tagokat is lássa. Eztunán az osztályon kívül definiáljuk.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class DinTomb{
+    /* 
+        ...
+    */
+
+    template&lt;typename K&gt;
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb);
+};
+
+template&lt;typename K&gt;
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DinTomb&lt;K&gt;&amp; dtomb){
+    for(std::size_t i = 0; i &lt; dtomb.meret; ++i){
+        out &lt;&lt; dtomb.tomb[i] &lt;&lt; ' ';
+    }
+
+    return out;
+}
+
+int main(){
+    DinTomb tomb;
+    tomb += 5.2; // értelmezzük: tomb.operator+=(5.2) -&gt; operator+=(&amp;tomb, 5.2)
+    tomb += 2.3;
+    tomb.push_back(8.7);
+
+    std::cout &lt;&lt; tomb; //értsd: operator&lt;&lt;(std::cout, tomb);
+    return 0;
+}
+</code></pre>
+<p>Ha az <code>operator&lt;&lt;</code>-t streamre való kiírásra használjuk, akkor mindig <code>std::ostream&amp;</code> -et ad vissza és vesz át bal operandusként, valamint visszaadja a bal operandusát, így láncolhatóvá teszi az operátort. (<code>std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; c;</code>)</p>
+<p>Természetesen ezt a példát <code>friend</code> nélkül is meg lehet oldani, azonban ez nem mindig van így.</p>
 <h2 id="rule-of-03"><a class="header" href="#rule-of-03">Rule of 0/3</a></h2>
 <p><a href="https://en.cppreference.com/w/cpp/language/rule_of_three">https://en.cppreference.com/w/cpp/language/rule_of_three</a></p>
 <p>Rule of 3: Ha egy osztálynak szüksége van nem compiler-default destruktorra, másoló konstruktorra vagy copy assignment operátorra akkor majdnem biztosan szüksége van mindháromra.</p>
