@@ -1,8 +1,4 @@
-# Operator overloading
-
-## Mik az operátorok valójában?
-
-Az operátorok valójában csak speciális függvények. Ez azt jelenti, hogy ugyanúgy bánhatunk velük, habár van némi megkötés, azonban legtöbbször ezek nem fognak az utunkban állni. 
+# Operátorok újra, bővebben
 
 ## Operátorok és osztályok
 
