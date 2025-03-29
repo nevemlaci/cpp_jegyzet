@@ -68,7 +68,7 @@ public:
 Ha ezen a listán végig szeretnénk iterálni, akkor az valamilyen ronda `->next` és `==nullptr` -el teli kódot eredményezne.
 
 Ehelyett készíthetünk egy segédosztályt, amely az iterálás lépéseit absztraktálja el. Az ilyen osztályokat nevezzük iterátornak.
-Ahhoz, hogy egy iterátor használható legyen legalább szükség van valamilyen léptető operátorra, dereferencia operátorokra, valamint összehasonlító(== != stb.) operátorokra is.
+Ahhoz, hogy egy iterátor használható legyen legalább szükség van valamilyen léptető operátorra, valamint összehasonlító(== != stb.) operátorokra is.
 
 Pl.:
 
@@ -155,8 +155,8 @@ public:
 ```
 
 Természetesen kellenek tagfüggvények, amelyek ennek a listának az iterátorait adják vissza:
-`begin()` : A tároló elejére mutató iterátort ad vissza.
-`end()` : A tároló vége utáni("utolsó valid elem utána") iterátort ad vissza, "szentinel" iterátort. Ez egy lista esetében pl. `nullptr` -re mutató iterátor.
+`begin()` : A tároló elejére mutató iterátort ad vissza.<br>
+`end()` : A tároló vége utáni("utolsó valid elem utáni") iterátort ad vissza, "szentinel" iterátort. Ez egy lista esetében pl. `nullptr` -re mutató iterátor.
 
 ```cpp
 //List class-on belül
@@ -188,7 +188,7 @@ public:
     }
 ```
 
-Iteráotrok használata:
+Iterátorok használata:
 
 ```cpp
 int main(){
@@ -204,12 +204,17 @@ int main(){
 
     std::cout << '\n';
     *list.begin() = 5;
-
-    for(int elem : list) { //minden elemet lemásolunk egyesével
-        std::cout << elem << ' ';
-    }
 }
 ```
+
+*Megjegyzés:* Az iterátorok típusai nagyon hosszúak is lehetnek, ezért általában az `auto` kulcsszót szokás használni. Ez futásidőben levezeti és behelyettesíti a helyes típust ahol lehet. Pl.
+```cpp
+List<int>::iterator it = list.begin();
+//helyett
+auto it = list.begin();
+```
+Egy példa egy brutál hosszú típusnévre, amit senkinek sincs kedve kiírni (ennek fele az iterátor) :
+![alt text](image-30.png)
 
 A fent látott
 
