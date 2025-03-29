@@ -10,11 +10,13 @@ A C nyelvben már megismerhettük a `struct` kulcsszót, ami azonos dologhoz tar
 ```c
 struct foo {};
 
-void foo_szamol(struct foo f) {}
+void foo_szamol(struct foo* this) {}
 ```
-és társai. Jó lenne, ha a `foo_szamol` függvényt valahogyan a `foo` struktúrához köthetnénk.
+és társai. Jó lenne, ha a `foo_szamol` függvényt valahogyan a `foo` struktúrához köthetnénk. (A paraméter neve nem véletlenül `this` !)
 
-Az osztályok ezt a problémát oldják meg, valamint néhány nagyon hasznos utility-t adnak a programozó kezébe.
+Osztály: állapot (state), valamint ezen az állapoton elvégzett műveletek.<br>
+* A belső működés az osztályt használó programozó elől rejtve marad: **absztrakció**.
+* Cél: újrafelhasználhatóság, általánosíthatóság
 
 Egy osztályt a `class` vagy a `struct` kulcsszóval (különbség később) tudunk definiálni, `typedef` használatára egyáltalán nincs szükség.
 
@@ -52,15 +54,15 @@ int main(){
 
 ## Tagfüggvények (member functions)
 
-Az osztályok egyik "breaktrough" feature-je, hogy függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton (state) operálnak.
+Az osztályok függvényeket tartalmazhatnak, amelyek az osztály által tárolt állapoton (state) operálnak.
 
-Egy tagváltozó lehet `const`, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így `const` objektumon is működik.<br>
-***FONTOS*** egy tagfüggvény túltölthető az alapján, hogy `const` -e, vagy nem, így a `const` qualifier része a függvény fejlécének! (signature)
-
-A `this` pointer egy osztályon belül az adott példányra vonatkozik, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
+A `this` pointer egy osztályon belül arr az adott példányra vonatkozik amire a tagfüggvény meg lett hívva, viszont kiírni csak akkor kell, ha egy tagfüggvény paramétere miatt egy név nem egyértelmű.
 A tagfüggvények gyakorlatilag speciális függvények, amelyek első paramétere a rejtett `this` pointer. 
 
-A szintaxis a következő:
+Egy tagfüggvény lehet `const`, ami azt jelenti, hogy nem változtatja meg az objektum állapotát, így `const` objektumon is működik.<br>
+***FONTOS*** egy tagfüggvény túltölthető az alapján, hogy `const` -e, vagy nem, a `const` qualifier része a függvény fejlécének! (signature)
+
+Nézzünk meg egy példát: a `Square` osztály tárol egy privát valós értéket, amely az oldalhosszát reprezentálja. Vannak ezen felül az oldalhosszt lekérő és beállító (getter/setter) tagfüggvények, valamint egy tagfüggvény amely megadja, hogy a négyzetnek mennyi a területe. Vegyük észre, hogy a terület számításához nem kell paraméter, hiszen a `this` paraméteren keresztül tudjuk annak a négyzetnek az oldalhosszát, amelyre a tagfüggvényt meghívtuk.
 
 <https://godbolt.org/z/E3YP9scPq>
 ```cpp
@@ -98,11 +100,9 @@ int main(){
 }
 ```
 
-Felfedezhetjük azonban azt a problémát, hogy egy `const` négyzet objektummal sok mindent nem tudunk kezdeni, ugyanis annak nem változtathatjuk meg az oldalhosszát, mután az objektum "elkészült". Ezt a problémát később, a konstruktorral oldjuk meg.
-
 ## Konstruktor, destruktor és RAII
 
-Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk *"Scope Based Resource Management*-nek is, módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.
+Most jön talán a C++ legfontosabb része. A RAII (Resource Acquisition Is Initialization), de hívhatjuk *"Scope Based Resource Management*-nek is (inkább jegyezzük meg ezt, ez sokkal érthetőbb), módszer szerint egy objektum élettartama kezdetén (construction) átveszi és lefoglalja a számára szükséges erőforrásokat (memória, adatbázishoz csatlakozás, stb.) és élettartama végén (destruction) felszabadítja, bezárja ezeket az erőforrásokat.
 
 Konstruktor: <br>
 Az objektum létrejöttekor hívódik. Feladata, hogy alapállapotba hozza az objektumot. Ha egy osztályban minden tagváltozónak van default konstruktora, és mi nem írtunk külön konstruktort, akkor az osztálynak generálódik default konstruktor. 
@@ -234,6 +234,71 @@ Egy osztálynak egyetlen felelősséget kell lefednie, viszont azt teljes mért�
 
 Pl. A `string` osztályunk kezeli a dinamikus karaktertömböt, viszont azzal nem foglalkozik, hogy a karaktereit egyesével hogy írjuk ki.
 
+## Ownership
+
+Van egy nagyon fontos téma, amit tisztázni kell. Minden erőforrásért felel valaki (*"owns"*). Az, hogy valami felel valamiért annyit jelent (legalábbis C++ programozás kontextusában), hogy kinek a dolga felszabadítani egy objektumhoz tartozó erőforrásokat (pl. memória)
+
+Egy lokális, "érték" változó gondoskodik saját magáról, amikor scope-on kívül kerül, tisztességesen feltakarít maga után. pl.
+
+```cpp
+struct Foo{
+    int x;
+};
+
+int main(){
+    Foo f; // f itt eltakarítja az általa tárolt x-et is
+}
+```
+
+Nézzük mi történik akkor, ha dinamikusan foglaljuk Foo -n belül x-et.
+
+```cpp
+struct Foo{
+    int* x;
+};
+
+int main(){
+    Foo f;
+    f.x = new int;
+    //ki fogja felszabadítani a memóriát??
+}
+```
+
+A kérdés a következő: ki felel az x által mutatott memóriáért? A válasz nem túl egyértelmű, a programozó döntése. Megoldható például, hogy `Foo` feleljen érte, ekkor `Foo` destruktora felszabadítja a foglalt memóriát. Nézzünk egy szebb példát
+
+```cpp
+struct Tarolo{
+    Tarolo(int ertek) : x(new int) {
+        *x = ertek;
+    }
+
+    ~Tarolo(){
+        delete x;
+    }
+
+    private:
+    int x;
+};
+```
+
+A fenti a modellben a tároló foglalja le és kezeli a memóriát. Ezt alkalmazzuk pl. sima tárolóknál, ahol a dinamikusan foglalt tömböt az osztály kezeli.
+
+Van azonban egy másik lehetőség is:
+
+```cpp
+struct Tarolo{
+    Tarolo(int* x) : x(x) {}
+
+    ~Tarolo(){
+        delete x;
+    }
+
+    private:
+    int x;
+};
+```
+
+Most a tároló a hívó féltől már egy pointert kap, viszont **átveszi a felelősséget** a memória kezelése felet. Ezt a technikát alkalmazzuk pl. heterogén kollekcióknál
 ## Komolyabb osztály példa
 
 Most pedig nézzünk egy komolyabb RAII példát. 
@@ -313,7 +378,7 @@ int main(){
 }
 ```
 
-Nos igen, ez a RAII lényege. Nem kell manuálisan sehol `delete` és `new` -t írnunk, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.
+Nos igen, ez a RAII lényege. Nem kell manuálisan sehol `delete` és `new` -t írnunk az osztályt használó kódban, ha szépen becsomagoltuk a memóriakezelést egy osztályba. Az erőforráskezelést elabsztraktáltuk a felsőbb szintű kód elől, így ezt a tömb osztályt használva már nem kell a memóriakezeléssel foglalkoznunk.
 
 Jó RAII példák a már megismert filestream osztályok. A konstruktorukban megnyitják a filet (elkérik a file handle-t az OS-től), majd a destruktorukban automatikusan bezárják a file-t.
 
