@@ -35,6 +35,8 @@ int main(){
 }
 ```
 
+Mint látjuk, a `P` sablonparamétert valóban nem kell kézzel megadni, azt a fordító a kapott predikátumfüggvényből levezeti.
+
 ## Nem csak függvények...
 
 A fenti példában a `P` típus helyére minden olyan típus beilleszthető, amely `bool` -t(vagy `bool`-ra implicit konvertálható típust) ad vissza és egy `const T&` -et vesz át paraméterként. Az a kérdés, hogy csak függvények elégíthetik -e ki ezt a követelményt.

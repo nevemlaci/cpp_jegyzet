@@ -2102,6 +2102,7 @@ int main(){
     std::cout &lt;&lt; find_elem(arr, isDivisibleBy2&lt;int&gt;);
 }
 </code></pre>
+<p>Mint látjuk, a <code>P</code> sablonparamétert valóban nem kell kézzel megadni, azt a fordító a kapott predikátumfüggvényből levezeti.</p>
 <h2 id="nem-csak-függvények"><a class="header" href="#nem-csak-függvények">Nem csak függvények...</a></h2>
 <p>A fenti példában a <code>P</code> típus helyére minden olyan típus beilleszthető, amely <code>bool</code> -t(vagy <code>bool</code>-ra implicit konvertálható típust) ad vissza és egy <code>const T&amp;</code> -et vesz át paraméterként. Az a kérdés, hogy csak függvények elégíthetik -e ki ezt a követelményt.</p>
 <p>Nos a válasz erre az, hogy nem, ugyanis a függvényhívás operátor túltölthető. Azokat az osztályokat amelyeknek van függvényhívó operátora <em>funktor</em>nak nevezzük.</p>
