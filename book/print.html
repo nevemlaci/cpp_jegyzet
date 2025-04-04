@@ -1711,7 +1711,7 @@ int main(){
         image img("");
     }catch(const image_load_error&amp; img_error){
         std::cout &lt;&lt; img_error.what();
-    }catch(std::exception&amp; e){
+    }catch(const std::exception&amp; e){
         std::cout &lt;&lt; e.what();
     }
 }

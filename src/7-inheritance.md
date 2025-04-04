@@ -353,7 +353,7 @@ int main(){
         image img("");
     }catch(const image_load_error& img_error){
         std::cout << img_error.what();
-    }catch(std::exception& e){
+    }catch(const std::exception& e){
         std::cout << e.what();
     }
 }
