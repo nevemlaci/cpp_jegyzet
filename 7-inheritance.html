@@ -306,7 +306,7 @@ int main(){
 </code></pre>
 <p><em>Vegyük észre</em>: az <code>=0</code> szintaxis onnan jön, hogy a vtable-ben a függvény helyén egy 0 érték, "null pointer" lesz.</p>
 <h2 id="base-class-konstruktor-és-virtuális-destruktor"><a class="header" href="#base-class-konstruktor-és-virtuális-destruktor">Base class konstruktor és virtuális destruktor</a></h2>
-<p>Amikor egy leszármazott objektumot készítünk, akkor inicializálni kell annak base class "részét" is. Ehhez meg kell hívni a base class destruktorát(ha nincs neki default konstruktora).
+<p>Amikor egy leszármazott objektumot készítünk, akkor inicializálni kell annak base class "részét" is. Ehhez meg kell hívni a base class konstruktorát (ha nincs neki default konstruktora).
 Ezt a már jól ismert member initializer list-ről tehetjük meg.</p>
 <p><a href="https://godbolt.org/z/cndqTPEMj">https://godbolt.org/z/cndqTPEMj</a></p>
 <pre><code class="language-cpp">#include &lt;string&gt;
