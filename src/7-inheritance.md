@@ -172,7 +172,7 @@ int main(){
 
 ## Base class konstruktor és virtuális destruktor
 
-Amikor egy leszármazott objektumot készítünk, akkor inicializálni kell annak base class "részét" is. Ehhez meg kell hívni a base class destruktorát(ha nincs neki default konstruktora).
+Amikor egy leszármazott objektumot készítünk, akkor inicializálni kell annak base class "részét" is. Ehhez meg kell hívni a base class konstruktorát (ha nincs neki default konstruktora).
 Ezt a már jól ismert member initializer list-ről tehetjük meg.
 
 <https://godbolt.org/z/cndqTPEMj>
