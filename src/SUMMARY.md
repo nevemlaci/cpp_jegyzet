@@ -26,3 +26,5 @@
 ---
 # Extra tudás
 - [Move semantics]()
+- [Unique ptr]()
+- [Concept, sablonparaméterek korlátozása]()
