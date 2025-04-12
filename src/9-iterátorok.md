@@ -1,5 +1,7 @@
 # Iterátorok
 
+Az iterátor egy olyan típus, amely általános (generikus) módon képes iterálni egy tárolón.  Az iterátorok okos pointerek,
+segítségükkel ugyanazzal az interfésszel iterálhatunk különböző konténereket.
 Most elengedjük egy kicsit a tömböket, és megnézünk egy láncolt lisát.
 
 ```cpp
@@ -24,39 +26,15 @@ public:
     }
 
     ~List() {
-        node* iter = m_head;
-        while (iter != nullptr) {
-            node* tmp = iter;
-            iter = iter->next;
-            delete tmp;
-        }
+        //...
     }
 
     void push_front(T data) {
-        node* uj = new node;
-        uj->data = data;
-        uj->next = m_head;
-        if(m_size == 0) {
-            m_back = uj;
-            m_head = uj;
-        }else {
-            m_head = uj;
-        }
-        ++m_size;
+        //...
     }
 
     void push_back(const T& data) {
-        if(m_size == 0) {
-            push_front(data);
-            return;
-        }else {
-            node* uj = new node;
-            uj->data = data;
-            uj->next = nullptr;
-            m_back->next = uj;
-            m_back = m_back -> next;
-        }
-        ++m_size;
+        //...
     }
 
     std::size_t size() const {
@@ -67,7 +45,7 @@ public:
 
 Ha ezen a listán végig szeretnénk iterálni, akkor az valamilyen ronda `->next` és `==nullptr` -el teli kódot eredményezne.
 
-Ehelyett készíthetünk egy segédosztályt, amely az iterálás lépéseit absztraktálja el. Az ilyen osztályokat nevezzük iterátornak.
+Ehelyett készíthetünk egy iterátor (belső) osztályt, amely az iterálás lépéseit absztraktálja el.
 Ahhoz, hogy egy iterátor használható legyen legalább szükség van valamilyen léptető operátorra, valamint összehasonlító(== != stb.) operátorokra is.
 
 Pl.:
@@ -158,8 +136,10 @@ Természetesen kellenek tagfüggvények, amelyek ennek a listának az iterátora
 `begin()` : A tároló elejére mutató iterátort ad vissza.<br>
 `end()` : A tároló vége utáni("utolsó valid elem utáni") iterátort ad vissza, "szentinel" iterátort. Ez egy lista esetében pl. `nullptr` -re mutató iterátor.
 
+Ez a begin-end interfész a C++ nyelv tárolói közt egységes, és később látjuk is, hogy van egy fontos nyelvi elem is, ami erre támaszkodik, ezért ezt érdemes követni.
+
 ```cpp
-//List class-on belül
+//List class-on belül, de nem az iterator-ban
 
 public:
     /**
@@ -207,13 +187,13 @@ int main(){
 }
 ```
 
-*Megjegyzés:* Az iterátorok típusai nagyon hosszúak is lehetnek, ezért általában az `auto` kulcsszót szokás használni. Ez futásidőben levezeti és behelyettesíti a helyes típust ahol lehet. Pl.
+*Megjegyzés:* Az iterátorok típusai nagyon hosszúak is lehetnek, ezért általában az `auto` kulcsszót szokás használni. Ez fordításidőben levezeti és behelyettesíti a helyes típust ahol lehet. Pl.
 ```cpp
 List<int>::iterator it = list.begin();
 //helyett
 auto it = list.begin();
 ```
-Egy példa egy brutál hosszú típusnévre, amit senkinek sincs kedve kiírni (ennek fele az iterátor) :
+Egy példa egy brutál hosszú típusnévre, amit senkinek sincs kedve kiírni (ennek kb. fele az iterátor) :
 ![alt text](image-30.png)
 
 A fent látott
@@ -239,14 +219,21 @@ for(const int& elem : list) { //ua. mint az előbb, csak konstans referenciával
 }
 ```
 
-Gondoljunk az iterátorokra úgy, mint a felturbózott pointerekre. Minden iterátor valamilyen tárolóhoz igazított, speciális mutató típus.
+Természetesen itt is használhatjuk az `auto` kulcsszót:
 
-A következő fejezetben azt láthatjuk, hogy valójában a pointerek a tömb féle tárolók iterátorai.
+```cpp
+for(const auto& elem : list) { 
+        std::cout << elem << ' ';
+}
+```
+
 
 ## Iterátorok, tömbök és pointerek
 
 Egy tömb egy elemére mutató pointer kielégíti az iterátorok legmélyebb követelményét, a [*LegacyContiguousIterator*](https://en.cppreference.com/w/cpp/named_req/ContiguousIterator) követelményt. 
-Ez azt jelenti, hogy egy dinamikus tömbnél például nincs szükség külön iterátor osztályra, hiszen elég a pointereket léptetni és összehasonlítani.
+
+Ha belegondolunk, a pointereken működnek a +, +=, ++, ==, !=, stb. operátorok, valamint ezek valóban a tároló elemei közti lépéseket valósítják meg.
+<br>Ez azt jelenti, hogy egy dinamikus tömbnél például nincs szükség külön iterátor osztályra, hiszen elég a pointereket léptetni és összehasonlítani.
 
 Ez azt jelenti, hogy egy dinamikus tömböt elég ennyivel kiegészíteni:
 ```cpp

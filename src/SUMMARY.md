@@ -25,6 +25,7 @@
 - [Házi feladat](./NHF/nhf.md)
 ---
 # Extra tudás
+- [std::array]()
 - [Move semantics]()
 - [Unique ptr]()
 - [Concept, sablonparaméterek korlátozása]()
