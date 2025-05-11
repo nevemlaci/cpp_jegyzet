@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="./mdbook-admonish.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -173,80 +174,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="visual-studio"><a class="header" href="#visual-studio">Visual Studio</a></h1>
-<p>A Visual Studio a Microsoft fejlesztőkörnyezete, beépített devkitekkel, debuggerrel, profilerrel és egyéb finom dolgokkal. Works out of the box, nem bonyolult a setup. Hátránya, hogy Windows rendszeren kívül nem
-létezik a Windowson használható verziója.</p>
-<p><em><strong>Nem összekeverendő a Visual Studio Code -al.</strong></em></p>
-<h2 id="ajánlott-platformok"><a class="header" href="#ajánlott-platformok">Ajánlott platformok</a></h2>
-<p>Windows</p>
-<h2 id="vs-community-edition"><a class="header" href="#vs-community-edition">VS Community Edition</a></h2>
-<p>A Visual Studio Community Edition teljesen ingyenesen letölthető a <a href="https://visualstudio.microsoft.com/free-developer-offers/">https://visualstudio.microsoft.com/free-developer-offers/</a> linkről. Fontos, hogy a bal oldali, "Visual Studio Community" opciót válasszuk,
-a Visual Studio Code egy teljesen más szoftver.</p>
-<h2 id="vs-enterprise-edition"><a class="header" href="#vs-enterprise-edition">VS Enterprise Edition</a></h2>
-<p>Egyetemistaként elérhető ingyenes licensz a Visual Studio Enterprise verziójához. Ehhez először, ha még nem tetted meg, a <a href="https://login.bme.hu/admin/username/">https://login.bme.hu/admin/username/</a> oldalon kell beállíts egy Office 365 emailt.
-Ebbe az emailbe egyébként Outlook-on keresztül egyszerűen be tudsz lépni. Ezután a <a href="https://azureforeducation.microsoft.com/devtools">https://azureforeducation.microsoft.com/devtools</a> oldalon ezzel a fiókkal belépve tudod a VS és más hasznos(pl. Windows)
-aktiváló kulcsokat elérni.</p>
-<h2 id="telepítés"><a class="header" href="#telepítés">Telepítés</a></h2>
-<p>A Visual Studio Installer program központosítva tud VS verziókat telepíteni és módosítnai. Ezt megnyitva, ha az "Installed" fülön még nincs ott a kívánt verzió(Visual Studio 2022), akkor ezt az "Available" fülről lehet telepíteni.<br>
-A felugró ablakból a tárgyhoz a "Desktop Development with C++" Workload-ra lesz csak szükség. Emellett az "Individual components" fülről ajánlott még a "C++ AddressSanitizer" komponens.<br>
-<img src="image-7.png" alt="alt text" />
-<br>
-<img src="image-8.png" alt="alt text" /></p>
-<h2 id="projekt-létrehozása"><a class="header" href="#projekt-létrehozása">Projekt létrehozása</a></h2>
-<p>Visual Studioban a fő struktúra a következő: A root egy "solution" amiben több project is lehet. Ez teszi lehetővé azt, hogy komplex programokat akár részenként is használhassunk.<br>
-Új projekt létrehozásához indítsuk el a Visual Studiot, majd kattintsunk a "Create a new project" gombra.<br>
-Ezután válasszuk az alábbi opciót:<br>
-<img src="image-9.png" alt="alt text" /><br>
-Ezután adunk egy nevet a projectnek, kiválasztjuk hogy hova kerüljön(egyetem mappa, stb.), valamint, ha nem szeretnénk hogy a project és a solution ugyanabban a mappában legyen(nagyobb projekteknél nem ajánlott), akkor adunk egy külön nevet a solutionnek is.</p>
-<p><img src="image-11.png" alt="alt text" /></p>
-<p>A Solution Explorert, ha nem jelent meg, érdemes előhozni a View&gt;Solution Explorer opcióval. Általában az ablak jobb oldalán jelenik meg, de személyes preferencia, hogy ki hova helyezi el.</p>
-<h2 id="ajánlott-beállítások"><a class="header" href="#ajánlott-beállítások">Ajánlott beállítások</a></h2>
-<p>A Projektünk beállításait a "Solution Explorer"-ben a projektre jobbklikk&gt;Properties -re kattintva érhetjük el.
-<img src="image-6.png" alt="alt text" /></p>
-<h3 id="command-line-opciók"><a class="header" href="#command-line-opciók">Command Line opciók</a></h3>
-<p>A Project Properties -en belül a C/C++&gt;Command Line fülön az "Additional Options" részbe tudunk command line flageket írni.</p>
-<p>Ajánlott flagek:</p>
-<ul>
-<li><code>/Wall</code></li>
-<li><code>/WX</code> (ez a <code>Werror</code> megfelelője)</li>
-<li><code>/permissive-</code></li>
-<li><code>/fsanitize=address</code></li>
-</ul>
-<h2 id="hello-world"><a class="header" href="#hello-world">Hello World!</a></h2>
-<p>Hozzunk létre egy új file-t <code>main.cpp</code> néven. Ezt a Solution Explorer-ben a "Source Files"-re jobb kattintva <code>Add&gt;New item...&gt;C++ file</code> opciókkal tehetjük meg.</p>
-<p>A <code>main.cpp</code> fileba az alábbi kódrészletet illesztve:</p>
-<pre><code class="language-cpp">#include &lt;iostream&gt;
-
-int main(){
-	std::cout &lt;&lt; "Hello, World!";
-	return 0;
-}
-</code></pre>
-<p>Majd az <code>F5</code> billenytűt leütve letesztelhetjük, hogy műküdik -e a setupunk.<br>
-<img src="image-10.png" alt="alt text" /></p>
-<p>A "Source Files", "Header Files" stb. nem valódi mappák, a Visual Studio "Filter"-nek nevezi őket, a fileok valójában mind ugyanabban a mappában vannak. Ez megsegíti a headerekkel való munkát.</p>
-<p>Meglévő fileokat az új fileok létrehozásához hasonlóan tudunk létrehozni, a <code>New item...</code> helyett az <code>Existing item...</code> menüpontot kell választanunk.</p>
-<h2 id="cppswap-feladat-beállítása"><a class="header" href="#cppswap-feladat-beállítása">CPPSwap feladat beállítása</a></h2>
-<p>Töltsük le a <a href="https://git.ik.bme.hu/Prog2/ell_feladat/CPPswap">https://git.ik.bme.hu/Prog2/ell_feladat/CPPswap</a> oldalról a feladat alapját. Ezek a fileok közül a <code>.h</code> és <code>.cpp</code> fileokra lesz szükség.</p>
-<p><img src="image-12.png" alt="alt text" /></p>
-<p>Hozzunk létre egy új Visual Studio projektet.</p>
-<p><img src="image-16.png" alt="alt text" /></p>
-<p>Másoljuk a fentebb említett fileokat a projekt mappájába (ahol a <code>.vcxproj</code> file van). Csak üres mappába hozzunk létre VS Projektet, aztán másoljuk be a szükséges fileokat.</p>
-<p><img src="image-17.png" alt="alt text" /></p>
-<p>Ezután adjuk hozzá a fileokat a projekthez.</p>
-<p><img src="image-18.png" alt="alt text" /></p>
-<p><img src="image-19.png" alt="alt text" /></p>
-<p>Ezután futtassuk a projektet.</p>
-<p>A Solution Explorerből keressük ki a <code>swap.cpp</code> filet és nyissuk meg.</p>
-<p>(A <code>#error</code> preprocesszor direktívával lehet szándékos fordításidejű hibát tenni a kódba hibaüzenettel együtt)</p>
-<p><img src="image-15.png" alt="alt text" /></p>
-<h4 id="megjegyzés-a-laborfeladatokhoz"><a class="header" href="#megjegyzés-a-laborfeladatokhoz">Megjegyzés a laborfeladatokhoz:</a></h4>
-<p>Néhány feladathoz jön Visual Studio projekt és solution file, alternatívaként ezek is használatók. Amikor a VS felajánlja, hogy upgradeljük a Windows SDK-t, akkor fogadjuk el a promptot.</p>
-<p><img src="image-13.png" alt="alt text" /></p>
-<p><img src="image-14.png" alt="alt text" /></p>
-<h3 id="preprocessor-makró-definíciók-megadása"><a class="header" href="#preprocessor-makró-definíciók-megadása">Preprocessor makró definíciók megadása</a></h3>
-<p>A Project Properties &gt; C/C++ &gt; Preprocessor menüpontban a "Preprocessor Definitions" pontosvesszővel ellátott listába lehet makrókat definiálni.</p>
-<p><img src="image-20.png" alt="alt text" /></p>
+                        <p>Kedves hallgató/olvasó! A jegyzet megújult, ezen oldal új verzióját <a href="https://nevemlaci.dev/prog2_jegyzet/Fejleszt%C5%91k%C3%B6rnyezetek/1-ide-vs/">itt találod</a>.</p>
 
                     </main>
 

@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="./mdbook-admonish.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -173,42 +174,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="clion"><a class="header" href="#clion">CLion</a></h1>
-<h2 id="aktiválás"><a class="header" href="#aktiválás">Aktiválás</a></h2>
-<p>A CLion egyetemisták számára ingyenes, ehhez licenszet kell igényelni.</p>
-<p>A <a href="https://www.jetbrains.com/shop/eform/students">https://www.jetbrains.com/shop/eform/students</a> oldalon az <code>edu.bme.hu</code> emaillel (címtárból készíthető) kell jelentkezni a licenszért.</p>
-<p>Egy JetBrains account -ot is kér majd az applikáció végén, ennek az adatait érdemes megjegyezni, ehhez lesz kötve a licensz. Ha esetlen visszaigazoló email jön, az edus email címet pl. Outlook -ból (vagy bármilyen más email kliensből) lehet elérni.</p>
-<h2 id="cmake"><a class="header" href="#cmake">CMake</a></h2>
-<p>A CLion a CMake nevű build systemet használja. Bővebben itt: <a href="https://nevemlaci.github.io/cpp_jegyzet/999-ide-cmake.html">https://nevemlaci.github.io/cpp_jegyzet/999-ide-cmake.html</a></p>
-<p>Különböző CMake targetek közt váltani az ablak jobb felső részében tudunk.</p>
-<h2 id="példa-cppswap-feladat-betöltésére"><a class="header" href="#példa-cppswap-feladat-betöltésére">Példa CPPSwap feladat betöltésére</a></h2>
-<p>Törlünk mindent, ami nem C/C++ header / source file:</p>
-<p><img src="image-21.png" alt="alt text" /></p>
-<p><img src="image-22.png" alt="alt text" /></p>
-<p><img src="image-23.png" alt="alt text" /></p>
-<p>Ha még sosem volt megnyitva a CLion, vagy még nem lett egy CMake preset sem beállítva, akkor ezt az ablakot látjuk:</p>
-<p><img src="image-29.png" alt="alt text" /></p>
-<p>A tárgy számára az alapértelmezett beállítások tökéletesen megfelelnek.</p>
-<p>Jobbklikk a projekt mappára &gt; New &gt; CMakeLists.txt</p>
-<p><img src="image-24.png" alt="alt text" /></p>
-<p>Bemásoljuk a CMakeLists -be ezt:</p>
-<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.25) 
-
-project(prog2_elofeladatok)
-
-set(CMAKE_CXX_STANDARD 11)
-
-add_executable(cppswap)
-</code></pre>
-<p>CMake -ről bővebben egy másik fejezetben már írtam.</p>
-<p>Kiválasztjuk az összes C/C++ header / source file -t &gt; Jobb klikk &gt; Add to CMake Project <br>(Ha ez az opció nem jelenik meg, akkor a CMakeLists.txt -re jobb klikk &gt; Load CMake Project)</p>
-<p><img src="image-25.png" alt="alt text" /></p>
-<p><img src="image-26.png" alt="alt text" /></p>
-<p>Jobb klikk CMakeLists.txt -re &gt; Reload CMake Project</p>
-<p><img src="image-27.png" alt="alt text" /></p>
-<p>Jobb fent valami ilyesminek kéne megjelennie:</p>
-<p><img src="image-28.png" alt="alt text" /></p>
-<p>A zöld háromszögre kattintva lehet a kiválasztott target-et elindítani, a bogárra kattintva lehet debuggert indítani.</p>
+                        <p>Kedves hallgató/olvasó! A jegyzet megújult, ezen oldal új verzióját <a href="https://nevemlaci.dev/prog2_jegyzet/Fejleszt%C5%91k%C3%B6rnyezetek/2-ide-clion/">itt találod</a>.</p>
 
                     </main>
 
