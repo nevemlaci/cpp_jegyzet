@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="./mdbook-admonish.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -173,64 +174,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="predikátumok"><a class="header" href="#predikátumok">Predikátumok</a></h2>
-<p>Van, hogy egy függvényt szeretnénk paraméterként átvenni.</p>
-<p>Pl. írjunk függvényt, amely egy másik, predikátumfüggvény alapján megkeres egy elemet egy tömbben és visszaadja az indexét, vagy a tömb méretét(az első "invalid" elem indexét) ha nincs benne.</p>
-<p>A predikátumfüggvény típusát akár ki is írhatnánk, de az csúnyán nézne ki: <code>bool(*)(const T&amp;)</code>, vagy valami hasonló szörnyeteg, úgyhogy inkább template paraméterként átvesszük ezt a típust is, a fordító úgyis levezeti a függvényparaméterből.</p>
-<p><a href="https://godbolt.org/z/h3xfrz7x1">https://godbolt.org/z/h3xfrz7x1</a></p>
-<pre><code class="language-cpp">#include &lt;iostream&gt;
-#include &lt;array&gt;
-
-template&lt;typename T, std::size_t N, typename P&gt;
-std::size_t find_elem(const std::array&lt;T, N&gt;&amp; a, P predicate){
-    for(std::size_t i = 0; i &lt; a.size(); ++i){
-        if(predicate(a[i])){
-            return i;
-        }
-    }
-    return a.size();
-}
-
-//egy példa predikátumfüggvény:
-
-template&lt;typename T&gt;
-bool isDivisibleBy2(const T&amp; x){
-    return x % 2 == 0;
-}
-
-int main(){
-    std::array&lt;int, 4&gt; arr = {1, 3, 4, 5};
-    std::cout &lt;&lt; find_elem(arr, isDivisibleBy2&lt;int&gt;);
-}
-</code></pre>
-<p>Mint látjuk, a <code>P</code> sablonparamétert valóban nem kell kézzel megadni, azt a fordító a kapott predikátumfüggvényből levezeti.</p>
-<h2 id="nem-csak-függvények"><a class="header" href="#nem-csak-függvények">Nem csak függvények...</a></h2>
-<p>A fenti példában a <code>P</code> típus helyére minden olyan típus beilleszthető, amely <code>bool</code> -t(vagy <code>bool</code>-ra implicit konvertálható típust) ad vissza és egy <code>const T&amp;</code> -et vesz át paraméterként. Az a kérdés, hogy csak függvények elégíthetik -e ki ezt a követelményt.</p>
-<p>Nos a válasz erre az, hogy nem, ugyanis a függvényhívás operátor túltölthető. Azokat az osztályokat amelyeknek van függvényhívó operátora <em>funktor</em>nak nevezzük.</p>
-<p>Pl. egy funktor, amelynek habár sok mindent nem csinál, példának jó lesz...
-<a href="https://godbolt.org/z/dGaEG3brT">https://godbolt.org/z/dGaEG3brT</a></p>
-<pre><code class="language-cpp">#include &lt;string&gt;
-#include &lt;iostream&gt;
-
-struct foo{
-    foo() : x(0) {}
-
-    void operator()(const std::string&amp; str = "") {
-        std::cout &lt;&lt; "hello from foo, i've been called: " &lt;&lt; x &lt;&lt; " times before! You have said:" &lt;&lt; str &lt;&lt; '\n';
-        x++;
-    }
-
-    private:
-        int x;
-};
-
-int main(){
-    foo f;
-    f("hello!");
-    f();
-    f("bar");
-}
-</code></pre>
+                        <p>Kedves hallgató/olvasó! A jegyzet megújult, ezen oldal új verzióját <a href="https://nevemlaci.dev/prog2_jegyzet/T%C3%B6rzsanyag/12-predik%C3%A1tumok-funktorok/">itt találod</a>.</p>
 
                     </main>
 
