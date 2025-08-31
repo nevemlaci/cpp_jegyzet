@@ -1,3 +1,4 @@
 *.html linguist-generated
 *.json linguist-generated
 *.js linguist-generated
+*.css linguist-generated
