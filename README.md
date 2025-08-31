@@ -1,3 +1,5 @@
+## A jegyzet elköltözött: <https://github.com/nevemlaci/prog2_jegyzet>
+
 ## Build
 
 [Mdbook](https://github.com/rust-lang/mdBook)-al buildelhető.
